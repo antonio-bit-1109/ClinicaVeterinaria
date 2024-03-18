@@ -1,0 +1,326 @@
+﻿@model ClinicaVeterinaria.Models.BackOfficeModel
+
+@{
+    ViewData["Title"] = "Backoffice Dashboard";
+}
+
+@* <h1>@ViewData["Title"]</h1> *@
+<h2 id="tableTitle">@ViewData["Title"]</h2>
+
+<select id="tableSelect" class="form-select">
+    <option value="Utenti">Utenti</option>
+    <option value="Animali">Animali</option>
+    <option value="Armadietti">Armadietti</option>
+    <option value="Dittafornitrice">Ditte Fornitrici</option>
+    <option value="ProdottiInCassetto">Prodotti in Cassetto</option>
+    <option value="Ricettemediche">Ricette Mediche</option>
+    <option value="Ricoveri">Ricoveri</option>
+    <option value="Vendite">Vendite</option>
+    <option value="Visite">Visite</option>
+
+</select>
+
+<div id="tablesContainer">
+
+@if (Model.Utenti != null && Model.Utenti.Any())
+{
+    <h2>Utenti</h2>
+    <table class="table" id="Utenti">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Cognome</th>
+                <th>Ruolo</th>
+                <th>Azioni</th> <!-- Modificato il titolo della colonna -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var utente in Model.Utenti)
+            {
+                <tr>
+                    <td>@utente.Nome</td>
+                    <td>@utente.Cognome</td>
+                    <td>@utente.IdRuoloNavigation.NomeRuolo</td>
+                    <td>
+                        <!-- Aggiungere dropdown per cambiare il ruolo dell'utente -->
+                        <form asp-action="ChangeUserRole" method="post">
+                            <input type="hidden" name="idUtente" value="@utente.IdUtente" />
+                            <select name="nuovoIdRuolo" onchange="this.form.submit()">
+                                    @foreach (var ruolo in Model.Ruoli)
+                                    {
+                                        var isSelected = utente.IdRuolo == ruolo.IdRuolo ? "selected" : "";
+                                        <option value="@ruolo.IdRuolo" selected="@isSelected">@ruolo.NomeRuolo</option>
+                                    }
+                            </select>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+<!-- Animali -->
+@if (Model.Animali != null && Model.Animali.Any())
+{
+    <h2>Animali</h2>
+        <table class="table" id="Animali">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Tipologia</th>
+                <th>Colore Mantello</th>
+                <th>Data di Nascita</th>
+                <th>Microchip</th>
+                <!-- Aggiungi altre colonne se necessario -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var animale in Model.Animali)
+            {
+                <tr>
+                    <td>@animale.NomeAnimale</td>
+                    <td>@animale.Tipologia</td>
+                    <td>@animale.ColoreMantello</td>
+                    <td>@animale.Datanascita?.ToString("dd/MM/yyyy")</td>
+                    <td>@(animale.HasMicrochip ? animale.NumMicrochip : "Nessuno")</td>
+                    <!-- Aggiungi altre colonne se necessario -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Armadietti -->
+@if (Model.Armadietti != null && Model.Armadietti.Any())
+{
+    <h2>Armadietti</h2>
+        <table class="table" id="Armadietti">
+        <thead>
+            <tr>
+                <th>ID Armadietto</th>
+                <th>Descrizione</th>
+                <!-- Aggiungi altre colonne se necessario -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var armadietto in Model.Armadietti)
+            {
+                <tr>
+                    <td>@armadietto.IdArmadietto</td>
+                    <td>@armadietto.Descrizione</td>
+                    <!-- Aggiungi altre colonne se necessario -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Dittafornitrice -->
+@if (Model.Dittafornitrice != null && Model.Dittafornitrice.Any())
+{
+    <h2>Ditte Fornitrici</h2>
+        <table class="table" id="DitteFornitrici">
+        <thead>
+            <tr>
+                <th>Nome Ditta</th>
+                <th>Recapito</th>
+                <th>Indirizzo</th>
+                <!-- Aggiungi altre colonne se necessario -->
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ditta in Model.Dittafornitrice)
+            {
+                <tr>
+                    <td>@ditta.NomeDitta</td>
+                    <td>@ditta.RecapitoDitta</td>
+                    <td>@ditta.Indirizzo</td>
+                    <!-- Aggiungi altre colonne se necessario -->
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Prodotti in Cassetto -->
+@if (Model.ProdottiInCassetto != null && Model.ProdottiInCassetto.Any())
+{
+    <h2>Prodotti nei Cassetti</h2>
+        <table class="table" id="ProdottiNeiCassetti">
+        <thead>
+            <tr>
+                <th>Prodotto</th>
+                <th>Cassetto</th>
+                <th>Quantità</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var prodottoCassetto in Model.ProdottiInCassetto)
+            {
+                <tr>
+                    <td>@prodottoCassetto.IdProdottoNavigation?.Nomeprodotto</td>
+                    <td>@prodottoCassetto.IdCassettoNavigation?.Descrizione</td>
+                    <td>@prodottoCassetto.Quantita</td>
+                    <td>
+                        <!-- Azioni per modificare o cancellare il prodotto nel cassetto -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Ricette Mediche -->
+@if (Model.Ricettemediche != null && Model.Ricettemediche.Any())
+{
+    <h2>Ricette Mediche</h2>
+        <table class="table" id="RicetteMediche">
+        <thead>
+            <tr>
+                <th>Descrizione</th>
+                <th>Data Prescrizione</th>
+                <th>Utente</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ricetta in Model.Ricettemediche)
+            {
+                <tr>
+                    <td>@ricetta.Descrizione</td>
+                    <td>@ricetta.DataPrescrizione.ToString("dd/MM/yyyy")</td>
+                    <td>@ricetta.IdUtenteNavigation?.Nome</td>
+                    <td>
+                        <!-- Azioni per modificare o cancellare la ricetta medica -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Ricoveri -->
+@if (Model.Ricoveri != null && Model.Ricoveri.Any())
+{
+    <h2>Ricoveri</h2>
+        <table class="table" id="Ricoveri">
+        <thead>
+            <tr>
+                <th>Data Inizio</th>
+                <th>Data Fine</th>
+                <th>Prezzo Giornaliero</th>
+                <th>Animale</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ricovero in Model.Ricoveri)
+            {
+                <tr>
+                    <td>@ricovero.DataInizioRicovero.ToString("dd/MM/yyyy")</td>
+                    <td>@ricovero.DataFinericovero?.ToString("dd/MM/yyyy")</td>
+                    <td>@ricovero.PrezzoGiornalieroRicovero</td>
+                    <td>@ricovero.IdanimaleNavigation?.NomeAnimale</td>
+                    <td>
+                        <!-- Azioni per modificare o cancellare il ricovero -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Vendite -->
+@if (Model.Vendite != null && Model.Vendite.Any())
+{
+    <h2>Vendite</h2>
+        <table class="table" id="Vendite">
+        <thead>
+            <tr>
+                <th>Prodotto</th>
+                <th>Utente</th>
+                <th>Codice Fiscale</th>
+                <th>Ricetta Medica</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var vendita in Model.Vendite)
+            {
+                <tr>
+                    <td>@vendita.IdProdottoNavigation?.Nomeprodotto</td>
+                    <td>@vendita.IdUtenteNavigation?.Nome</td>
+                    <td>@vendita.Cf</td>
+                    <td>@vendita.IdricettaMedicaNavigation?.Descrizione</td>
+                    <td>
+                        <!-- Azioni per modificare o cancellare la vendita -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<!-- Visite -->
+@if (Model.Visite != null && Model.Visite.Any())
+{
+    <h2>Visite</h2>
+        <table class="table" id="Visite">
+        <thead>
+            <tr>
+                <th>Data Visita</th>
+                <th>Anamnesi</th>
+                <th>Descrizione Cura</th>
+                <th>Animale</th>
+                <th>Azioni</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var visita in Model.Visite)
+            {
+                <tr>
+                    <td>@visita.DataVisita.ToString("dd/MM/yyyy")</td>
+                    <td>@visita.Anamnesi</td>
+                    <td>@visita.DescrizioneCura</td>
+                    <td>@visita.IdAnimaleNavigation?.NomeAnimale</td>
+                    <td>
+                        <!-- Azioni per modificare o cancellare la visita -->
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+</div>
+
+<!-- E così via per ogni tipo di dato che vuoi mostrare, ripetendo la struttura della tabella per le altre entità. -->
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.getElementById('tableSelect').addEventListener('change', function () {
+            // Nascondere tutte le tabelle
+            document.querySelectorAll('#tablesContainer > table').forEach(table => {
+                table.style.display = 'none';
+            });
+
+            // Mostrare la tabella selezionata
+            const selectedTable = this.value;
+            const tableTitle = document.getElementById('tableTitle');
+            if (selectedTable && tableTitle) {
+                tableTitle.textContent = selectedTable.replace(/([A-Z])/g, ' $1').trim();
+            }
+            document.getElementById(selectedTable).style.display = 'table';
+        });
+
+        // Impostare il titolo e mostrare la tabella "Utenti" all'inizio
+        window.onload = function () {
+            document.getElementById('tableTitle').textContent = 'Utenti';
+            document.getElementById('Utenti').style.display = 'table';
+        };
+    </script>
+}
+

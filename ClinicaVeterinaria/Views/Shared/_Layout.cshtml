@@ -46,9 +46,11 @@
                                     </span>
                                 </li>
 
-                                if (User.IsInRole("4"))
+                                if (User.IsInRole("Admin"))
                                 {
-
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="Admin" asp-action="BackOffice"> Back Office </a>
+                                    </li>
                                    
                                 }
 
