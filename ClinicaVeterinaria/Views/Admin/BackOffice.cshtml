@@ -22,43 +22,54 @@
 
 <div id="tablesContainer">
 
-@if (Model.Utenti != null && Model.Utenti.Any())
-{
-    <h2>Utenti</h2>
-    <table class="table" id="Utenti">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Cognome</th>
-                <th>Ruolo</th>
-                <th>Azioni</th> <!-- Modificato il titolo della colonna -->
-            </tr>
-        </thead>
-        <tbody>
+        <table class="table" id="Utenti">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Cognome</th>
+                    <th>Ruolo</th>
+                    <th>Azioni</th>
+                </tr>
+            </thead>
+
+            <tbody>
             @foreach (var utente in Model.Utenti)
             {
-                <tr>
-                    <td>@utente.Nome</td>
-                    <td>@utente.Cognome</td>
-                    <td>@utente.IdRuoloNavigation.NomeRuolo</td>
-                    <td>
-                        <!-- Aggiungere dropdown per cambiare il ruolo dell'utente -->
-                        <form asp-action="ChangeUserRole" method="post">
-                            <input type="hidden" name="idUtente" value="@utente.IdUtente" />
-                            <select name="nuovoIdRuolo" onchange="this.form.submit()">
-                                    @foreach (var ruolo in Model.Ruoli)
-                                    {
-                                        var isSelected = utente.IdRuolo == ruolo.IdRuolo ? "selected" : "";
-                                        <option value="@ruolo.IdRuolo" selected="@isSelected">@ruolo.NomeRuolo</option>
-                                    }
-                            </select>
-                        </form>
-                    </td>
-                </tr>
+                    @if (utente.IdUtente.ToString() != Model.CurrentUserId)
+                    {
+                        <tr>
+                            <td>@utente.Nome</td>
+                            <td>@utente.Cognome</td>
+                            <td>@utente.IdRuoloNavigation.NomeRuolo</td>
+                            <td>
+                                @if (utente.IdUtente.ToString() != Model.CurrentUserId)
+                                {
+                                    <form asp-action="ChangeUserRole" method="post">
+                                        <input type="hidden" name="idUtente" value="@utente.IdUtente" />
+                                        <select name="nuovoIdRuolo" onchange="this.form.submit()">
+                                               @*  <option value="default">Select Role </option> *@
+                                            @foreach (var ruolo in Model.Ruoli)
+                                            {
+                                                var isSelected = utente.IdRuolo == ruolo.IdRuolo ? "selected" : "";
+                                                <option value="@ruolo.IdRuolo" selected="@isSelected">@ruolo.NomeRuolo</option>
+                                            }
+                                        </select>
+                                    </form>
+                                }
+                                else
+                                {
+                                    <span>Non modificabile</span>
+                                }
+                            </td>
+                        </tr>
+                
+                    }
             }
-        </tbody>
-    </table>
-}
+            </tbody>
+        </table>
+    
+
+
 <!-- Animali -->
 @if (Model.Animali != null && Model.Animali.Any())
 {
@@ -295,7 +306,6 @@
 
 </div>
 
-<!-- E così via per ogni tipo di dato che vuoi mostrare, ripetendo la struttura della tabella per le altre entità. -->
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");

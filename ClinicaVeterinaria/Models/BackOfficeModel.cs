@@ -13,8 +13,7 @@
         public List<Ricoveri> Ricoveri { get; set; }
         public List<Visite> Visite { get; set; }
         public List<Vendite> Vendite { get; set; }
-
         public List<Ruoli> Ruoli { get; set; }
-
+        public string CurrentUserId { get; set; }
     }
 }
