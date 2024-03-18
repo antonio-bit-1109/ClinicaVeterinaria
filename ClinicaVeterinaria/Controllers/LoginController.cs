@@ -111,11 +111,14 @@ namespace ClinicaVeterinaria.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+
+        // metodi per dehashare la password e fare la verifica se quella inserita dall utente coprrisponde a quella nel db
         private bool VerifyPasswordHash(string password, string storedHash)
         {
             return BCrypt.Net.BCrypt.Verify(password, storedHash);
         }
 
+        // questo metodo fa lhas della password
         private string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
