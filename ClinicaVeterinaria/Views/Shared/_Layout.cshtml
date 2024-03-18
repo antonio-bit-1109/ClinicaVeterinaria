@@ -45,6 +45,9 @@
                                         Benvenuto @userName @(!User.IsInRole("admin") ? "(utente)" : "(ADMIN)")
                                     </span>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Animali" asp-action="Index"> Lista Animali </a>
+                                </li>
 
                                 if (User.IsInRole("4"))
                                 {

@@ -90,6 +90,7 @@ namespace ClinicaVeterinaria.Controllers
                 }
 
                 // Hash della password
+                utente.IdRuolo = 1;
                 utente.Password = HashPassword(utente.Password);
 
                 // Salva l'utente nel database

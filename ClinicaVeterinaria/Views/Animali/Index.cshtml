@@ -1,0 +1,91 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Models.Animali>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Dataregistrazione)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeAnimale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tipologia)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ColoreMantello)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Datanascita)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasMicrochip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumMicrochip)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FotoAnimale)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasProprietario)
+            </th>
+           @*  <th>
+                @Html.DisplayNameFor(model => model.IdUtenteNavigation)
+            </th> *@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dataregistrazione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeAnimale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipologia)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ColoreMantello)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Datanascita)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasMicrochip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumMicrochip)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FotoAnimale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HasProprietario)
+            </td>
+           @*  <td>
+                @Html.DisplayFor(modelItem => item.IdUtenteNavigation.IdUtente)
+            </td> *@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Idanimale">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Idanimale">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Idanimale">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
