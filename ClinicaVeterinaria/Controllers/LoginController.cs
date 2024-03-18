@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
@@ -26,49 +25,82 @@ namespace ClinicaVeterinaria.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(Utenti utente)
         {
-            if (utente.Nome != null && utente.Password != null)
+            if (!string.IsNullOrEmpty(utente.Nome) && !string.IsNullOrEmpty(utente.Password))
             {
-                //string sqlQuery = "SELECT * FROM Dipendenti" +
-                //    " WHERE NomeUtente = @nome AND Password = @password";
+                var user = await _db.Utentis
+                                 .AsNoTracking()
+                                 .FirstOrDefaultAsync(u => u.Nome == utente.Nome);
 
-                string sqlQuery = "SELECT * FROM Utenti" +
-                    " WHERE Nome = @nome AND Password = @password";
 
-                var nomeParam = new SqlParameter("@nome", utente.Nome);
-                var passwordParam = new SqlParameter("@password", utente.Password);
-
-                var user = await _db.Utentis.FromSqlRaw(sqlQuery, nomeParam, passwordParam).FirstOrDefaultAsync();
-
-                if (user != null)
+                if (user != null && VerifyPasswordHash(utente.Password, user.Password))
                 {
-                    if (user.Nome == utente.Nome && user.Password == utente.Password)
+                    var claims = new List<Claim>
                     {
-                        var claims = new List<Claim>
-                        {
-                            new Claim(ClaimTypes.Name, user.Nome), // nome
-							new Claim(ClaimTypes.Role , user.IdRuolo.ToString()), //ruolo
-							new Claim(ClaimTypes.NameIdentifier, user.IdUtente.ToString()) // id
-						};
+                        new Claim(ClaimTypes.Name, user.Nome), // nome
+                        new Claim(ClaimTypes.Role , user.IdRuolo.ToString()), //ruolo
+                        new Claim(ClaimTypes.NameIdentifier, user.IdUtente.ToString()) // id
+                    };
 
-                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                        var authProperties = new AuthenticationProperties();
+                    var authProperties = new AuthenticationProperties();
 
-                        await HttpContext.SignInAsync(
-                       CookieAuthenticationDefaults.AuthenticationScheme,
-                       new ClaimsPrincipal(claimsIdentity),
-                       authProperties);
+                    await HttpContext.SignInAsync(
+                   CookieAuthenticationDefaults.AuthenticationScheme,
+                   new ClaimsPrincipal(claimsIdentity),
+                   authProperties);
 
-                        TempData["Message"] = "Login effettuato con successo";
-                        return RedirectToAction("Index");
-                    }
+                    TempData["Message"] = "Login effettuato con successo";
+                    return RedirectToAction("Index");
                 }
                 TempData["Errore"] = "Lo User è nullo.";
                 return RedirectToAction("Index", "Home");
-
             }
             TempData["Errore"] = "Username o password inseriti male.";
             return RedirectToAction("Index", "Home");
+        }
+
+
+
+        public IActionResult Registrazione()
+        {
+            bool MiStoRegistrando;
+
+
+            MiStoRegistrando = true;
+            TempData["MiStoRegistrando"] = MiStoRegistrando;
+            TempData["infoRegistrazione"] = "Inserisci qui sotto i tuoi dati di registrazione.";
+            return RedirectToAction("Index", "Home");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ConcludiRegistrazione(Utenti utente)
+        {
+            if (ModelState.IsValid)
+            {
+                // Controlla se l'utente esiste già
+                var existingUser = await _db.Utentis
+                                            .AsNoTracking()
+                                            .AnyAsync(u => u.Nome == utente.Nome);
+                if (existingUser)
+                {
+                    TempData["Errore"] = "Un utente con questo nome esiste già.";
+                    return RedirectToAction("Index", "Home");
+                }
+
+                // Hash della password
+                utente.Password = HashPassword(utente.Password);
+
+                // Salva l'utente nel database
+                _db.Utentis.Add(utente);
+                await _db.SaveChangesAsync();
+
+                TempData["Message"] = "Registrazione effettuata con successo.";
+                return RedirectToAction("Index", "Home");
+            }
+            // Se il modello non è valido, ritorna alla vista di registrazione con i messaggi di errore.
+            return View("Index");
         }
 
         public async Task<IActionResult> Logout()
@@ -77,6 +109,16 @@ namespace ClinicaVeterinaria.Controllers
 
             TempData["Message"] = "Logout effettuato.";
             return RedirectToAction("Index", "Home");
+        }
+
+        private bool VerifyPasswordHash(string password, string storedHash)
+        {
+            return BCrypt.Net.BCrypt.Verify(password, storedHash);
+        }
+
+        private string HashPassword(string password)
+        {
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
     }
 }

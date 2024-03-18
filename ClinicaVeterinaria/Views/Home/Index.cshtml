@@ -1,10 +1,15 @@
 ﻿@model ClinicaVeterinaria.Models.Utenti;
 
+@{
+    string actionChiamata = TempData["MiStoRegistrando"] != null && (bool)TempData["MiStoRegistrando"] == true ? "ConcludiRegistrazione" : "Login";
+}
+
+
 <div class="container">
     <div class="row">
         <div class="col-4">
 
-            <form asp-action="Login" asp-controller="Login">
+            <form asp-action="@actionChiamata" asp-controller="Login">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Nome" class="control-label"></label>
@@ -16,8 +21,31 @@
                     <input type="password" asp-for="Password" class="form-control" />
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
+
+                @{
+                    if (TempData["MiStoRegistrando"] != null && (bool)TempData["MiStoRegistrando"] == true)
+                    {
+                         <div class="form-group mb-3">
+                    <label asp-for="Cognome" class="control-label"></label>
+                    <input type="password" asp-for="Cognome" class="form-control" />
+                    <span asp-validation-for="Cognome" class="text-danger"></span>
+                </div>
+                    }
+                }
+
                 <div class="form-group mb-3">
-                    <input type="submit" value="Login" class="btn btn-primary" />
+
+                    @{
+                        if (TempData["MiStoRegistrando"] != null && (bool)TempData["MiStoRegistrando"] == true)
+                        {
+                            <input type="submit" value="registrati" class="btn btn-primary" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Login" class="btn btn-primary" />
+                        }
+                    }
+
                 </div>
             </form>
         </div>

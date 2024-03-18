@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims;
+
+@{
+    var userName = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -25,9 +31,40 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
+                        @{
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Login" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Login" asp-action="LogOut"> Log-Out</a>
+                                </li>
+                                <li class="nav-item d-flex align-items-center">
+                                    <span class="@(!User.IsInRole("admin") ? "text-info fw-bold" : "text-danger fw-bold")">
+                                        Benvenuto @userName @(!User.IsInRole("admin") ? "(utente)" : "(ADMIN)")
+                                    </span>
+                                </li>
+
+                                if (User.IsInRole("4"))
+                                {
+
+                                   
+                                }
+
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+
+
+                                <li class="nav-item ms-auto">
+                                    <a class="nav-link text-dark" asp-action="Registrazione" asp-controller="Login"> Registrati </a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
