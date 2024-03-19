@@ -55,7 +55,7 @@
                                     <a class="nav-link text-dark" asp-controller="Prodotti" asp-action="Create"> Aggiungi Prodotto</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-controller="Prodotti" asp-action="Lisy"> Lista Prodotti</a>
+                                    <a class="nav-link text-dark" asp-controller="Prodotti" asp-action="Index"> Lista Prodotti</a>
                                 </li>
 
                                 if (User.IsInRole("Admin"))
@@ -64,6 +64,9 @@
                                         <a class="nav-link text-dark" asp-controller="Admin" asp-action="BackOffice"> Back Office </a>
                                     </li>
 
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="Dittafornitrice" asp-action="Index"> Ditte Fornitrici </a>
+                                    </li>
                                 }
 
 
