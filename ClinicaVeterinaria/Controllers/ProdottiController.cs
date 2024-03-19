@@ -74,9 +74,9 @@ namespace ClinicaVeterinaria.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nomeprodotto,Prezzo,IdDittaFornitrice,IsMedicinale,PossibiliUsi ")] Prodotti prodotti)
         {
-            //ModelState.Remove("IdProdotto");
+            ModelState.Remove("IdProdotto");
            
-           // ModelState.Remove("IdDittaFornitriceNavigation");
+            ModelState.Remove("IdDittaFornitriceNavigation");
 
             if (ModelState.IsValid)
             {
