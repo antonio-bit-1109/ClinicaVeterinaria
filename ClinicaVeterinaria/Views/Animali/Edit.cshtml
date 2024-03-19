@@ -10,9 +10,25 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+
+
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Idanimale" />
+
+            <div class="form-group">
+                <label asp-for="FotoAnimale" class="control-label"></label>
+                <div>
+                    <img style="width:200px" src="~/images/animali/@Model.FotoAnimale" class="img-thumbnail" alt="...">
+
+                    <input asp-for="FotoAnimale" class="form-control" type="file" />
+@*                     <input hidden asp-for="FotoAnimale" class="form-control" value="@Model.FotoAnimale"/>
+ *@
+                    
+                </div>
+                <span asp-validation-for="FotoAnimale" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <label asp-for="Dataregistrazione" class="control-label"></label>
                 <input asp-for="Dataregistrazione" class="form-control" />
@@ -48,11 +64,7 @@
                 <input asp-for="NumMicrochip" class="form-control" />
                 <span asp-validation-for="NumMicrochip" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="FotoAnimale" class="control-label"></label>
-                <input asp-for="FotoAnimale" class="form-control" type="file" />
-                <span asp-validation-for="FotoAnimale" class="text-danger"></span>
-            </div>
+           
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="HasProprietario" /> @Html.DisplayNameFor(model => model.HasProprietario)
@@ -67,6 +79,8 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+
+
     </div>
 </div>
 
@@ -74,3 +88,9 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+
+    <script src="~/js/logicaEdit.js">
+
+   </script>
+}

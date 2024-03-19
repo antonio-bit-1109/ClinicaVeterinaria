@@ -5,177 +5,216 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClinicaVeterinaria.Controllers
 {
-    public class AnimaliController : Controller
-    {
-        private readonly SocityPetContext _context;
+	public class AnimaliController : Controller
+	{
+		private readonly SocityPetContext _context;
 
-        public AnimaliController(SocityPetContext context)
-        {
-            _context = context;
-        }
+		public AnimaliController(SocityPetContext context)
+		{
+			_context = context;
+		}
 
-        // GET: Animali
-        public async Task<IActionResult> Index()
-        {
+		// GET: Animali
+		public async Task<IActionResult> Index()
+		{
 
-            var socityPetContext = _context.Animalis.Include(a => a.IdUtenteNavigation);
-            return View(await socityPetContext.ToListAsync());
-        }
+			var socityPetContext = _context.Animalis.Include(a => a.IdUtenteNavigation);
+			return View(await socityPetContext.ToListAsync());
+		}
 
-        // GET: Animali/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		// GET: Animali/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-            var animali = await _context.Animalis
-                .Include(a => a.IdUtenteNavigation)
-                .FirstOrDefaultAsync(m => m.Idanimale == id);
-            if (animali == null)
-            {
-                return NotFound();
-            }
+			var animali = await _context.Animalis
+				.Include(a => a.IdUtenteNavigation)
+				.FirstOrDefaultAsync(m => m.Idanimale == id);
+			if (animali == null)
+			{
+				return NotFound();
+			}
 
-            return View(animali);
-        }
+			return View(animali);
+		}
 
-        // GET: Animali/Create
-        [HttpGet]
-        public IActionResult Create()
-        {
+		// GET: Animali/Create
+		[HttpGet]
+		public IActionResult Create()
+		{
 
-            ViewData["IdUtente"] = new SelectList(_context.Utentis.Where(u => u.IdRuolo != 4).Select(u => new { u.IdUtente, NomeCompleto = u.Nome + " " + u.Cognome }), "IdUtente", "NomeCompleto");
-            return View();
-        }
+			ViewData["IdUtente"] = new SelectList(_context.Utentis.Where(u => u.IdRuolo != 4).Select(u => new { u.IdUtente, NomeCompleto = u.Nome + " " + u.Cognome }), "IdUtente", "NomeCompleto");
+			return View();
+		}
 
-        // POST: Animali/Create
+		// POST: Animali/Create
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Dataregistrazione,NomeAnimale,Tipologia,ColoreMantello," +
-            "Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animali, IFormFile FotoAnimale)
-        {
-            ModelState.Remove("IdUtenteNavigation");
-            ModelState.Remove("Ricoveris");
-            ModelState.Remove("Visites");
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("Dataregistrazione,NomeAnimale,Tipologia,ColoreMantello," +
+			"Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animali, IFormFile FotoAnimale)
+		{
+			ModelState.Remove("IdUtenteNavigation");
+			ModelState.Remove("Ricoveris");
+			ModelState.Remove("Visites");
 
 
-            if (ModelState.IsValid)
-            {
-                if (FotoAnimale != null && FotoAnimale.Length > 0)
-                {
-                    var fileName = Path.GetFileName(FotoAnimale.FileName);
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/animali", fileName);
+			if (ModelState.IsValid)
+			{
+				if (FotoAnimale != null && FotoAnimale.Length > 0)
+				{
+					var fileName = Path.GetFileName(FotoAnimale.FileName);
+					var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/animali", fileName);
 
-                    using (var fileStream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await FotoAnimale.CopyToAsync(fileStream);
-                    }
+					using (var fileStream = new FileStream(filePath, FileMode.Create))
+					{
+						await FotoAnimale.CopyToAsync(fileStream);
+					}
 
-                    animali.FotoAnimale = fileName;
-                }
+					animali.FotoAnimale = fileName;
+				}
 
-                _context.Add(animali);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome", animali.IdUtente);
-            return RedirectToAction("Index");
-        }
+				_context.Add(animali);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+			ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome", animali.IdUtente);
+			return RedirectToAction("Index");
+		}
 
-        // GET: Animali/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+		// GET: Animali/Edit/5
+		public async Task<IActionResult> Edit(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-            var animali = await _context.Animalis.FindAsync(id);
-            if (animali == null)
-            {
-                return NotFound();
-            }
-            //ViewData["FotoAnimale"] = animali.FotoAnimale;
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome", animali.IdUtente);
-            return View(animali);
-        }
+			var animali = await _context.Animalis.FindAsync(id);
+			if (animali == null)
+			{
+				return NotFound();
+			}
 
-        // POST: Animali/Edit/5
+			ViewData["IdUtente"] = new SelectList(_context.Utentis.Where(u => u.IdRuolo != 4).Select(u => new { u.IdUtente, NomeCompleto = u.Nome + " " + u.Cognome }), "IdUtente", "NomeCompleto");
+			//ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome", animali.IdUtente);
+			return View(animali);
+		}
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Idanimale,Dataregistrazione,NomeAnimale,Tipologia," +
-            "ColoreMantello,Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animali, IFormFile FotoAnimale)
-        {
-            if (id != animali.Idanimale)
-            {
-                return NotFound();
-            }
+		// POST: Animali/Edit/5
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(animali);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AnimaliExists(animali.Idanimale))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente", animali.IdUtente);
-            return View(animali);
-        }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("Idanimale,Dataregistrazione,NomeAnimale,Tipologia," +
+			"ColoreMantello,Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animale, IFormFile? FotoAnimale)
+		{
+			if (id != animale.Idanimale)
+			{
+				return NotFound();
+			}
 
-        // GET: Animali/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+			ModelState.Remove("IdUtenteNavigation");
+			ModelState.Remove("Ricoveris");
+			ModelState.Remove("Visites");
 
-            var animali = await _context.Animalis
-                .Include(a => a.IdUtenteNavigation)
-                .FirstOrDefaultAsync(m => m.Idanimale == id);
-            if (animali == null)
-            {
-                return NotFound();
-            }
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					if (FotoAnimale != null && FotoAnimale.Length > 0)
+					{
+						var fileName = Path.GetFileName(FotoAnimale.FileName);
+						var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/animali", fileName);
 
-            return View(animali);
-        }
+						using (var fileStream = new FileStream(filePath, FileMode.Create))
+						{
+							await FotoAnimale.CopyToAsync(fileStream);
+						}
 
-        // POST: Animali/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var animali = await _context.Animalis.FindAsync(id);
-            if (animali != null)
-            {
-                _context.Animalis.Remove(animali);
-            }
+						animale.FotoAnimale = fileName;
+					}
+					else
+					{
+						// Se FotoAnimale è null, manteniamo l'immagine esistente.
+						var animaliEsistente = await _context.Animalis.AsNoTracking().FirstOrDefaultAsync(a => a.Idanimale == id);
+						animale.FotoAnimale = animaliEsistente?.FotoAnimale;
+					}
 
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+					_context.Update(animale);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!AnimaliExists(animale.Idanimale))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente", animale.IdUtente);
+			return View(animale);
+		}
 
-        private bool AnimaliExists(int id)
-        {
-            return _context.Animalis.Any(e => e.Idanimale == id);
-        }
-    }
+		// GET: Animali/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+		{
+			if (id == null)
+			{
+				return NotFound();
+			}
+
+			var animali = await _context.Animalis
+				.Include(a => a.IdUtenteNavigation)
+				.FirstOrDefaultAsync(m => m.Idanimale == id);
+			if (animali == null)
+			{
+				return NotFound();
+			}
+
+			return View(animali);
+		}
+
+		// POST: Animali/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var animali = await _context.Animalis.FindAsync(id);
+			if (animali != null)
+			{
+				_context.Animalis.Remove(animali);
+			}
+
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index));
+		}
+
+		private bool AnimaliExists(int id)
+		{
+			return _context.Animalis.Any(e => e.Idanimale == id);
+		}
+
+
+		public IActionResult getAnimalByMicrochip(string stringMicro)
+		{
+			var AnimaleByMicrochip = _context.Animalis.Where(t => t.NumMicrochip == stringMicro).FirstOrDefault();
+
+			return Json(AnimaleByMicrochip);
+		}
+
+		public IActionResult IsAnimaleRicoverato(int idAnimale)
+		{
+			var isAnimaleRicoverato = _context.Ricoveris.Where(r => r.Idanimale == idAnimale && r.IsRicoveroAttivo == true).FirstOrDefault();
+
+			return Json(isAnimaleRicoverato);
+		}
+	}
 }

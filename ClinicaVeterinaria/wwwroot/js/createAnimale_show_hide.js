@@ -2,6 +2,7 @@
 const divNumMicrochip = document.getElementById("divNumMicrochip");
 const inputHasProprietario = document.getElementById("inputHasProprietario");
 const divIdUtente = document.getElementById("divIdUtente");
+const selectLIst = document.getElementById("selectList");
 
 const mostraNascondi = (input, div) => {
     if (!input.checked) {
@@ -23,4 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     mostraNascondi(inputHasMicrochip, divNumMicrochip);
     mostraNascondi(inputHasProprietario, divIdUtente);
 
+    if (!inputHasProprietario.checked) {
+        selectLIst.value = null;
+    }
 });

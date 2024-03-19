@@ -23,8 +23,4 @@
     <PackageReference Include="Stripe.net" Version="43.19.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\images\animali\" />
-  </ItemGroup>
-
 </Project>

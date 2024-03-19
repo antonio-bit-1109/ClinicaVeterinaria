@@ -10,6 +10,14 @@
     <h4>Animali</h4>
     <hr />
     <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FotoAnimale)
+        </dt>
+        <dd class="col-sm-10">
+            @*      @Html.DisplayFor(model => model.FotoAnimale) *@
+            <img style="width:200px" src="~/images/animali/@Model.FotoAnimale" class="img-thumbnail" alt="...">
+
+        </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Dataregistrazione)
         </dt>
@@ -52,12 +60,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.NumMicrochip)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FotoAnimale)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FotoAnimale)
-        </dd>
+       
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.HasProprietario)
         </dt>
@@ -70,9 +73,10 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IdUtenteNavigation.IdUtente)
         </dd>
+      
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Idanimale">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+@*     <a asp-action="Edit" asp-route-id="@Model?.Idanimale">Edit</a> |
+ *@    <a asp-action="Index">Back to List</a>
 </div>
