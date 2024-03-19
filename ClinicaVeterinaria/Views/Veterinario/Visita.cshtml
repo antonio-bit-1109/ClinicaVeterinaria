@@ -1,0 +1,76 @@
+﻿@model ClinicaVeterinaria.Models.Visite
+
+@{
+    ViewData["Title"] = "Crea Visita";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="CreateVisita" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        <label asp-for="DataVisita" class="control-label"></label>
+        <input asp-for="DataVisita" class="form-control" />
+        <span asp-validation-for="DataVisita" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Anamnesi" class="control-label"></label>
+        <textarea asp-for="Anamnesi" class="form-control"></textarea>
+        <span asp-validation-for="Anamnesi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="DescrizioneCura" class="control-label"></label>
+        <textarea asp-for="DescrizioneCura" class="form-control"></textarea>
+        <span asp-validation-for="DescrizioneCura" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="IdAnimale" class="control-label"></label>
+        <select asp-for="IdAnimale" class="form-control" asp-items="ViewBag.AnimaliId"></select>
+    </div>
+
+    <div class="form-group">
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" name="aggiungiRicetta" value="true" /> Aggiungi Ricetta Medica
+            </label>
+        </div>
+    </div>
+
+    <div id="ricettaMedica" style="display: none;">
+        <h3>Ricetta Medica:</h3>
+
+        <div class="form-group">
+            <label for="descrizioneRicetta">Descrizione Ricetta</label>
+            <textarea name="descrizioneRicetta" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="prodottiId">Seleziona Prodotti:</label>
+            <select id="prodottiId" name="prodottiId" class="form-control" multiple="multiple" asp-items="ViewBag.ProdottoId"></select>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Crea" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        $(document).ready(function () {
+            $('input[name="aggiungiRicetta"]').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#ricettaMedica').show();
+                } else {
+                    $('#ricettaMedica').hide();
+                }
+            });
+        });
+    </script>
+}

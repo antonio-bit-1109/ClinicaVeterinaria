@@ -57,6 +57,14 @@
                                    
                                 }
 
+                                if (User.IsInRole("Veterinario"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Veterinario" asp-action="Visita">Visita</a>
+                                    </li>
+
+                                }
+
                             }
                             else
                             {
