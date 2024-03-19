@@ -17,10 +17,12 @@ namespace ClinicaVeterinaria.Controllers
             _db = db;
             _schemeProvider = schemeProvider;
         }
+
         public IActionResult Index()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Login(Utenti utente)
         {
@@ -33,7 +35,7 @@ namespace ClinicaVeterinaria.Controllers
 
                 if (user != null && VerifyPasswordHash(utente.Password, user.Password))
                 {
-                    var roleName = user.IdRuoloNavigation?.NomeRuolo ?? "RuoloNonDefinito"; // Assegna un valore predefinito se il ruolo non è trovato
+                    var roleName = user.IdRuoloNavigation?.NomeRuolo ?? "Utente"; // Assegna un valore predefinito se il ruolo non è trovato
                     var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Nome), // nome

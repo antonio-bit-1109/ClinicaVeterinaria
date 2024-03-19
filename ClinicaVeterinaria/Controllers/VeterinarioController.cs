@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 [Authorize(Roles = "Veterinario")]
 public class VeterinarioController : Controller
@@ -40,59 +41,75 @@ public class VeterinarioController : Controller
     // GET: Veterinario/Create
     public IActionResult Visita()
     {
-        List<Animali> animali = _db.Animalis.ToList();
-        List<Prodotti> prodottiMedicinali = _db.Prodottis.Where(p => p.IsMedicinale).ToList();
 
-        if (!animali.Any())
-        {
-            TempData["Errore"] = "Non ci sono dati sugli animali disponibili.";
-            return RedirectToAction("Index");
-        }
-
-        if (!prodottiMedicinali.Any())
-        {
-            TempData["Errore"] = "Non ci sono prodotti medicinali disponibili.";
-            return RedirectToAction("Index");
-        }
-
-        ViewBag.IdAnimale = new SelectList(animali, "IdAnimale", "NomeAnimale");
-        ViewBag.ProdottoId = new SelectList(prodottiMedicinali, "IdProdotto", "Nomeprodotto");
-        ViewBag.IdRicetta = new SelectList(_db.Ricettemediches, "IdricettaMedica", "Descrizione"); // Assicurati che "Descrizione" sia il campo corretto
+        ViewBag.IdAnimale = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale");
+        // Assicurati che la query restituisca i prodotti che ti aspetti
+        ViewBag.ProdottoId = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+        ViewBag.Ricetta = new Ricettemediche();
 
         return View();
     }
 
-
-
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> CreateVisita(Visite visita, Ricettemediche ricetta, int[] prodottiId)
+    public async Task<IActionResult> CreateVisita(Visite visita, int[] prodottiId, bool aggiungiRicetta, string descrizioneRicetta)
     {
         if (ModelState.IsValid)
         {
-            try
+            using (var transaction = _db.Database.BeginTransaction())
             {
-                // Logica di creazione della ricetta e della visita...
-                _db.Add(visita);
-                await _db.SaveChangesAsync();
-                TempData["Successo"] = "La visita è stata creata con successo.";
-                return RedirectToAction(nameof(Index));
-            }
-            catch (Exception ex)
-            {
-                // Logga l'eccezione qui con il tuo sistema di logging.
-                TempData["Errore"] = "Si è verificato un errore durante la creazione della visita: " + ex.Message;
+                try
+                {
+                    Ricettemediche ricetta = null;
+                    if (aggiungiRicetta)
+                    {
+                        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                        var userId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
+
+                        ricetta = new Ricettemediche
+                        {
+                            Descrizione = descrizioneRicetta,
+                            IdUtente = userId,
+                            DataPrescrizione = DateTime.Now
+                        };
+                        _db.Ricettemediches.Add(ricetta);
+                        await _db.SaveChangesAsync();
+
+                        visita.IdRicetta = ricetta.IdricettaMedica;
+                    }
+
+                    _db.Visites.Add(visita);
+                    await _db.SaveChangesAsync();
+
+                    if (aggiungiRicetta && prodottiId != null)
+                    {
+                        foreach (var prodottoId in prodottiId)
+                        {
+                            string insertSql = @"
+                            INSERT INTO ProdottiRicette (IdProdotto, IdRicettaMedica)
+                            VALUES ({0}, {1})";
+                            await _db.Database.ExecuteSqlRawAsync(insertSql, prodottoId, ricetta.IdricettaMedica);
+                        }
+                    }
+
+                    await transaction.CommitAsync();
+                    TempData["Successo"] = "La visita è stata creata con successo.";
+                    return RedirectToAction("Visita");
+                }
+                catch (Exception ex)
+                {
+                    await transaction.RollbackAsync();
+                    TempData["Errore"] = "Si è verificato un errore: " + ex.Message;
+                }
             }
         }
         else
         {
-            // Se il modello non è valido, riempie di nuovo i dropdown
-            ViewData["IdAnimale"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
-            ViewData["ProdottoId"] = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
-            ViewData["IdRicetta"] = new SelectList(_db.Ricettemediches, "IdricettaMedica", "Descrizione", ricetta.IdricettaMedica); // Cambia "Descrizione" se necessario
+            ViewBag.IdAnimale = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
+            ViewBag.ProdottoId = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+            ViewData["IdRicetta"] = new SelectList(_db.Ricettemediches, "IdricettaMedica", "Descrizione");
         }
 
-        // Resta nella vista corrente mostrando gli errori di validazione del modello
         return View(visita);
     }
 

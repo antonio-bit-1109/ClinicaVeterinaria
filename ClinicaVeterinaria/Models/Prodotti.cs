@@ -1,4 +1,7 @@
-﻿namespace ClinicaVeterinaria.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace ClinicaVeterinaria.Models;
 
 public partial class Prodotti
 {
@@ -12,7 +15,7 @@ public partial class Prodotti
 
     public string PossibiliUsi { get; set; } = null!;
 
-    public decimal? Prezzo { get; set; }
+    public decimal? PrezzoProdotto { get; set; }
 
     public virtual Dittafornitrice IdDittaFornitriceNavigation { get; set; } = null!;
 

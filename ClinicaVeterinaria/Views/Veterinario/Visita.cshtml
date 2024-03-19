@@ -30,17 +30,19 @@
         <span asp-validation-for="DescrizioneCura" class="text-danger"></span>
     </div>
 
-    <!-- Id Animale -->
+    <!-- Aggiunta Ricetta Medica -->
+@*     <div class="form-group">
+        <label asp-for="IdRicetta" class="control-label"></label>
+        <select asp-for="IdRicetta" class="form-control" asp-items="@ViewBag.IdRicetta"></select>
+    </div> *@
+
+    <!-- Selezione Animale -->
     <div class="form-group">
         <label asp-for="IdAnimale" class="control-label"></label>
-        <select asp-for="IdAnimale" class="form-control" asp-items="ViewBag.IdAnimale"></select>
+        <select asp-for="IdAnimale" class="form-control" asp-items="@ViewBag.IdAnimale"></select>
+        <span asp-validation-for="IdAnimale" class="text-danger"></span>
     </div>
 
-    <!-- Aggiunta Ricetta Medica -->
-    <div class="form-group">
-        <label asp-for="IdRicetta" class="control-label"></label>
-        <select asp-for="IdRicetta" class="form-control" asp-items="ViewBag.IdRicetta"></select>
-    </div>
 
     <div class="form-group">
         <div class="checkbox">
