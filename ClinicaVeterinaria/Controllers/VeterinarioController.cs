@@ -42,7 +42,7 @@ public class VeterinarioController : Controller
     public IActionResult Visita()
     {
 
-        ViewBag.IdAnimale = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale");
+        ViewData["IdAnimale"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale");
         // Assicurati che la query restituisca i prodotti che ti aspetti
         ViewBag.ProdottoId = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
         ViewBag.Ricetta = new Ricettemediche();
@@ -105,7 +105,7 @@ public class VeterinarioController : Controller
         }
         else
         {
-            ViewBag.IdAnimale = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
+            ViewData["IdAnimale"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
             ViewBag.ProdottoId = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
             ViewData["IdRicetta"] = new SelectList(_db.Ricettemediches, "IdricettaMedica", "Descrizione");
         }

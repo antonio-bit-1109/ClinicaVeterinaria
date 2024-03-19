@@ -39,8 +39,10 @@
     <!-- Selezione Animale -->
     <div class="form-group">
         <label asp-for="IdAnimale" class="control-label"></label>
-        <select asp-for="IdAnimale" class="form-control" asp-items="@ViewBag.IdAnimale"></select>
-        <span asp-validation-for="IdAnimale" class="text-danger"></span>
+        @if (ViewBag.IdAnimale != null)
+        {
+            <select asp-for="IdAnimale" class="form-control" asp-items="ViewBag.IdAnimale"></select>
+        }
     </div>
 
 
