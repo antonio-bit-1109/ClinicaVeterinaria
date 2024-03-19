@@ -18,6 +18,11 @@ public class VeterinarioController : Controller
     // Mostra la lista delle visite
     public async Task<IActionResult> Index()
     {
+        string navfoot = "vet";
+        ViewBag.NavFoot = navfoot;
+        string text = "bl";
+        ViewBag.Text = text;
+
         var visite = await _db.Visites.Include(v => v.IdAnimaleNavigation).ToListAsync();
         return View(visite);
     }
@@ -25,6 +30,11 @@ public class VeterinarioController : Controller
     // Mostra i dettagli di una specifica visita
     public async Task<IActionResult> Details(int id)
     {
+        string navfoot = "vet";
+        ViewBag.NavFoot = navfoot;
+        string text = "bl";
+        ViewBag.Text = text;
+
         Visite? visita = await _db.Visites
                               .Include(v => v.IdAnimaleNavigation)
                               .Include(v => v.IdRicettaNavigation)
@@ -41,6 +51,11 @@ public class VeterinarioController : Controller
     // GET: Veterinario/Create
     public IActionResult Visita()
     {
+        string navfoot = "vet";
+        ViewBag.NavFoot = navfoot;
+        string text = "bl";
+        ViewBag.Text = text;
+
         try
         {
             //System.Diagnostics.Debug.WriteLine("Prima di inizializzare ViewData['IdAnimale']");
@@ -137,6 +152,11 @@ public class VeterinarioController : Controller
     // GET: Veterinario/Edit/5
     public async Task<IActionResult> EditVisita(int? id)
     {
+        string navfoot = "vet";
+        ViewBag.NavFoot = navfoot;
+        string text = "bl";
+        ViewBag.Text = text;
+
         if (id == null)
         {
             return NotFound();
@@ -188,6 +208,11 @@ public class VeterinarioController : Controller
     // GET: Veterinario/Delete/5
     public async Task<IActionResult> DeleteVisita(int? id)
     {
+        string navfoot = "vet";
+        ViewBag.NavFoot = navfoot;
+        string text = "bl";
+        ViewBag.Text = text;
+
         if (id == null)
         {
             return NotFound();

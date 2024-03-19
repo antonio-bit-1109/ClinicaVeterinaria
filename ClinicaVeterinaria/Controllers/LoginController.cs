@@ -20,6 +20,11 @@ namespace ClinicaVeterinaria.Controllers
 
         public IActionResult Index()
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             return View();
         }
 

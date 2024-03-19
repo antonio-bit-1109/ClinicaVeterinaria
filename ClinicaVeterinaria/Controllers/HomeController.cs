@@ -15,7 +15,12 @@ namespace ClinicaVeterinaria.Controllers
 
 		public IActionResult Index()
 		{
-			return View();
+            string navfoot = "grad";
+            ViewBag.NavFoot = navfoot;
+			string text = "wh";
+			ViewBag.Text = text;
+
+            return View();
 		}
 
 		public IActionResult Privacy()
