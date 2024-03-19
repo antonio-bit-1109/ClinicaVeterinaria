@@ -40,28 +40,28 @@ public class VeterinarioController : Controller
     // GET: Veterinario/Create
     public IActionResult Visita()
     {
-        var animali = _db.Animalis.ToList();
-        var prodottiMedicinali = _db.Prodottis.Where(p => p.IsMedicinale).ToList();
+        List<Animali> animali = _db.Animalis.ToList();
+        List<Prodotti> prodottiMedicinali = _db.Prodottis.Where(p => p.IsMedicinale).ToList();
 
         if (!animali.Any())
         {
             TempData["Errore"] = "Non ci sono dati sugli animali disponibili.";
-            // Potresti voler reindirizzare a una pagina di errore o a un'altra azione appropriata
             return RedirectToAction("Index");
         }
 
         if (!prodottiMedicinali.Any())
         {
             TempData["Errore"] = "Non ci sono prodotti medicinali disponibili.";
-            // Potresti voler reindirizzare a una pagina di errore o a un'altra azione appropriata
             return RedirectToAction("Index");
         }
 
-        ViewData["AnimaliId"] = new SelectList(animali, "IdAnimale", "NomeAnimale");
-        ViewData["ProdottoId"] = new SelectList(prodottiMedicinali, "IdProdotto", "Nomeprodotto");
+        ViewBag.IdAnimale = new SelectList(animali, "IdAnimale", "NomeAnimale");
+        ViewBag.ProdottoId = new SelectList(prodottiMedicinali, "IdProdotto", "Nomeprodotto");
+        ViewBag.IdRicetta = new SelectList(_db.Ricettemediches, "IdricettaMedica", "Descrizione"); // Assicurati che "Descrizione" sia il campo corretto
 
         return View();
     }
+
 
 
     [HttpPost]
@@ -87,8 +87,9 @@ public class VeterinarioController : Controller
         else
         {
             // Se il modello non è valido, riempie di nuovo i dropdown
-            ViewData["AnimaliId"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
-            ViewData["Prodotti"] = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+            ViewData["IdAnimale"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
+            ViewData["ProdottoId"] = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+            ViewData["IdRicetta"] = new SelectList(_db.Ricettemediches, "IdricettaMedica", "Descrizione", ricetta.IdricettaMedica); // Cambia "Descrizione" se necessario
         }
 
         // Resta nella vista corrente mostrando gli errori di validazione del modello
@@ -108,7 +109,7 @@ public class VeterinarioController : Controller
         {
             return NotFound();
         }
-        ViewData["AnimaliId"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
+        ViewData["IdAnimale"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
         return View(visita);
     }
 
