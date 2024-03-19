@@ -1,0 +1,71 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Models.Ricoveri>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Dataregistrazionericovero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataInizioRicovero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataFinericovero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrezzoGiornalieroRicovero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRicoveroAttivo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrezzoTotaleRicovero)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdanimaleNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dataregistrazionericovero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataInizioRicovero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataFinericovero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrezzoGiornalieroRicovero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRicoveroAttivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrezzoTotaleRicovero)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdanimaleNavigation.Idanimale)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdRicovero">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdRicovero">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdRicovero">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

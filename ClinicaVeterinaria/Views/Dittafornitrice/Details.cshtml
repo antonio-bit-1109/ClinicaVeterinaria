@@ -1,0 +1,36 @@
+﻿@model ClinicaVeterinaria.Models.Dittafornitrice
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Dittafornitrice</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NomeDitta)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NomeDitta)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RecapitoDitta)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RecapitoDitta)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Indirizzo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Indirizzo)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdDittaFornitrice">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

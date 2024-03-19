@@ -1,0 +1,60 @@
+﻿@model ClinicaVeterinaria.Models.Ricoveri
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Ricoveri</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Dataregistrazionericovero)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Dataregistrazionericovero)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DataInizioRicovero)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DataInizioRicovero)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DataFinericovero)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DataFinericovero)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PrezzoGiornalieroRicovero)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PrezzoGiornalieroRicovero)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IsRicoveroAttivo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IsRicoveroAttivo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PrezzoTotaleRicovero)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PrezzoTotaleRicovero)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdanimaleNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdanimaleNavigation.Idanimale)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdRicovero">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
