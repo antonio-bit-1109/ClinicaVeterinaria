@@ -19,14 +19,20 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Prodotti
+
+
         public async Task<IActionResult> Index()
         {
             string navClass = "farm";
             ViewBag.NavClass = navClass;
 
             var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation);
+            System.Diagnostics.Debug.WriteLine(socityPetContext);
             return View(await socityPetContext.ToListAsync());
         }
+
+
+
 
         // GET: Prodotti/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -36,10 +42,16 @@ namespace ClinicaVeterinaria.Controllers
                 return NotFound();
             }
 
+
+
             var prodotti = await _context.Prodottis
                 .Include(p => p.IdDittaFornitriceNavigation)
                 .FirstOrDefaultAsync(m => m.IdProdotto == id);
+
+
+
             if (prodotti == null)
+
             {
                 return NotFound();
             }
@@ -48,6 +60,7 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Prodotti/Create
+
         public IActionResult Create()
         {
             ViewData["IdDittaFornitrice"] = new SelectList(_context.Dittafornitrices, "IdDittaFornitrice", "IdDittaFornitrice");
@@ -57,14 +70,17 @@ namespace ClinicaVeterinaria.Controllers
         // POST: Prodotti/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nomeprodotto,IdDittaFornitrice,IsMedicinale,PossibiliUsi")] Prodotti prodotti)
+        public async Task<IActionResult> Create([Bind("Nomeprodotto,Prezzo,IdDittaFornitrice,IsMedicinale,PossibiliUsi ")] Prodotti prodotti)
         {
-            ModelState.Remove("IdProdotto");
-            ModelState.Remove("ProdottiInCassetto");
-            ModelState.Remove("Armadietto");
-            ModelState.Remove("IdDittaFornitriceNavigation");
+            //ModelState.Remove("IdProdotto");
+           
+           // ModelState.Remove("IdDittaFornitriceNavigation");
+
             if (ModelState.IsValid)
             {
                 _context.Add(prodotti);

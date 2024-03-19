@@ -17,7 +17,7 @@
 			@foreach (var item in Model)
 			{		<div class="col-4">	
 					<div class="card">
-						<img src="../images/animali/@item.FotoAnimale" class="img-thumbnail" alt="...">
+					<img src="../images/animali/@item.FotoAnimale" class="img-thumbnail imgDimensions" alt="...">
 						<div class="card-body">
 							<h5 class="card-title">@item.NomeAnimale</h5>
 							<p class="card-text">@item.Dataregistrazione</p>
@@ -30,9 +30,10 @@
 							<p class="card-text">@item.IdUtente</p>
 						</div>
 						<div>
-							<a asp-action="Edit" asp-route-id="@item.Idanimale">Edit</a> |
-							<a asp-action="Details" asp-route-id="@item.Idanimale">Details</a> |
-							<a asp-action="Delete" asp-route-id="@item.Idanimale">Delete</a>
+							<a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Idanimale">Edit</a> |
+						<a class="btn btn-outline-primary" asp-action="Details" asp-route-id="@item.Idanimale">Details</a> |
+						<a class="btn btn-outline-primary" asp-action="Delete" asp-route-id="@item.Idanimale">Delete</a>
+						<a class="btn btn-outline-primary" asp-action="CronistoriaVisite" asp-controller="Visite" asp-route-id="@item.Idanimale">Visualizza Cronologia delle Visite</a>
 						</div>
 						
 				</div>

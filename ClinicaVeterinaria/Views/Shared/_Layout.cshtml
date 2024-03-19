@@ -22,9 +22,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 nav @ViewBag.NavClass">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand text-white" asp-area="" asp-controller="Home" asp-action="Index"><i class="bi bi-prescription2"></i> Clinica Veterinaria</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ClinicaVeterinaria</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -34,63 +34,75 @@
                         @{
                             if (User.Identity.IsAuthenticated)
                             {
-                                        <li class="nav-item">
-
-                                            <a class="nav-link text-white" asp-controller="Animali" asp-action="Index"> Lista Animali </a>
-                                        </li>
-                                        <li>
-                                            <a class="nav-link text-white" asp-controller="Prodotti" asp-action="Create"> Aggiungi Prodotto</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-controller="Prodotti" asp-action="Lisy"> Lista Prodotti</a>
-                                        </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Login" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Login" asp-action="LogOut"> Log-Out</a>
+                                </li>
 
 
-
-                                if (User.IsInRole("Admin"))
-                                {
-                                            <li class="nav-item">
-                                                <a class="nav-link text-white" asp-controller="Admin" asp-action="BackOffice"> Back Office </a>
-                                            </li>
-                                   
-                                }
-                             
-
-                                if (User.IsInRole("Veterinario"))
-                                {
-                                            <li class="nav-item">
-                                                <a class="nav-link text-white" asp-area="" asp-controller="Veterinario" asp-action="Visita">Visita</a>
-                                            </li>
-                                            <li class="nav-item">
-                                                <a class="nav-link text-white" asp-area="" asp-controller="Ricoveri" asp-action="Index">Ricovero</a>
-                                            </li>
-                                }
+                                <li class="nav-item d-flex align-items-center">
+                                    <span class="@(!User.IsInRole("Admin") ? "text-info fw-bold" : "text-danger fw-bold")">
+                                        Benvenuto @userName @(!User.IsInRole("Admin") ? "(utente)" : "(ADMIN)")
+                                    </span>
+                                </li>
 
 
                                 <li class="nav-item">
-                                    <a class="nav-link text-white" asp-controller="Login" asp-action="Index">Home</a>
+
+                                    <a class="nav-link text-dark" asp-controller="Animali" asp-action="Index"> Lista Animali </a>
                                 </li>
-                                <li class="nav-item d-flex align-items-center ms-auto">
-                                    <span class="@(!User.IsInRole("admin") ? "text-white fw-bold" : "text-danger fw-bold")">
-                                        Benvenuto @userName @(!User.IsInRole("4") ? "(utente)" : "(ADMIN)")
-                                    </span>
+                                <li>
+                                    <a class="nav-link text-dark" asp-controller="Prodotti" asp-action="Create"> Aggiungi Prodotto</a>
                                 </li>
-                                <li class="nav-item ">
-                                    <a class="nav-link text-white" asp-controller="Login" asp-action="LogOut"> Log-Out</a>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="Prodotti" asp-action="Index"> Lista Prodotti</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="ProdottiInCassettoes" asp-action="Create"> Smistamento </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-controller="ProdottiInCassettoes" asp-action="Index"> Archivio Farmaci  </a>
                                 </li>
 
+                                if (User.IsInRole("Admin"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="Admin" asp-action="BackOffice"> Back Office </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="Dittafornitrice" asp-action="Index"> Ditte Fornitrici </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-controller="Ricoveri" asp-action="Index"> Ricoveri </a>
+                                    </li>
+                                }
+
+
+                                if (User.IsInRole("Veterinario"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Veterinario" asp-action="Visita">Visita</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Ricoveri" asp-action="Index">Ricovero</a>
+                                    </li>
+                                }
 
                             }
                             else
                             {
-                                        <li class="nav-item">
-                                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                                        </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
 
 
-                                        <li class="nav-item ms-auto">
-                                            <a class="nav-link text-white" asp-action="Registrazione" asp-controller="Login"> Registrati </a>
-                                        </li>
+                                <li class="nav-item ms-auto">
+                                    <a class="nav-link text-dark" asp-action="Registrazione" asp-controller="Login"> Registrati </a>
+                                </li>
                             }
                         }
                     </ul>
@@ -106,8 +118,8 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container text-white">
-            &copy; 2024 - Clinica Veterinaria - <a class="text-decoration-none text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container">
+            &copy; 2024 - ClinicaVeterinaria - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -119,8 +131,5 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    <script>
-
-    </script>
 </body>
 </html>

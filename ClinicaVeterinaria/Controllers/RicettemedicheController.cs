@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ClinicaVeterinaria.Models;
 
 namespace ClinicaVeterinaria.Controllers
 {
@@ -48,7 +44,7 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricettemediche/Create
         public IActionResult Create()
         {
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente");
+            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome");
             ViewData["IdVisita"] = new SelectList(_context.Visites, "IdVisita", "IdVisita");
             return View();
         }
@@ -58,7 +54,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdricettaMedica,IdVisita,IdUtente,DataPrescrizione,Descrizione")] Ricettemediche ricettemediche)
+        public async Task<IActionResult> Create([Bind("IdVisita,IdUtente,DataPrescrizione,Descrizione")] Ricettemediche ricettemediche)
         {
             if (ModelState.IsValid)
             {
@@ -66,7 +62,7 @@ namespace ClinicaVeterinaria.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente", ricettemediche.IdUtente);
+            ViewData["IdUtente"] = new SelectList(_context.Utentis.Where(u => u.IdRuoloNavigation.NomeRuolo == "Veterinario"), "IdUtente", "Nome", ricettemediche.IdUtente);
             ViewData["IdVisita"] = new SelectList(_context.Visites, "IdVisita", "IdVisita", ricettemediche.IdVisita);
             return View(ricettemediche);
         }
@@ -84,7 +80,7 @@ namespace ClinicaVeterinaria.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente", ricettemediche.IdUtente);
+            ViewData["IdUtente"] = new SelectList(_context.Utentis.Where(u => u.IdRuoloNavigation.NomeRuolo == "Veterinario"), "IdUtente", "Nome", ricettemediche.IdUtente);
             ViewData["IdVisita"] = new SelectList(_context.Visites, "IdVisita", "IdVisita", ricettemediche.IdVisita);
             return View(ricettemediche);
         }

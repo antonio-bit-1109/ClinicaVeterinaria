@@ -38,6 +38,13 @@
                 <select asp-for="IdRicetta" class="form-control" asp-items="ViewBag.IdRicetta"></select>
                 <span asp-validation-for="IdRicetta" class="text-danger"></span>
             </div>
+
+            <div class="form-group">
+                <label asp-for="PrezzoVisita" class="control-label"></label>
+                <input asp-for="PrezzoVisita" class="form-control" type="number" step="0.01" />
+                <span asp-validation-for="PrezzoVisita" class="text-danger"></span>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>

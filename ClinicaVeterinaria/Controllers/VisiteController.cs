@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ClinicaVeterinaria.Models;
+using System.Security.Claims;
 
 namespace ClinicaVeterinaria.Controllers
 {
@@ -49,7 +46,9 @@ namespace ClinicaVeterinaria.Controllers
         public IActionResult Create()
         {
             ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale");
-            ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica");
+            //ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica");
+            ViewBag.ProdottoId = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+            ViewBag.Ricetta = new Ricettemediche();
             return View();
         }
 
@@ -58,17 +57,65 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVisita,DataVisita,Anamnesi,DescrizioneCura,IdAnimale,IdRicetta")] Visite visite)
+        public async Task<IActionResult> Create([Bind("DataVisita,Anamnesi,DescrizioneCura,IdAnimale,IdRicetta,PrezzoVisita")] Visite visita, int[] prodottiId, bool aggiungiRicetta, string descrizioneRicetta)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(visite);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                using (var transaction = _context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        Ricettemediche ricetta = null;
+                        if (aggiungiRicetta)
+                        {
+                            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                            var userId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
+
+                            ricetta = new Ricettemediche
+                            {
+                                Descrizione = descrizioneRicetta,
+                                IdUtente = userId,
+                                DataPrescrizione = DateTime.Now
+                            };
+                            _context.Ricettemediches.Add(ricetta);
+                            await _context.SaveChangesAsync();
+
+                            visita.IdRicetta = ricetta.IdricettaMedica;
+                        }
+
+                        _context.Visites.Add(visita);
+                        await _context.SaveChangesAsync();
+
+                        if (aggiungiRicetta && prodottiId != null)
+                        {
+                            foreach (var prodottoId in prodottiId)
+                            {
+                                string insertSql = @"
+                            INSERT INTO ProdottiRicette (IdProdotto, IdRicettaMedica)
+                            VALUES ({0}, {1})";
+                                await _context.Database.ExecuteSqlRawAsync(insertSql, prodottoId, ricetta.IdricettaMedica);
+                            }
+                        }
+
+                        await transaction.CommitAsync();
+                        TempData["Successo"] = "La visita è stata creata con successo.";
+                        return RedirectToAction("Visita");
+                    }
+                    catch (Exception ex)
+                    {
+                        await transaction.RollbackAsync();
+                        TempData["Errore"] = "Si è verificato un errore: " + ex.Message;
+                    }
+                }
             }
-            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", visite.IdAnimale);
-            ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica", visite.IdRicetta);
-            return View(visite);
+            else
+            {
+                ViewData["IdAnimale"] = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
+                ViewBag.ProdottoId = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+                ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "Descrizione");
+            }
+
+            return View(visita);
         }
 
         // GET: Visite/Edit/5
@@ -94,7 +141,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdVisita,DataVisita,Anamnesi,DescrizioneCura,IdAnimale,IdRicetta")] Visite visite)
+        public async Task<IActionResult> Edit(int id, [Bind("IdVisita,DataVisita,Anamnesi,DescrizioneCura,IdAnimale,IdRicetta,PrezzoVisita")] Visite visite)
         {
             if (id != visite.IdVisita)
             {
@@ -164,6 +211,17 @@ namespace ClinicaVeterinaria.Controllers
         private bool VisiteExists(int id)
         {
             return _context.Visites.Any(e => e.IdVisita == id);
+        }
+
+        public IActionResult CronistoriaVisite(int id)
+        {
+            var visiteAnimale = _context.Visites
+
+                .Where(v => v.IdAnimale == id)
+                .OrderByDescending(v => v.DataVisita)
+                .ToList();
+
+            return View(visiteAnimale);
         }
     }
 }

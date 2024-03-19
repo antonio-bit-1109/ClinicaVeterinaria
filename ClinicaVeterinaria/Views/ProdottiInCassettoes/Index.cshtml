@@ -1,0 +1,83 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Models.ProdottiInCassetto>
+
+
+@{
+    // Recupera i dati dalla ViewBag
+    var prodottiInArmadietto = ViewBag.ProdottiInArmadietto as List<string>;
+}
+<h1>Archivio</h1>
+<form asp-controller="ProdottiInCAssettoes" asp-action="Index" method="get">
+    <div class="form-group">
+        <input type="text" name="prodotto" class="form-control" placeholder="Cerca per Nome Prodotto">
+        <button type="submit" class="btn btn-primary">Cerca</button>
+    </div>
+</form>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@if (prodottiInArmadietto != null && prodottiInArmadietto.Any())
+{
+    <div>
+
+
+      
+    @*     <h4>Prodotti in Armadietto</h4>
+        <ul>
+            @foreach (var armadietto in prodottiInArmadietto)
+            {
+                <li>@armadietto</li>
+            }
+        </ul> *@
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantita)
+            </th>
+            <th>
+               Cassetto
+            </th>
+            <th>
+               Nome del Prodotto
+            </th>
+            <th>
+               Armadietto
+            </th>
+            <th>
+               Prezzo
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantita)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCassettoNavigation.Descrizione)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdProdottoNavigation.Nomeprodotto)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdCassettoNavigation.IdArmadietto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProdottoNavigation.Prezzo)
+                </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdProdottoInCassetto">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdProdottoInCassetto">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdProdottoInCassetto">Delete</a>
+            </td>
+        </tr>
+
+
+}
+    </tbody>
+</table>
