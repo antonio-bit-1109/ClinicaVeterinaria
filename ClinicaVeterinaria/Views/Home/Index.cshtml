@@ -8,6 +8,16 @@
 <div class="container">
     <div class="row">
         <div class="col-4">
+            @{
+                if (TempData["MiStoRegistrando"] != null && (bool)TempData["MiStoRegistrando"] == true)
+                {
+                    <h1 class="mb-4">Registrazione</h1>
+                }
+                else
+                {
+                    <h1 class="mb-4">Login</h1>
+                }
+            }
 
             <form asp-action="@actionChiamata" asp-controller="Login">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>

@@ -17,17 +17,24 @@ namespace ClinicaVeterinaria.Controllers
 		// GET: Animali
 		public async Task<IActionResult> Index()
 		{
-			string navClass = "vet";
-			ViewBag.NavClass = navClass;
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
 
-			var socityPetContext = _context.Animalis.Include(a => a.IdUtenteNavigation);
+            var socityPetContext = _context.Animalis.Include(a => a.IdUtenteNavigation);
 			return View(await socityPetContext.ToListAsync());
 		}
 
 		// GET: Animali/Details/5
 		public async Task<IActionResult> Details(int? id)
 		{
-			if (id == null)
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
+            if (id == null)
 			{
 				return NotFound();
 			}
@@ -47,8 +54,12 @@ namespace ClinicaVeterinaria.Controllers
 		[HttpGet]
 		public IActionResult Create()
 		{
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
 
-			ViewData["IdUtente"] = new SelectList(_context.Utentis.Where(u => u.IdRuolo != 4).Select(u => new { u.IdUtente, NomeCompleto = u.Nome + " " + u.Cognome }), "IdUtente", "NomeCompleto");
+            ViewData["IdUtente"] = new SelectList(_context.Utentis.Where(u => u.IdRuolo != 4).Select(u => new { u.IdUtente, NomeCompleto = u.Nome + " " + u.Cognome }), "IdUtente", "NomeCompleto");
 			return View();
 		}
 
@@ -90,7 +101,12 @@ namespace ClinicaVeterinaria.Controllers
 		// GET: Animali/Edit/5
 		public async Task<IActionResult> Edit(int? id)
 		{
-			if (id == null)
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
+            if (id == null)
 			{
 				return NotFound();
 			}
@@ -168,7 +184,12 @@ namespace ClinicaVeterinaria.Controllers
 		// GET: Animali/Delete/5
 		public async Task<IActionResult> Delete(int? id)
 		{
-			if (id == null)
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
+            if (id == null)
 			{
 				return NotFound();
 			}

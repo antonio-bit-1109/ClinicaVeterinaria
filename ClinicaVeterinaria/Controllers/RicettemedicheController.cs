@@ -17,6 +17,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricettemediche
         public async Task<IActionResult> Index()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             var socityPetContext = _context.Ricettemediches.Include(r => r.IdUtenteNavigation).Include(r => r.IdVisitaNavigation);
             return View(await socityPetContext.ToListAsync());
         }
@@ -24,6 +29,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricettemediche/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -44,6 +54,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricettemediche/Create
         public IActionResult Create()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome");
             ViewData["IdVisita"] = new SelectList(_context.Visites, "IdVisita", "IdVisita");
             return View();
@@ -70,6 +85,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricettemediche/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -125,6 +145,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricettemediche/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();

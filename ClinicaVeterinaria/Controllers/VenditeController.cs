@@ -21,6 +21,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Vendite
         public async Task<IActionResult> Index()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             var socityPetContext = _context.Vendites.Include(v => v.IdProdottoNavigation).Include(v => v.IdUtenteNavigation).Include(v => v.IdricettaMedicaNavigation);
             return View(await socityPetContext.ToListAsync());
         }
@@ -28,6 +33,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Vendite/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -49,6 +59,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Vendite/Create
         public IActionResult Create()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             ViewData["IdProdotto"] = new SelectList(_context.Prodottis, "IdProdotto", "IdProdotto");
             ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente");
             ViewData["IdricettaMedica"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica");
@@ -77,6 +92,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Vendite/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -134,6 +154,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Vendite/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();

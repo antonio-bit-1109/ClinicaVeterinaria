@@ -18,6 +18,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Visite
         public async Task<IActionResult> Index()
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             var socityPetContext = _context.Visites.Include(v => v.IdAnimaleNavigation).Include(v => v.IdRicettaNavigation);
             return View(await socityPetContext.ToListAsync());
         }
@@ -25,6 +30,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Visite/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -45,6 +55,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Visite/Create
         public IActionResult Create()
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale");
             //ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica");
             ViewBag.ProdottoId = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
@@ -121,6 +136,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Visite/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -176,6 +196,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Visite/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -215,6 +240,11 @@ namespace ClinicaVeterinaria.Controllers
 
         public IActionResult CronistoriaVisite(int id)
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             var visiteAnimale = _context.Visites
 
                 .Where(v => v.IdAnimale == id)
