@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Models.ProdottiInCassetto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantita)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCassettoNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdProdottoNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantita)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCassettoNavigation.IdCassetto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdProdottoNavigation.IdProdotto)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdProdottoInCassetto">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdProdottoInCassetto">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdProdottoInCassetto">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
