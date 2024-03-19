@@ -1,4 +1,7 @@
-﻿namespace ClinicaVeterinaria.Models;
+﻿using System;
+using System.Collections.Generic;
+
+namespace ClinicaVeterinaria.Models;
 
 public partial class Prodotti
 {
