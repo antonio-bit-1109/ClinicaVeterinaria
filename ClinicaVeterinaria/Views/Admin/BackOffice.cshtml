@@ -46,14 +46,21 @@
                                 {
                                     <form asp-action="ChangeUserRole" method="post">
                                         <input type="hidden" name="idUtente" value="@utente.IdUtente" />
-                                        <select name="nuovoIdRuolo" onchange="this.form.submit()">
-                                               @*  <option value="default">Select Role </option> *@
-                                            @foreach (var ruolo in Model.Ruoli)
+                                    <select name="nuovoIdRuolo" onchange="this.form.submit()">
+                                        <option value="">Select Role</option>
+                                        @foreach (var ruolo in Model.Ruoli)
+                                        {
+                                            if (utente.IdRuolo == ruolo.IdRuolo)
                                             {
-                                                var isSelected = utente.IdRuolo == ruolo.IdRuolo ? "selected" : "";
-                                                <option value="@ruolo.IdRuolo" selected="@isSelected">@ruolo.NomeRuolo</option>
+                                                <option value="@ruolo.IdRuolo" selected>@ruolo.NomeRuolo</option>
                                             }
-                                        </select>
+                                            else
+                                            {
+                                                <option value="@ruolo.IdRuolo">@ruolo.NomeRuolo</option>
+                                            }
+                                        }
+                                    </select>
+
                                     </form>
                                 }
                                 else
@@ -311,26 +318,38 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        document.getElementById('tableSelect').addEventListener('change', function () {
-            // Nascondere tutte le tabelle
-            document.querySelectorAll('#tablesContainer > table').forEach(table => {
+        document.addEventListener("DOMContentLoaded", function () {
+            // Nascondi tutte le tabelle per impostazione predefinita
+            document.querySelectorAll('#tablesContainer > table').forEach(function (table) {
                 table.style.display = 'none';
             });
 
-            // Mostrare la tabella selezionata
-            const selectedTable = this.value;
-            const tableTitle = document.getElementById('tableTitle');
-            if (selectedTable && tableTitle) {
-                tableTitle.textContent = selectedTable.replace(/([A-Z])/g, ' $1').trim();
+            // Mostra solo la tabella degli utenti per impostazione predefinita
+            var tableUtenti = document.getElementById('Utenti');
+            if (tableUtenti) {
+                tableUtenti.style.display = 'table';
             }
-            document.getElementById(selectedTable).style.display = 'table';
-        });
 
-        // Impostare il titolo e mostrare la tabella "Utenti" all'inizio
-        window.onload = function () {
-            document.getElementById('tableTitle').textContent = 'Utenti';
-            document.getElementById('Utenti').style.display = 'table';
-        };
+            // Imposta il titolo per gli utenti
+            var tableTitle = document.getElementById('tableTitle');
+            if (tableTitle) {
+                tableTitle.textContent = 'Utenti';
+            }
+
+            // Cambia le tabelle in base alla selezione
+            document.getElementById('tableSelect').addEventListener('change', function () {
+                var selectedTable = this.value;
+                document.querySelectorAll('#tablesContainer > table').forEach(function (table) {
+                    table.style.display = 'none';
+                });
+                var tableToShow = document.getElementById(selectedTable);
+                if (tableToShow) {
+                    tableToShow.style.display = 'table';
+                }
+                if (tableTitle) {
+                    tableTitle.textContent = selectedTable.replace(/([A-Z])/g, ' $1').trim();
+                }
+            });
+        });
     </script>
 }
-

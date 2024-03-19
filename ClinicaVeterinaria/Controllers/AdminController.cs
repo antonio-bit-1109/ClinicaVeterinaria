@@ -1,11 +1,10 @@
 ﻿// In un nuovo controller, ad esempio AdminController.cs
 using ClinicaVeterinaria.Models;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
-[Authorize(Roles = "Admin")]
+
 public class AdminController : Controller
 {
     private readonly SocityPetContext _db;
@@ -64,7 +63,6 @@ public class AdminController : Controller
             return RedirectToAction(nameof(BackOffice));
         }
 
-        // Trova l'utente nel database
         // Trova l'utente nel database
         var utenteDaModificare = await _db.Utentis.FindAsync(idUtente);
         if (utenteDaModificare == null)
