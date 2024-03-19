@@ -17,6 +17,8 @@ namespace ClinicaVeterinaria.Controllers
 		// GET: Animali
 		public async Task<IActionResult> Index()
 		{
+			string navClass = "vet";
+			ViewBag.NavClass = navClass;
 
 			var socityPetContext = _context.Animalis.Include(a => a.IdUtenteNavigation);
 			return View(await socityPetContext.ToListAsync());

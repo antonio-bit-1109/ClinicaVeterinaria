@@ -21,6 +21,9 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Prodotti
         public async Task<IActionResult> Index()
         {
+            string navClass = "farm";
+            ViewBag.NavClass = navClass;
+
             var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation);
             return View(await socityPetContext.ToListAsync());
         }
