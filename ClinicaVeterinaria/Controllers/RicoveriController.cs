@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ClinicaVeterinaria.Models;
 
 namespace ClinicaVeterinaria.Controllers
 {
@@ -47,7 +43,7 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricoveri/Create
         public IActionResult Create()
         {
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale");
+            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "NomeAnimale");
             return View();
         }
 
@@ -56,10 +52,13 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdRicovero,Dataregistrazionericovero,Idanimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,IsRicoveroAttivo,PrezzoTotaleRicovero")] Ricoveri ricoveri)
+        public async Task<IActionResult> Create([Bind("Dataregistrazionericovero,Idanimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,PrezzoTotaleRicovero")] Ricoveri ricoveri)
         {
+            ModelState.Remove("IdanimaleNavigation");
+
             if (ModelState.IsValid)
             {
+                ricoveri.IsRicoveroAttivo = true;
                 _context.Add(ricoveri);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

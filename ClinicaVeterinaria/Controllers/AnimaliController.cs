@@ -201,5 +201,13 @@ namespace ClinicaVeterinaria.Controllers
         {
             return _context.Animalis.Any(e => e.Idanimale == id);
         }
+
+
+        public IActionResult getAnimalByMicrochip(string stringMicro)
+        {
+            var AnimaleByMicrochip = _context.Animalis.Where(t => t.NumMicrochip == stringMicro).FirstOrDefault();
+
+            return Json(AnimaleByMicrochip);
+        }
     }
 }
