@@ -45,7 +45,7 @@ namespace ClinicaVeterinaria.Controllers
 		[HttpGet]
 		public IActionResult Create()
 		{
-			ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente");
+			ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome");
 			return View();
 		}
 
@@ -59,8 +59,6 @@ namespace ClinicaVeterinaria.Controllers
 			ModelState.Remove("IdUtenteNavigation");
 			ModelState.Remove("Ricoveris");
 			ModelState.Remove("Visites");
-
-
 
 
 			if (ModelState.IsValid)
