@@ -1,0 +1,39 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Models.Ricettemediche>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Elenco Ricette Mediche</h1>
+
+<p>
+    <a asp-action="Create">Nuova Ricetta Medica</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Data Prescrizione</th>
+            <th>Descrizione</th>
+            <th>Utente</th>
+            <th>Visita</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ricetta in Model)
+        {
+            <tr>
+                <td>@ricetta.DataPrescrizione</td>
+                <td>@ricetta.Descrizione</td>
+                <td>@ricetta.IdUtenteNavigation.Nome</td>
+                <td>@ricetta.IdVisitaNavigation.DataVisita</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@ricetta.IdricettaMedica">Dettagli</a> |
+                    <a asp-action="Edit" asp-route-id="@ricetta.IdricettaMedica">Modifica</a> |
+                    <a asp-action="Delete" asp-route-id="@ricetta.IdricettaMedica">Elimina</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
