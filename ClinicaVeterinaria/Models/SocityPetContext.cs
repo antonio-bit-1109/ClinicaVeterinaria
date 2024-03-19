@@ -41,7 +41,7 @@ public partial class SocityPetContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=FRELSERPC\\SQLEXPRESS;Database=SocityPet;TrustServerCertificate=true;Trusted_Connection=True;");
+        => optionsBuilder.UseSqlServer("Server=KRAKEN\\SQLEXPRESS;Database=SocityPet;TrustServerCertificate=true;Trusted_Connection=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -109,7 +109,7 @@ public partial class SocityPetContext : DbContext
 
             entity.Property(e => e.Nomeprodotto).HasMaxLength(50);
             entity.Property(e => e.PossibiliUsi).HasMaxLength(500);
-            entity.Property(e => e.PrezzoProdotto).HasColumnType("decimal(18, 2)");
+            entity.Property(e => e.Prezzo).HasColumnType("decimal(18, 2)");
 
             entity.HasOne(d => d.IdDittaFornitriceNavigation).WithMany(p => p.Prodottis)
                 .HasForeignKey(d => d.IdDittaFornitrice)
