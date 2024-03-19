@@ -31,21 +31,60 @@
                 <label asp-for="IdAnimale" class="control-label"></label>
                 <select asp-for="IdAnimale" class ="form-control" asp-items="ViewBag.IdAnimale"></select>
             </div>
-            <div class="form-group">
+@*             <div class="form-group">
                 <label asp-for="IdRicetta" class="control-label"></label>
                 <select asp-for="IdRicetta" class ="form-control" asp-items="ViewBag.IdRicetta"></select>
-            </div>
+            </div> *@
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="aggiungiRicetta" name="aggiungiRicetta" value="true" /> Aggiungi Ricetta Medica
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sezione Ricetta Medica -->
+            <div id="ricettaMedica" style="display: none;">
+                <h3>Ricetta Medica:</h3>
+
+                <!-- Descrizione Ricetta -->
+                <div class="form-group">
+                    <label for="descrizioneRicetta">Descrizione Ricetta</label>
+                    <textarea id="descrizioneRicetta" name="descrizioneRicetta" class="form-control"></textarea>
+                </div>
+
+                <!-- Seleziona Prodotti -->
+                <div class="form-group">
+                    <label for="prodottiId">Seleziona Prodotti:</label>
+                    <select id="prodottiId" name="prodottiId[]" class="form-control" multiple asp-items="ViewBag.ProdottoId"></select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PrezzoVisita" class="control-label"></label>
+                <input asp-for="PrezzoVisita" class="form-control" type="number" step="0.01"/>
+                <span asp-validation-for="PrezzoVisita" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Crea" class="btn btn-primary" />
             </div>
         </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+        @section Scripts {
+            @{
+                await Html.RenderPartialAsync("_ValidationScriptsPartial");
+            }
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+            <script>
+                $(document).ready(function () {
+                    $('#aggiungiRicetta').change(function () {
+                        if ($(this).is(':checked')) {
+                            $('#ricettaMedica').show();
+                        } else {
+                            $('#ricettaMedica').hide();
+                        }
+                    });
+                });
+            </script>
+        }

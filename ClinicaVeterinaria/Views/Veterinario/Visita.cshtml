@@ -39,10 +39,7 @@
     <!-- Selezione Animale -->
     <div class="form-group">
         <label asp-for="IdAnimale" class="control-label"></label>
-        @if (ViewBag.IdAnimale != null)
-        {
-            <select asp-for="IdAnimale" class="form-control" asp-items="ViewBag.IdAnimale"></select>
-        }
+        <select asp-for="IdAnimale" class="form-control" asp-items="@ViewBag.IdAnimale"></select>
     </div>
 
 

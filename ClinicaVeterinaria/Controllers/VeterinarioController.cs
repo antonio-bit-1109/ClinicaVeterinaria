@@ -41,13 +41,34 @@ public class VeterinarioController : Controller
     // GET: Veterinario/Create
     public IActionResult Visita()
     {
+        try
+        {
+            //System.Diagnostics.Debug.WriteLine("Prima di inizializzare ViewData['IdAnimale']");
 
-        ViewData["IdAnimale"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale");
-        // Assicurati che la query restituisca i prodotti che ti aspetti
-        ViewBag.ProdottoId = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
-        ViewBag.Ricetta = new Ricettemediche();
+            ViewData["IdAnimale"] = new SelectList(_db.Animalis, "IdAnimale", "NomeAnimale");
 
-        return View();
+            //System.Diagnostics.Debug.WriteLine("ViewData['IdAnimale'] inizializzato");
+
+            //System.Diagnostics.Debug.WriteLine("Prima di inizializzare ViewBag.ProdottoId");
+
+            ViewBag.ProdottoId = new SelectList(_db.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+
+            //System.Diagnostics.Debug.WriteLine("ViewBag.ProdottoId inizializzato");
+
+            //System.Diagnostics.Debug.WriteLine("Prima di inizializzare ViewBag.Ricetta");
+
+            ViewBag.Ricetta = new Ricettemediche();
+
+            //System.Diagnostics.Debug.WriteLine("ViewBag.Ricetta inizializzato");
+
+            return View();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine("Errore catturato: " + ex.ToString());
+            ViewData["ErrorMessage"] = "Si è verificato un errore: " + ex.Message;
+            return View("Error");
+        }
     }
 
     [HttpPost]
