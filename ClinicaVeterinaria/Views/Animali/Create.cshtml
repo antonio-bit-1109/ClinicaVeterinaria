@@ -39,10 +39,10 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="HasMicrochip" /> @Html.DisplayNameFor(model => model.HasMicrochip)
+                    <input id="inputHasMicrochip" class="form-check-input" asp-for="HasMicrochip" /> @Html.DisplayNameFor(model => model.HasMicrochip)
                 </label>
             </div>
-            <div class="form-group">
+            <div id="divNumMicrochip" class="form-group">
                 <label asp-for="NumMicrochip" class="control-label"></label>
                 <input asp-for="NumMicrochip" class="form-control" />
                 <span asp-validation-for="NumMicrochip" class="text-danger"></span>
@@ -54,10 +54,10 @@
             </div>
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="HasProprietario" /> @Html.DisplayNameFor(model => model.HasProprietario)
+                    <input id="inputHasProprietario" class="form-check-input" asp-for="HasProprietario" /> @Html.DisplayNameFor(model => model.HasProprietario)
                 </label>
             </div>
-            <div class="form-group">
+            <div id="divIdUtente" class="form-group">
                 <label asp-for="IdUtente" class="control-label"></label>
                 <select asp-for="IdUtente" class ="form-control" asp-items="ViewBag.IdUtente"></select>
             </div>
@@ -72,3 +72,8 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+@section Scripts {
+    <script src="../js/createAnimale_show_hide.js">
+       
+    </script>
+}
