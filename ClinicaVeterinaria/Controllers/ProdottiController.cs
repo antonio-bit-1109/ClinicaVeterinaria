@@ -24,7 +24,7 @@ namespace ClinicaVeterinaria.Controllers
         public async Task<IActionResult> Index()
         {
             var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation);
-
+            System.Diagnostics.Debug.WriteLine(socityPetContext);
             return View(await socityPetContext.ToListAsync());
         }
 
@@ -72,11 +72,11 @@ namespace ClinicaVeterinaria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nomeprodotto,IdDittaFornitrice,IsMedicinale,PossibiliUsi , ")] Prodotti prodotti)
+        public async Task<IActionResult> Create([Bind("Nomeprodotto,Prezzo,IdDittaFornitrice,IsMedicinale,PossibiliUsi , ")] Prodotti prodotti)
         {
-            ModelState.Remove("IdProdotto");
+            //ModelState.Remove("IdProdotto");
            
-            ModelState.Remove("IdDittaFornitriceNavigation");
+           // ModelState.Remove("IdDittaFornitriceNavigation");
 
             if (ModelState.IsValid)
             {

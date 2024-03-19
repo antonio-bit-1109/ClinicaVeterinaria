@@ -24,21 +24,43 @@ namespace ClinicaVeterinaria.Controllers
 
 
         // GET: ProdottiInCassettoes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string prodotto)
         {
-            var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation);
+            System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
+            if (prodotto != null)
+            {
+                var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation).Where(p => p.IdProdottoNavigation.Nomeprodotto == prodotto);
+                return View(socityPetContext);    
+                
+            }
+            else
+            {
+                var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation);
+                return View(await socityPetContext.ToListAsync());
+            }
 
-            var query = from Cassetti in _context.Cassettis
-                        join Armadietti in _context.Armadiettis on Cassetti.IdArmadietto equals Armadietti.IdArmadietto
-                        select new { Armadietto = Armadietti.Descrizione }; // Aggiunto Armadietto.Descrizione
-
-            var result = query.Select(x => x.Armadietto).ToList();
-            ViewBag.ProdottiInArmadietto = result;
 
 
+            //var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation);
+
+            //var query = from Cassetti in _context.Cassettis
+            //            join Armadietti in _context.Armadiettis on Cassetti.IdArmadietto equals Armadietti.IdArmadietto
+            //            select new { Armadietto = Armadietti.Descrizione }; // Aggiunto Armadietto.Descrizione
+
+            //var result = query.Select(x => x.Armadietto).ToList();
+            //ViewBag.ProdottiInArmadietto = result;
 
 
-            return View(await socityPetContext.ToListAsync());
+            //IQueryable<ProdottiInCassetto> socityPetContext = _context.ProdottiInCassetto.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation);
+
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    socityPetContext = socityPetContext.Where(p => p.IdProdottoNavigation.NomeProdotto.Contains(searchString));
+            //}
+
+            //return View(await socityPetContext.ToListAsync());
+
+            //return View(await socityPetContext.ToListAsync());
         }
 
 
