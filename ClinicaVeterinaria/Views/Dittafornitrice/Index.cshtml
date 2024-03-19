@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Models.Dittafornitrice>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Ditte Fornitrici</h1>
+
+<p>
+    <a asp-action="Create">Aggiungi Ditta</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NomeDitta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RecapitoDitta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Indirizzo)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeDitta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RecapitoDitta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Indirizzo)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdDittaFornitrice">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdDittaFornitrice">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdDittaFornitrice">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
