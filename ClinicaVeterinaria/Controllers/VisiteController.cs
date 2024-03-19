@@ -165,5 +165,16 @@ namespace ClinicaVeterinaria.Controllers
         {
             return _context.Visites.Any(e => e.IdVisita == id);
         }
+
+        public IActionResult CronistoriaVisite(int id)
+        {
+            var visiteAnimale = _context.Visites
+
+                .Where(v => v.IdAnimale == id)
+                .OrderByDescending(v => v.DataVisita)
+                .ToList();
+
+            return View(visiteAnimale);
+        }
     }
 }
