@@ -72,12 +72,11 @@ namespace ClinicaVeterinaria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nomeprodotto,IdDittaFornitrice,IsMedicinale,PossibiliUsi")] Prodotti prodotti)
+        public async Task<IActionResult> Create([Bind("Nomeprodotto,IdDittaFornitrice,IsMedicinale,PossibiliUsi , ")] Prodotti prodotti)
         {
             ModelState.Remove("IdProdotto");
            
             ModelState.Remove("IdDittaFornitriceNavigation");
-
 
             if (ModelState.IsValid)
             {

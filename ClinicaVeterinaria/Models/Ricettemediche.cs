@@ -22,4 +22,6 @@ public partial class Ricettemediche
     public virtual ICollection<Vendite> Vendites { get; set; } = new List<Vendite>();
 
     public virtual ICollection<Visite> Visites { get; set; } = new List<Visite>();
+
+    public virtual ICollection<Prodotti> IdProdottos { get; set; } = new List<Prodotti>();
 }

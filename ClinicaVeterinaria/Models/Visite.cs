@@ -17,6 +17,8 @@ public partial class Visite
 
     public int? IdRicetta { get; set; }
 
+    public decimal? PrezzoVisita { get; set; }
+
     public virtual Animali? IdAnimaleNavigation { get; set; }
 
     public virtual Ricettemediche? IdRicettaNavigation { get; set; }
