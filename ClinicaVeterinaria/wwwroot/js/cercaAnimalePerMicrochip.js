@@ -1,12 +1,14 @@
 ﻿const button_findAnimalbyMicroChip = document.getElementById("findAnimalbyMicroChip");
 const valoreMicrochip = document.getElementById("inputInserisciNumMicro");
 let Animalecercato = {};
+let animaleRicoverato = "";
+
 
 const FetchanimaleRicoverato = (id) => {
     fetch(`/animali/IsAnimaleRicoverato/?idAnimale=${id}`)
         .then(response => response.json())
         .then(data => {
-            console.log(data);
+            animaleRicoverato = data;
         })
 }
 
@@ -42,6 +44,7 @@ const myFetch = (valore) => {
                    <p class="card-text">${Animalecercato.numMicrochip}</p>
                    <p class="card-text">${Animalecercato.tipologia}</p>
                     <button id="ricoveroButton" class="btn btn-primary"> Il tuo animale è ricoverato da noi ? </button>
+                    <p id="esitoRicercaRicovero"></p>
                   </div>
                 </div>
 				`
@@ -49,6 +52,8 @@ const myFetch = (valore) => {
             let ricoveroButton = document.getElementById("ricoveroButton");
             ricoveroButton.addEventListener("click", () => {
                 FetchanimaleRicoverato(Animalecercato.idanimale)
+                const esitoRicercaRicovero = document.getElementById("esitoRicercaRicovero");
+                esitoRicercaRicovero.innerHTML = "Il tuo animale è ricoverato da noi ? " + animaleRicoverato;
             })
         })
 
