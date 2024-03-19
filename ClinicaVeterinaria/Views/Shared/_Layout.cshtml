@@ -40,7 +40,7 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-controller="Login" asp-action="LogOut"> Log-Out</a>
                                 </li>
-                                
+
 
                                 <li class="nav-item d-flex align-items-center">
                                     <span class="@(!User.IsInRole("admin") ? "text-info fw-bold" : "text-danger fw-bold")">
@@ -58,23 +58,23 @@
                                     <a class="nav-link text-dark" asp-controller="Prodotti" asp-action="Lisy"> Lista Prodotti</a>
                                 </li>
 
-
-
                                 if (User.IsInRole("Admin"))
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-controller="Admin" asp-action="BackOffice"> Back Office </a>
                                     </li>
-                                   
+
                                 }
-                             
+
 
                                 if (User.IsInRole("Veterinario"))
                                 {
                                     <li class="nav-item">
                                         <a class="nav-link text-dark" asp-area="" asp-controller="Veterinario" asp-action="Visita">Visita</a>
                                     </li>
-
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="" asp-controller="Ricoveri" asp-action="Index">Ricovero</a>
+                                    </li>
                                 }
 
                             }

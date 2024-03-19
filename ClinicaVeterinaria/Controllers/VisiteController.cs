@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ClinicaVeterinaria.Models;
 
 namespace ClinicaVeterinaria.Controllers
 {
@@ -58,7 +54,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdVisita,DataVisita,Anamnesi,DescrizioneCura,IdAnimale,IdRicetta")] Visite visite)
+        public async Task<IActionResult> Create([Bind("DataVisita,Anamnesi,DescrizioneCura,IdAnimale,IdRicetta")] Visite visite)
         {
             if (ModelState.IsValid)
             {
@@ -164,6 +160,17 @@ namespace ClinicaVeterinaria.Controllers
         private bool VisiteExists(int id)
         {
             return _context.Visites.Any(e => e.IdVisita == id);
+        }
+
+        public IActionResult CronistoriaVisite(int id)
+        {
+            var visiteAnimale = _context.Visites
+
+                .Where(v => v.IdAnimale == id)
+                .OrderByDescending(v => v.DataVisita)
+                .ToList();
+
+            return View(visiteAnimale);
         }
     }
 }
