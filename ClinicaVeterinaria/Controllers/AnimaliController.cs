@@ -98,8 +98,9 @@ namespace ClinicaVeterinaria.Controllers
             {
                 return NotFound();
             }
-            //ViewData["FotoAnimale"] = animali.FotoAnimale;
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome", animali.IdUtente);
+
+            ViewData["IdUtente"] = new SelectList(_context.Utentis.Where(u => u.IdRuolo != 4).Select(u => new { u.IdUtente, NomeCompleto = u.Nome + " " + u.Cognome }), "IdUtente", "NomeCompleto");
+            //ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "Nome", animali.IdUtente);
             return View(animali);
         }
 
@@ -108,23 +109,46 @@ namespace ClinicaVeterinaria.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Idanimale,Dataregistrazione,NomeAnimale,Tipologia," +
-            "ColoreMantello,Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animali, IFormFile FotoAnimale)
+            "ColoreMantello,Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animale, IFormFile? FotoAnimale)
         {
-            if (id != animali.Idanimale)
+            if (id != animale.Idanimale)
             {
                 return NotFound();
             }
+
+            ModelState.Remove("IdUtenteNavigation");
+            ModelState.Remove("Ricoveris");
+            ModelState.Remove("Visites");
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(animali);
+                    if (FotoAnimale != null && FotoAnimale.Length > 0)
+                    {
+                        var fileName = Path.GetFileName(FotoAnimale.FileName);
+                        var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/animali", fileName);
+
+                        using (var fileStream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await FotoAnimale.CopyToAsync(fileStream);
+                        }
+
+                        animale.FotoAnimale = fileName;
+                    }
+                    else
+                    {
+                        // Se FotoAnimale è null, manteniamo l'immagine esistente.
+                        var animaliEsistente = await _context.Animalis.AsNoTracking().FirstOrDefaultAsync(a => a.Idanimale == id);
+                        animale.FotoAnimale = animaliEsistente?.FotoAnimale;
+                    }
+
+                    _context.Update(animale);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AnimaliExists(animali.Idanimale))
+                    if (!AnimaliExists(animale.Idanimale))
                     {
                         return NotFound();
                     }
@@ -135,8 +159,8 @@ namespace ClinicaVeterinaria.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente", animali.IdUtente);
-            return View(animali);
+            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente", animale.IdUtente);
+            return View(animale);
         }
 
         // GET: Animali/Delete/5
