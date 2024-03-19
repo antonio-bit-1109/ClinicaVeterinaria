@@ -59,8 +59,7 @@ namespace ClinicaVeterinaria.Controllers
         public async Task<IActionResult> Create([Bind("Nomeprodotto,IdDittaFornitrice,IsMedicinale,PossibiliUsi")] Prodotti prodotti)
         {
             ModelState.Remove("IdProdotto");
-            ModelState.Remove("ProdottiInCassetto");
-            ModelState.Remove("Armadietto");
+           
             ModelState.Remove("IdDittaFornitriceNavigation");
             if (ModelState.IsValid)
             {
