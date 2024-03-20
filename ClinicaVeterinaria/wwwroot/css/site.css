@@ -74,10 +74,10 @@ body { /* classe per un'immagine di sfondo */
     border: 2px solid #74C1FE
 }
 
-    .btn-info:hover, .btn-outline-info:hover {
-        background-color: #92cefc;
-        color: black;
-    }
+.btn-info:hover, .btn-outline-info:hover {
+    background-color: #92cefc;
+    color: black;
+}
 
 .btn-success {
     background-color: #237536;
@@ -96,16 +96,19 @@ body { /* classe per un'immagine di sfondo */
     background-color: #fa2619;
     color: white;
 }
-
-    .btn-danger:hover, .btn-outline-danger:hover {
-        background-color: #FF6F66;
-    }
+.btn-danger:hover, .btn-outline-danger:hover {
+    background-color: #FF6F66;
+}
 
 .btn-login {
     background-color: #237536;
     color: white;
 }
 
-    .btn-login:hover {
-        background-color: #74C1FE;
-    }
+.btn-login:hover {
+    background-color: #74C1FE;
+}
+
+nav .nav-link{
+    
+}
