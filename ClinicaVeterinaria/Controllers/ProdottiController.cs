@@ -23,9 +23,12 @@ namespace ClinicaVeterinaria.Controllers
 
         public async Task<IActionResult> Index(string prodotto)
         {
+			string navfoot = "farm";
+			ViewBag.NavFoot = navfoot;
+			string text = "wh";
+			ViewBag.Text = text;
 
-
-            System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
+			System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
             if (prodotto != null)
             {
                 var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation).Where(p => p.Nomeprodotto == prodotto);
