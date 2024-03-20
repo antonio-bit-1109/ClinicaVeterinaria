@@ -16,6 +16,17 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // GET: Visite
+        //public async Task<IActionResult> Index()
+        //{
+        //    string navfoot = "vet";
+        //    ViewBag.NavFoot = navfoot;
+        //    string text = "bl";
+        //    ViewBag.Text = text;
+
+        //    var socityPetContext = _context.Visites.Include(v => v.IdAnimaleNavigation).Include(v => v.IdRicettaNavigation);
+        //    return View(await socityPetContext.ToListAsync());
+        //}
+
         public async Task<IActionResult> Index()
         {
             string navfoot = "vet";
@@ -23,8 +34,8 @@ namespace ClinicaVeterinaria.Controllers
             string text = "bl";
             ViewBag.Text = text;
 
-            var socityPetContext = _context.Visites.Include(v => v.IdAnimaleNavigation).Include(v => v.IdRicettaNavigation);
-            return View(await socityPetContext.ToListAsync());
+            var visite = await _context.Visites.Include(v => v.IdAnimaleNavigation).ToListAsync();
+            return View(visite);
         }
 
         // GET: Visite/Details/5
