@@ -1,0 +1,35 @@
+﻿@model IEnumerable<ClinicaVeterinaria.Models.Armadietti>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card bg-secondary ">
+                <div class="card-body">
+                    <img src="/images/extra/Screenshot 2024-03-20 170552.png" class="card-img-top" alt="...">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Descrizione)</h5>
+                    <p class="card-text">
+                        <!-- Aggiungi altre informazioni qui se necessario -->
+                    </p>
+                    <a href="@Url.Action("Edit", new { id = item.IdArmadietto })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Details", new { id = item.IdArmadietto })" class="btn btn-secondary">Details</a>
+                    <a href="@Url.Action("Delete", new { id = item.IdArmadietto })" class="btn btn-danger">Delete</a>
+                    @Html.ActionLink("Cassetto", "Index", "Cassettis", new { id = item.IdArmadietto }, null)
+
+
+                </div>
+            </div>
+        </div>
+    }
+   
+</div>
