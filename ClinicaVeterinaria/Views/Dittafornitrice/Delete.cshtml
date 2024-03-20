@@ -13,26 +13,26 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NomeDitta)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-10 mb-3">
             @Html.DisplayFor(model => model.NomeDitta)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.RecapitoDitta)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-10 mb-3">
             @Html.DisplayFor(model => model.RecapitoDitta)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Indirizzo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-10 mb-3">
             @Html.DisplayFor(model => model.Indirizzo)
         </dd>
     </dl>
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdDittaFornitrice" />
-        <input type="submit" value="Elimina" class="btn btn-danger" /> |
-        <a asp-action="Index">Lista ditte</a>
+        <input type="submit" value="Elimina" class="btn btn-danger" />
+        <a class="btn btn-outline-success me-2" asp-action="Index">Lista ditte</a>
     </form>
 </div>

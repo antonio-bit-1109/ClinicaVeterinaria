@@ -4,47 +4,43 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Aggiungi Prodotto</h1>
 
-<h4>Prodotti</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Nomeprodotto" class="control-label"></label>
                 <input asp-for="Nomeprodotto" class="form-control" />
                 <span asp-validation-for="Nomeprodotto" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Prezzo" class="control-label"></label>
                 <input asp-for="Prezzo" class="form-control" />
                 <span asp-validation-for="Prezzo" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="IdDittaFornitrice" class="control-label"></label>
                 <select asp-for="IdDittaFornitrice" class ="form-control" asp-items="ViewBag.IdDittaFornitrice"></select>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check mb-3">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsMedicinale" /> @Html.DisplayNameFor(model => model.IsMedicinale)
                 </label>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="PossibiliUsi" class="control-label"></label>
                 <input asp-for="PossibiliUsi" class="form-control" />
                 <span asp-validation-for="PossibiliUsi" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input class="btn btn-success me-2" type="submit" value="Aggiungi" />
+                <a class="btn btn-outline-success me-2" asp-action="Index">Lista Prodotti</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

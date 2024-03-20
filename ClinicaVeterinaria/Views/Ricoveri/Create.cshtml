@@ -11,46 +11,43 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Dataregistrazionericovero" class="control-label"></label>
                 <input asp-for="Dataregistrazionericovero" class="form-control" />
                 <span asp-validation-for="Dataregistrazionericovero" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Idanimale" class="control-label"></label>
                 <select asp-for="Idanimale" class ="form-control" asp-items="ViewBag.Idanimale"></select>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="DataInizioRicovero" class="control-label"></label>
                 <input asp-for="DataInizioRicovero" class="form-control" />
                 <span asp-validation-for="DataInizioRicovero" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="DataFinericovero" class="control-label"></label>
                 <input asp-for="DataFinericovero" class="form-control" />
                 <span asp-validation-for="DataFinericovero" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="PrezzoGiornalieroRicovero" class="control-label"></label>
                 <input asp-for="PrezzoGiornalieroRicovero" class="form-control" />
                 <span asp-validation-for="PrezzoGiornalieroRicovero" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="IsRicoveroAttivo" class="control-label"></label>
                 <input type="checkbox" asp-for="IsRicoveroAttivo" />
                 <span asp-validation-for="IsRicoveroAttivo" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Aggiungi" class="btn btn-primary" />
+                <input class="btn btn-info me-2" type="submit" value="Aggiungi"/>
+                <a class="btn btn-outline-info me-2" asp-action="Index">Lista Ricoveri</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Lista ricoveri</a>
 </div>
 
 @section Scripts {

@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Dettagli</h1>
+<h1>Dettagli Ricovero</h1>
 
 <div>
     <hr />
@@ -12,48 +12,48 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Dataregistrazionericovero)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.Dataregistrazionericovero)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataInizioRicovero)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.DataInizioRicovero)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataFinericovero)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.DataFinericovero)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PrezzoGiornalieroRicovero)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.PrezzoGiornalieroRicovero)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsRicoveroAttivo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.IsRicoveroAttivo)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PrezzoTotaleRicovero)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.PrezzoTotaleRicovero)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IdanimaleNavigation)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.IdanimaleNavigation.Idanimale)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdRicovero">Modifica</a> |
-    <a asp-action="Index">Lista ricoveri</a>
+    <a class="btn btn-info me-2" asp-action="Edit" asp-route-id="@Model?.IdRicovero">Modifica</a> |
+    <a class="btn btn-outline-info" asp-action="Index">Lista Ricoveri</a>
 </div>

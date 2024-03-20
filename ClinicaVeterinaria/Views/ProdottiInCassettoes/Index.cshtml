@@ -5,23 +5,24 @@
     // Recupera i dati dalla ViewBag
     var prodottiInArmadietto = ViewBag.ProdottiInArmadietto as List<string>;
 }
-<h1>Archivio</h1>
+<p class="text-end mb-0">
+    <a class="btn btn-success" asp-action="Create">Aggiungi Prodotto nel cassetto</a>
+</p>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Archivio</h1>
+    <button class="btn btn-outline-success" type="submit">Cerca</button>
+</div>
+
 <form asp-controller="ProdottiInCAssettoes" asp-action="Index" method="get">
-    <div class="form-group">
-        <input type="text" name="prodotto" class="form-control" placeholder="Cerca per Nome Prodotto">
-        <button type="submit" class="btn btn-primary">Cerca</button>
+    <div class="form-group mb-3">
+        <input type="text" name="prodotto" class="form-control" placeholder="Cerca il Nome del Prodotto">
     </div>
 </form>
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 
 @if (prodottiInArmadietto != null && prodottiInArmadietto.Any())
 {
     <div>
-
-
-      
     @*     <h4>Prodotti in Armadietto</h4>
         <ul>
             @foreach (var armadietto in prodottiInArmadietto)
@@ -31,7 +32,7 @@
         </ul> *@
     </div>
 }
-<table class="table">
+<table class="table text-center table-hover border border-1">
     <thead>
         <tr>
            
@@ -76,9 +77,9 @@
             
               
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProdottoInCassetto">Edit</a> |
-                    <a asp-controller="Prodotti" asp-action="Details" asp-route-id="@item.IdProdotto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProdottoInCassetto">Delete</a>
+                <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@item.IdProdottoInCassetto">Modifca</a> |
+                <a class="btn btn-outline-success me-2" asp-controller="Prodotti" asp-action="Details" asp-route-id="@item.IdProdotto">Dettagli</a> |
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdProdottoInCassetto">Elimina</a>
             </td>
         </tr>
 

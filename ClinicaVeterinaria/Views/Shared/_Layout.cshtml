@@ -111,7 +111,7 @@
                             <!-- Link Benvenuto e Log-Out -->
                             <li class="nav-item dropdown ms-auto">
                                 <a class="nav-link dropdown-toggle @ViewBag.Text" href="#" id="navbarDropdownAccount" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="@(!User.IsInRole("Admin") ? "fw-bold @ViewBag.Text" : "fw-bold text-danger")">
+                                    <span class="@(!User.IsInRole("Admin") ? "fw-bold @ViewBag.Text" : "fw-bold text-white")">
                                         Benvenuto, @userName @(!User.IsInRole("Admin") ? "(utente)" : "(ADMIN)")
                                     </span>
                                 </a>

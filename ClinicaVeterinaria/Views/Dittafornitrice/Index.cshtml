@@ -39,8 +39,8 @@
                 @Html.DisplayFor(modelItem => item.Indirizzo)
             </td>
             <td>
-                <a class="btn btn-success" asp-action="Edit" asp-route-id="@item.IdDittaFornitrice">Modifica</a> |
-                <a class="btn btn-info" asp-action="Details" asp-route-id="@item.IdDittaFornitrice">Dettagli</a> |
+                <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@item.IdDittaFornitrice">Modifica</a>
+                <a class="btn btn-outline-success me-2" asp-action="Details" asp-route-id="@item.IdDittaFornitrice">Dettagli</a>
                 <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdDittaFornitrice">Elimina</a>
             </td>
         </tr>
