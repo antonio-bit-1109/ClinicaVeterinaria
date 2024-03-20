@@ -34,20 +34,21 @@
 <table class="table">
     <thead>
         <tr>
+           
             <th>
-                @Html.DisplayNameFor(model => model.Quantita)
+                Nome del Prodotto
+            </th>
+            <th>
+                Armadietto
             </th>
             <th>
                Cassetto
             </th>
             <th>
-               Nome del Prodotto
-            </th>
-            <th>
-               Armadietto
-            </th>
-            <th>
                Prezzo
+            </th>
+            <th>
+                Quantità
             </th>
             <th></th>
         </tr>
@@ -55,24 +56,28 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Quantita)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdCassettoNavigation.Descrizione)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdProdottoNavigation.Nomeprodotto)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProdottoNavigation.Nomeprodotto)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCassettoNavigation.IdArmadietto)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.IdCassettoNavigation.Descrizione)
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.IdProdottoNavigation.Prezzo)
                 </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantita)
+                </td>
+            
+            
+            
+              
             <td>
                 <a asp-action="Edit" asp-route-id="@item.IdProdottoInCassetto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProdottoInCassetto">Details</a> |
+                    <a asp-controller="Prodotti" asp-action="Details" asp-route-id="@item.IdProdotto">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.IdProdottoInCassetto">Delete</a>
             </td>
         </tr>

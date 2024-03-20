@@ -18,8 +18,7 @@ namespace ClinicaVeterinaria.Controllers
             _context = context;
         }
 
-
-
+     
 
 
 
@@ -30,12 +29,11 @@ namespace ClinicaVeterinaria.Controllers
             if (prodotto != null)
             {
                 var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation).Where(p => p.IdProdottoNavigation.Nomeprodotto == prodotto);
-                return View(socityPetContext);    
-                
+                return View(socityPetContext);                    
             }
             else
             {
-                var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation);
+                var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation).OrderBy(p => p.IdCassettoNavigation.Descrizione); 
                 return View(await socityPetContext.ToListAsync());
             }
 
@@ -75,7 +73,6 @@ namespace ClinicaVeterinaria.Controllers
             {
                 return NotFound();
             }
-
             var prodottiInCassetto = await _context.ProdottiInCassettos
                 .Include(p => p.IdCassettoNavigation)
                 .Include(p => p.IdProdottoNavigation)
