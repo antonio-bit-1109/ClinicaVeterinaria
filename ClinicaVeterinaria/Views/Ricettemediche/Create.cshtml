@@ -4,41 +4,37 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Aggiungi Ricetta</h1>
 
-<h4>Ricettemediche</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="IdVisita" class="control-label"></label>
                 <select asp-for="IdVisita" class ="form-control" asp-items="ViewBag.IdVisita"></select>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="IdUtente" class="control-label"></label>
                 <select asp-for="IdUtente" class ="form-control" asp-items="ViewBag.IdUtente"></select>
             </div>
-            <div class="form-group">
+            <div class="form-groupmb-3">
                 <label asp-for="DataPrescrizione" class="control-label"></label>
                 <input asp-for="DataPrescrizione" class="form-control" />
                 <span asp-validation-for="DataPrescrizione" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Descrizione" class="control-label"></label>
                 <input asp-for="Descrizione" class="form-control" />
                 <span asp-validation-for="Descrizione" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input class="btn btn-success me-2" type="submit" value="Aggiungi" />
+                <a class="btn btn-outline-success me-2" asp-action="Index">Lista ditte</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

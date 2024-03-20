@@ -12,30 +12,27 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdDittaFornitrice" />
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="NomeDitta" class="control-label"></label>
                 <input asp-for="NomeDitta" class="form-control" />
                 <span asp-validation-for="NomeDitta" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="RecapitoDitta" class="control-label"></label>
                 <input asp-for="RecapitoDitta" class="form-control" />
                 <span asp-validation-for="RecapitoDitta" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Indirizzo" class="control-label"></label>
                 <input asp-for="Indirizzo" class="form-control" />
                 <span asp-validation-for="Indirizzo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Modifica" class="btn btn-primary" />
+                <input class="btn btn-success me-2" type="submit" value="Modifica" />
+                <a class="btn btn-outline-success" asp-action="Index">Lista ditte</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Lista ditte</a>
 </div>
 
 @section Scripts {

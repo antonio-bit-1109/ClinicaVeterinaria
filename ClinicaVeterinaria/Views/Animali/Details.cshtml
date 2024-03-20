@@ -4,16 +4,15 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Dettagli Animale</h1>
 
 <div>
-    <h4>Animali</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FotoAnimale)
         </dt>
-        <dd class="col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @*      @Html.DisplayFor(model => model.FotoAnimale) *@
             <img style="width:200px" src="~/images/animali/@Model.FotoAnimale" class="img-thumbnail" alt="...">
 
@@ -21,62 +20,62 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Dataregistrazione)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.Dataregistrazione)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NomeAnimale)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.NomeAnimale)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Tipologia)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.Tipologia)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ColoreMantello)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.ColoreMantello)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Datanascita)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.Datanascita)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.HasMicrochip)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.HasMicrochip)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.NumMicrochip)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.NumMicrochip)
         </dd>
        
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.HasProprietario)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.HasProprietario)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IdUtenteNavigation)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.IdUtenteNavigation.IdUtente)
         </dd>
       
     </dl>
 </div>
 <div>
-@*     <a asp-action="Edit" asp-route-id="@Model?.Idanimale">Edit</a> |
- *@    <a asp-action="Index">Back to List</a>
+    @*     <a class="btn btn-info me-2" asp-action="Edit" asp-route-id="@Model?.Idanimale">Modifca</a>
+    *@ <a class="btn btn-outline-info" asp-action="Index">Lista Ricoveri</a>
 </div>

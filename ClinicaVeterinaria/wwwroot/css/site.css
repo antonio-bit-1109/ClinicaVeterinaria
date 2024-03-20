@@ -40,6 +40,16 @@ body {
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#278d3f', endColorstr='#8bcafe', GradientType=1 );
 }
 
+.farm {
+    background-color: #278D3F; /*verde*/
+    color: white;
+}
+
+.vet {
+    background-color: #81C5FE; /*celeste*/
+    color: black;
+}
+
 .wh, .wh:hover{
     color: white;
 }
@@ -55,23 +65,18 @@ body { /* classe per un'immagine di sfondo */
     background-attachment: fixed;
 }
 
-.farm {
-    background-color: #278D3F; /*verde*/
-    color: white;
-}
-
-.vet {
-    background-color: #81C5FE; /*celeste*/
+.btn-info {
+    background-color: #74C1FE;
     color: black;
 }
 
-.btn-info {
-    background-color: #74C1FE;
-    color: white;
+.btn-outline-info {
+    border: 2px solid #74C1FE
 }
 
-    .btn-info:hover {
+    .btn-info:hover, .btn-outline-info:hover {
         background-color: #92cefc;
+        color: black;
     }
 
 .btn-success {
@@ -79,16 +84,20 @@ body { /* classe per un'immagine di sfondo */
     color: white;
 }
 
-    .btn-success:hover {
-        background-color: #58AB27;
-    }
+.btn-outline-success {
+    border: 2px solid #237536
+}
 
-.btn-danger {
+.btn-success:hover, .btn-outline-success:hover {
+    background-color: #58AB27;
+}
+
+.btn-danger, .btn-outline-danger {
     background-color: #fa2619;
     color: white;
 }
 
-    .btn-danger:hover {
+    .btn-danger:hover, .btn-outline-danger:hover {
         background-color: #FF6F66;
     }
 

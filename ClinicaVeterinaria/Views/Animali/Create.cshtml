@@ -4,72 +4,68 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+<h1>Aggiungi Animale</h1>
 
-<h4>Animali</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Dataregistrazione" class="control-label"></label>
                 <input asp-for="Dataregistrazione" class="form-control" />
                 <span asp-validation-for="Dataregistrazione" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="NomeAnimale" class="control-label"></label>
                 <input asp-for="NomeAnimale" class="form-control" />
                 <span asp-validation-for="NomeAnimale" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Tipologia" class="control-label"></label>
                 <input asp-for="Tipologia" class="form-control" />
                 <span asp-validation-for="Tipologia" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="ColoreMantello" class="control-label"></label>
                 <input asp-for="ColoreMantello" class="form-control" />
                 <span asp-validation-for="ColoreMantello" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Datanascita" class="control-label"></label>
                 <input asp-for="Datanascita" class="form-control" />
                 <span asp-validation-for="Datanascita" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check mb-3">
                 <label class="form-check-label">
                     <input id="inputHasMicrochip" class="form-check-input" asp-for="HasMicrochip" /> @Html.DisplayNameFor(model => model.HasMicrochip)
                 </label>
             </div>
-            <div id="divNumMicrochip" class="form-group">
+            <div id="divNumMicrochip" class="form-group mb-3">
                 <label asp-for="NumMicrochip" class="control-label"></label>
                 <input asp-for="NumMicrochip" class="form-control" />
                 <span asp-validation-for="NumMicrochip" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="FotoAnimale" class="control-label"></label>
                 <input asp-for="FotoAnimale" class="form-control"  type="file"/>
                 <span asp-validation-for="FotoAnimale" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
+            <div class="form-group form-check mb-3">
                 <label class="form-check-label">
                     <input id="inputHasProprietario" class="form-check-input" asp-for="HasProprietario" /> @Html.DisplayNameFor(model => model.HasProprietario)
                 </label>
             </div>
-            <div id="divIdUtente" class="form-group">
+            <div id="divIdUtente" class="form-group mb-3">
                 <label asp-for="IdUtente" class="control-label"></label>
                 <select id="selectList" asp-for="IdUtente" class ="form-control" asp-items="ViewBag.IdUtente"></select>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input class="btn btn-info me-2" type="submit" value="Aggiungi" />
+                <a class="btn btn-outline-info me-2" asp-action="Index">Lista Animali</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

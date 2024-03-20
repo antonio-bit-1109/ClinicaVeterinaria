@@ -4,39 +4,38 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Dettagli Prodotto</h1>
 
 <div>
-    <h4>Prodotti</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Nomeprodotto)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-10 mb-3">
             @Html.DisplayFor(model => model.Nomeprodotto)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IsMedicinale)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.IsMedicinale)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.PossibiliUsi)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.PossibiliUsi)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IdDittaFornitriceNavigation)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10 mb-3">
             @Html.DisplayFor(model => model.IdDittaFornitriceNavigation.IdDittaFornitrice)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdProdotto">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@Model?.IdProdotto">Modifica</a>
+    <a class="btn btn-outline-success" asp-action="Index">Lista Prodotti</a>
 </div>

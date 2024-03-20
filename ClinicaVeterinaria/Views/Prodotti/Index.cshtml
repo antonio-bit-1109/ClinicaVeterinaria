@@ -4,12 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Prodotti</h1>
+    <p class="mb-0">
+        <a class="btn btn-success" asp-action="Create">Aggiungi Prodotto</a>
+    </p>
+</div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
+<table class="table text-center table-hover border border-1">
     <thead>
         <tr>
             <th>
@@ -49,9 +51,9 @@
                 @Html.DisplayFor(modelItem => item.IdDittaFornitriceNavigation.NomeDitta)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProdotto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProdotto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProdotto">Delete</a>
+                <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@item.IdProdotto">Modifica</a>
+                <a class="btn btn-outline-success me-2" asp-action="Details" asp-route-id="@item.IdProdotto">Dettagli</a>
+                <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdProdotto">Elimina</a>
             </td>
         </tr>
 }

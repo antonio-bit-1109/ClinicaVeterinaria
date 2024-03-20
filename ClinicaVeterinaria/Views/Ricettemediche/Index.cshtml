@@ -4,13 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Elenco Ricette Mediche</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Ricette Mediche</h1>
+    <p class="mb-0">
+        <a class="btn btn-success" asp-action="Create">Aggiungi Ricetta Medica</a>
+    </p>
+</div>
 
-<p>
-    <a asp-action="Create">Nuova Ricetta Medica</a>
-</p>
-
-<table class="table">
+<table class="table text-center table-hover border border-1">
     <thead>
         <tr>
             <th>Data Prescrizione</th>
@@ -29,9 +30,9 @@
                 <td>@ricetta.IdUtenteNavigation.Nome</td>
                 <td>@ricetta.IdVisitaNavigation.DataVisita</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@ricetta.IdricettaMedica">Dettagli</a>
-                    <a asp-action="Edit" asp-route-id="@ricetta.IdricettaMedica">Modifica</a>
-                    <a asp-action="Delete" asp-route-id="@ricetta.IdricettaMedica">Elimina</a>
+                    <a class="btn btn-success me-2" asp-action="Details" asp-route-id="@ricetta.IdricettaMedica">Dettagli</a>
+                    <a class="btn btn-outline-success me-2" asp-action="Edit" asp-route-id="@ricetta.IdricettaMedica">Modifica</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@ricetta.IdricettaMedica">Elimina</a>
                 </td>
             </tr>
         }

@@ -15,7 +15,7 @@ public partial class Prodotti
 
     public string PossibiliUsi { get; set; } = null!;
 
-    public decimal? PrezzoProdotto { get; set; }
+    public decimal? Prezzo { get; set; }
 
     public virtual Dittafornitrice IdDittaFornitriceNavigation { get; set; } = null!;
 

@@ -81,7 +81,7 @@
                                 }
 
                                 <li class="nav-item d-flex align-items-center ms-auto">
-                                    <span class="@(!User.IsInRole("Admin") ? "@ViewBag.Text fw-bold" : "text-danger fw-bold")">
+                                    <span class="@(!User.IsInRole("Admin") ? "@ViewBag.Text fw-bold" : "text-white fw-bold")">
                                         Benvenuto @userName @(!User.IsInRole("Admin") ? "(utente)" : "(ADMIN)")
                                     </span>
                                 </li>
@@ -117,7 +117,7 @@
 
     <footer class="border-top footer text-muted @ViewBag.NavFoot @ViewBag.Text">
         <div class="container @ViewBag.Text">
-            &copy; 2024 - Clinica Veterinaria - <a class="text-decoration-none text-white" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2024 - Clinica Veterinaria - <a class="text-decoration-none @ViewBag.Text" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
