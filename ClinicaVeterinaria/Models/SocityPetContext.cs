@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicaVeterinaria.Models;
 
@@ -105,6 +107,7 @@ public partial class SocityPetContext : DbContext
 
             entity.HasIndex(e => e.Nomeprodotto, "UQ__PRODOTTI__8906935F92620055").IsUnique();
 
+            entity.Property(e => e.FotoProdotto).HasMaxLength(255);
             entity.Property(e => e.Nomeprodotto).HasMaxLength(50);
             entity.Property(e => e.PossibiliUsi).HasMaxLength(500);
             entity.Property(e => e.Prezzo).HasColumnType("decimal(18, 2)");

@@ -60,7 +60,24 @@
                     @Html.DisplayFor(modelItem => item.IdProdottoNavigation.Nomeprodotto)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.IdCassettoNavigation.IdArmadietto)
+                    @if (item.IdCassettoNavigation.IdArmadietto == 1)
+            {
+                        <p>A-G</p>
+                    }
+                    @if (item.IdCassettoNavigation.IdArmadietto == 2)
+                    {
+                        <p>H-N</p>
+                    }
+                    @if (item.IdCassettoNavigation.IdArmadietto == 3)
+                    {
+                        <p>O-U</p>
+
+                    }
+                    @if (item.IdCassettoNavigation.IdArmadietto == 4)
+                    {
+                        <p>V-Z</p>
+                    }
+                 @*    @Html.DisplayFor(modelItem => item.IdCassettoNavigation.IdArmadietto) *@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdCassettoNavigation.Descrizione)
