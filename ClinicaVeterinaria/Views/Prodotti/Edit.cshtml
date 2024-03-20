@@ -9,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdProdotto" />
             <div class="form-group mb-3">
@@ -31,6 +31,16 @@
                 <label asp-for="PossibiliUsi" class="control-label"></label>
                 <input asp-for="PossibiliUsi" class="form-control" />
                 <span asp-validation-for="PossibiliUsi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FotoProdotto" class="control-label"></label>
+                <!-- Mostra l'immagine esistente se presente -->
+                @if (Model.FotoProdotto != null)
+                {
+                    <img src="@Url.Content("~/images/prdotti/" + Model.FotoProdotto)" alt="Foto Prodotto" class="img-thumbnail" width="150" />
+                }
+                <input type="file" name="uploadedImage" class="form-control" />
+                <span asp-validation-for="FotoProdotto" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input class="btn btn-success me-2" type="submit" value="Modifica" />

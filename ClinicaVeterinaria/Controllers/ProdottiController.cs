@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ClinicaVeterinaria.Models;
 
 namespace ClinicaVeterinaria.Controllers
 {
@@ -38,8 +34,6 @@ namespace ClinicaVeterinaria.Controllers
                 return View(await socityPetContext.ToListAsync());
             }
 
-
-           
         }
 
 
@@ -92,37 +86,31 @@ namespace ClinicaVeterinaria.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nomeprodotto,Prezzo,IdDittaFornitrice,IsMedicinale,PossibiliUsi ")] Prodotti prodotti)
+        public async Task<IActionResult> Create([Bind("Nomeprodotto,Prezzo,IdDittaFornitrice,IsMedicinale,PossibiliUsi")] Prodotti prodotti, IFormFile uploadedImage)
         {
-            //ModelState.Remove("IdProdotto");
-           
-           // ModelState.Remove("IdDittaFornitriceNavigation");
+            ModelState.Remove("IdDittaFornitriceNavigation");
 
             if (ModelState.IsValid)
             {
+                if (uploadedImage != null && uploadedImage.Length > 0)
+                {
+                    var fileName = Path.GetFileName(uploadedImage.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/prodotti", fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await uploadedImage.CopyToAsync(fileStream);
+                    }
+
+                    prodotti.FotoProdotto = fileName;
+                }
+
                 _context.Add(prodotti);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
 
             }
-            else
-            {
-                // Log degli errori di ModelState
-                var errors = ModelState
-                    .Where(x => x.Value.Errors.Count > 0)
-                    .Select(x => new { x.Key, Errors = x.Value.Errors.Select(e => e.ErrorMessage).ToList() })
-                    .ToList();
 
-                // Registrare nel log di sistema o in un file
-                foreach (var entry in errors)
-                {
-                    foreach (var error in entry.Errors)
-                    {
-                        // Utilizza il tuo sistema di logging preferito qui
-                        System.Diagnostics.Debug.WriteLine($"Errore nel campo {entry.Key}: {error}");
-                    }
-                }
-            }
             ViewData["IdDittaFornitrice"] = new SelectList(_context.Dittafornitrices, "IdDittaFornitrice", "IdDittaFornitrice", prodotti.IdDittaFornitrice);
             return View(prodotti);
         }
@@ -154,8 +142,10 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProdotto,Nomeprodotto,IdDittaFornitrice,IsMedicinale,PossibiliUsi")] Prodotti prodotti)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProdotto,Nomeprodotto,IdDittaFornitrice,IsMedicinale,PossibiliUsi")] Prodotti prodotti, IFormFile uploadedImage)
         {
+            ModelState.Remove("IdDittaFornitriceNavigation");
+
             if (id != prodotti.IdProdotto)
             {
                 return NotFound();
@@ -163,6 +153,19 @@ namespace ClinicaVeterinaria.Controllers
 
             if (ModelState.IsValid)
             {
+                if (uploadedImage != null && uploadedImage.Length > 0)
+                {
+                    var fileName = Path.GetFileName(uploadedImage.FileName);
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/prodotti", fileName);
+
+                    using (var fileStream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await uploadedImage.CopyToAsync(fileStream);
+                    }
+
+                    prodotti.FotoProdotto = fileName;
+                }
+
                 try
                 {
                     _context.Update(prodotti);
