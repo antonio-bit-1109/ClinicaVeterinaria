@@ -19,7 +19,10 @@ namespace ClinicaVeterinaria.Controllers
 
         public async Task<IActionResult> Index(string prodotto)
         {
-
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
 
             System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
             if (prodotto != null)
