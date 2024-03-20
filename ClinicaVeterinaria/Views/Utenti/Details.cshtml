@@ -1,0 +1,52 @@
+﻿@model ClinicaVeterinaria.Models.Utenti
+
+@{
+    ViewData["Title"] = "Dettagli Utente";
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+
+    <div class="card">
+        <div class="card-header">
+            Dettagli Utente
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <!-- Presumendo che FotoUtente sia un URL o un percorso di file, usiamo un'immagine se disponibile -->
+                <dt class="col-sm-4">Foto Utente:</dt>
+                <dd class="col-sm-8">
+                    @if (Model.FotoUtente != null)
+                    {
+                        <img src="@Url.Content("~/images/utenti/" + Model.FotoUtente)" alt="Foto Utente" class="img-thumbnail" width="150" />
+                    }
+                    else
+                    {
+                        <span>Nessuna immagine disponibile.</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-4">Nome:</dt>
+                <dd class="col-sm-8">@Model.Nome</dd>
+
+                <dt class="col-sm-4">Cognome:</dt>
+                <dd class="col-sm-8">@Model.Cognome</dd>
+
+        
+                 @if (User.IsInRole("Admin"))
+                {
+                <dt class="col-sm-4">Ruolo:</dt>
+                <dd class="col-sm-8">@Model.IdRuoloNavigation.NomeRuolo</dd>
+                }
+            </dl>
+        </div>
+        <div class="card-footer">
+            <a asp-action="Edit" asp-route-id="@Model.IdUtente" class="btn btn-primary">Modifica</a>
+            <a asp-action="Index" class="btn btn-secondary">Torna alla Lista</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @*  *@
+}
