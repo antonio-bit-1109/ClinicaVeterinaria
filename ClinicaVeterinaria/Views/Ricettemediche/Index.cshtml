@@ -27,8 +27,8 @@
             <tr>
                 <td>@ricetta.DataPrescrizione</td>
                 <td>@ricetta.Descrizione</td>
-                <td>@ricetta.IdUtenteNavigation.Nome</td>
-                <td>@ricetta.IdVisitaNavigation.DataVisita</td>
+                <td>@(ricetta.IdUtenteNavigation?.Nome ?? "Utente non specificato")</td>
+                <td>@(ricetta.IdVisitaNavigation?.DataVisita.ToString("yyyy-MM-dd") ?? "Nessuna Visita Associata")</td>
                 <td>
                     <a class="btn btn-success me-2" asp-action="Details" asp-route-id="@ricetta.IdricettaMedica">Dettagli</a>
                     <a class="btn btn-outline-success me-2" asp-action="Edit" asp-route-id="@ricetta.IdricettaMedica">Modifica</a>

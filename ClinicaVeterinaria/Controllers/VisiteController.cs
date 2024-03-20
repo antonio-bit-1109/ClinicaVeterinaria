@@ -34,7 +34,11 @@ namespace ClinicaVeterinaria.Controllers
             string text = "bl";
             ViewBag.Text = text;
 
-            var visite = await _context.Visites.Include(v => v.IdAnimaleNavigation).ToListAsync();
+            var visite = await _context.Visites
+                .Include(v => v.IdAnimaleNavigation)
+                .Include(v => v.IdRicettaNavigation) // Assicurati che questa sia la proprietà di navigazione corretta
+                .ToListAsync();
+
             return View(visite);
         }
 
@@ -83,8 +87,10 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DataVisita,Anamnesi,DescrizioneCura,IdAnimale,IdRicetta,PrezzoVisita")] Visite visita, int[] prodottiId, bool aggiungiRicetta, string descrizioneRicetta)
+        public async Task<IActionResult> Create([Bind("DataVisita,Anamnesi,DescrizioneCura,IdAnimale,PrezzoVisita")] Visite visita, int[] prodottiId, bool aggiungiRicetta, string descrizioneRicetta)
         {
+            ModelState.Remove("descrizioneRicetta");
+
             if (ModelState.IsValid)
             {
                 using (var transaction = _context.Database.BeginTransaction())
@@ -97,35 +103,39 @@ namespace ClinicaVeterinaria.Controllers
                             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
                             var userId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
 
+                            // Crea prima la visita per ottenere un ID della visita
+                            _context.Visites.Add(visita);
+                            await _context.SaveChangesAsync();
+
+                            // Poi crea la ricetta con l'ID della visita appena creata
                             ricetta = new Ricettemediche
                             {
                                 Descrizione = descrizioneRicetta,
                                 IdUtente = userId,
+                                IdVisita = visita.IdVisita,
                                 DataPrescrizione = DateTime.Now
                             };
                             _context.Ricettemediches.Add(ricetta);
                             await _context.SaveChangesAsync();
 
+                            // Aggiorna la visita con l'ID della ricetta
                             visita.IdRicetta = ricetta.IdricettaMedica;
-                        }
+                            _context.Visites.Update(visita);
+                            await _context.SaveChangesAsync();
 
-                        _context.Visites.Add(visita);
-                        await _context.SaveChangesAsync();
-
-                        if (aggiungiRicetta && prodottiId != null)
-                        {
-                            foreach (var prodottoId in prodottiId)
+                            if (prodottiId != null)
                             {
-                                string insertSql = @"
-                            INSERT INTO ProdottiRicette (IdProdotto, IdRicettaMedica)
-                            VALUES ({0}, {1})";
-                                await _context.Database.ExecuteSqlRawAsync(insertSql, prodottoId, ricetta.IdricettaMedica);
+                                foreach (var prodottoId in prodottiId)
+                                {
+                                    string insertSql = @"INSERT INTO ProdottiRicette (IdProdotto, IdRicettaMedica) VALUES (@p0, @p1)";
+                                    await _context.Database.ExecuteSqlRawAsync(insertSql, prodottoId, ricetta.IdricettaMedica);
+                                }
                             }
-                        }
 
-                        await transaction.CommitAsync();
-                        TempData["Successo"] = "La visita è stata creata con successo.";
-                        return RedirectToAction("Visita");
+                            await transaction.CommitAsync();
+                            TempData["Successo"] = "La visita è stata creata con successo.";
+                            return RedirectToAction("Index");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -134,12 +144,11 @@ namespace ClinicaVeterinaria.Controllers
                     }
                 }
             }
-            else
-            {
-                ViewData["IdAnimale"] = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
-                ViewBag.ProdottoId = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
-                ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "Descrizione");
-            }
+
+            // Ricarica le ViewData e ViewBag in caso di errore o ModelState non valido
+            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
+            ViewBag.ProdottoId = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+            ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "Descrizione");
 
             return View(visita);
         }
@@ -230,19 +239,31 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // POST: Visite/Delete/5
+        // POST: Visite/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var visite = await _context.Visites.FindAsync(id);
-            if (visite != null)
+            var visita = await _context.Visites
+                .Include(v => v.IdRicettaNavigation)
+                .SingleOrDefaultAsync(v => v.IdVisita == id);
+
+            if (visita == null)
             {
-                _context.Visites.Remove(visite);
+                return NotFound();
             }
 
+            if (visita.IdRicettaNavigation != null)
+            {
+                _context.Ricettemediches.Remove(visita.IdRicettaNavigation);
+            }
+
+            _context.Visites.Remove(visita);
             await _context.SaveChangesAsync();
+
             return RedirectToAction(nameof(Index));
         }
+
 
         private bool VisiteExists(int id)
         {
