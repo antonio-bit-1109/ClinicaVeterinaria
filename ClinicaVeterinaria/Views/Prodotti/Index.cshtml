@@ -4,56 +4,34 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Prodotti</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nomeprodotto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prezzo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsMedicinale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PossibiliUsi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDittaFornitriceNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nomeprodotto)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prezzo)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsMedicinale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PossibiliUsi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDittaFornitriceNavigation.NomeDitta)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProdotto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProdotto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProdotto">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<form asp-controller="Prodotti" asp-action="Index" method="get">
+    <div class="form-group">
+        <input type="text" name="prodotto" class="form-control" placeholder="Cerca per Nome Prodotto">
+        <button type="submit" class="btn btn-primary">Cerca</button>
+    </div>
+</form>
+<div class="row mb-3">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Nomeprodotto</h5>
+                    <p class="card-text">Prezzo: @item.Prezzo</p>
+                    <p class="card-text">Medicinale: @item.IsMedicinale</p>
+                  @*   <p class="card-text">Possibili Usi: @item.PossibiliUsi</p>
+                    <p class="card-text">Fornitore: @item.IdDittaFornitriceNavigation.NomeDitta</p> *@
+                    <a href="@Url.Action("Edit", new { id = item.IdProdotto })" class="btn btn-primary">Edit</a>
+                    <a href="@Url.Action("Details", new { id = item.IdProdotto })" class="btn btn-secondary">Details</a>
+                    <a href="@Url.Action("Delete", new { id = item.IdProdotto })" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

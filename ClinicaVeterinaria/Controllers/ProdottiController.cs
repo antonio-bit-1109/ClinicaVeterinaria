@@ -21,17 +21,29 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Prodotti
 
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string prodotto)
         {
-            string navfoot = "farm";
-            ViewBag.NavFoot = navfoot;
-            string text = "wh";
-            ViewBag.Text = text;
 
-            var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation);
-            System.Diagnostics.Debug.WriteLine(socityPetContext);
-            return View(await socityPetContext.ToListAsync());
+
+            System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
+            if (prodotto != null)
+            {
+                var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation).Where(p => p.Nomeprodotto == prodotto);
+                return View(socityPetContext);
+            }
+            else
+            {
+                var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation).OrderBy(p => p.Nomeprodotto);
+                System.Diagnostics.Debug.WriteLine(socityPetContext);
+                return View(await socityPetContext.ToListAsync());
+            }
+
+
+           
         }
+
+
+
 
         // GET: Prodotti/Details/5
         public async Task<IActionResult> Details(int? id)
