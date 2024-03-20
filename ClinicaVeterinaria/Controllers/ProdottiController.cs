@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using ClinicaVeterinaria.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ClinicaVeterinaria.Models;
 
 namespace ClinicaVeterinaria.Controllers
 {
@@ -23,12 +19,9 @@ namespace ClinicaVeterinaria.Controllers
 
         public async Task<IActionResult> Index(string prodotto)
         {
-			string navfoot = "farm";
-			ViewBag.NavFoot = navfoot;
-			string text = "wh";
-			ViewBag.Text = text;
 
-			System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
+
+            System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
             if (prodotto != null)
             {
                 var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation).Where(p => p.Nomeprodotto == prodotto);
@@ -42,11 +35,6 @@ namespace ClinicaVeterinaria.Controllers
             }
 
         }
-
-
-
-
-
 
 
 
@@ -244,4 +232,3 @@ namespace ClinicaVeterinaria.Controllers
         }
     }
 }
-
