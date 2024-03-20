@@ -31,12 +31,22 @@ namespace ClinicaVeterinaria.Controllers
 
         public IActionResult Privacy()
         {
+            string navfoot = "grad";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
+            string navfoot = "grad";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
