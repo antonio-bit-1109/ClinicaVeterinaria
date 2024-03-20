@@ -22,6 +22,11 @@
                 <select asp-for="IdDittaFornitrice" class="form-control" asp-items="ViewBag.IdDittaFornitrice"></select>
                 <span asp-validation-for="IdDittaFornitrice" class="text-danger"></span>
             </div>
+            <div class="form-group mb-3">
+                <label asp-for="Prezzo" class="control-label"></label>
+                <input asp-for="Prezzo" class="form-control" />
+                <span asp-validation-for="Prezzo" class="text-danger"></span>
+            </div>
             <div class="form-group form-check mb-3">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="IsMedicinale" /> @Html.DisplayNameFor(model => model.IsMedicinale)
