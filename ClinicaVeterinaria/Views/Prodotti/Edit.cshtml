@@ -42,7 +42,7 @@
                 <!-- Mostra l'immagine esistente se presente -->
                 @if (Model.FotoProdotto != null)
                 {
-                    <img src="@Url.Content("~/images/prdotti/" + Model.FotoProdotto)" alt="Foto Prodotto" class="img-thumbnail" width="150" />
+                    <img src="@Url.Content("~/images/prdotti/" + Model.FotoProdotto)" alt="Foto Prodotto" class=" img-fluid " max-height="150" />
                 }
                 <input type="file" name="uploadedImage" class="form-control" />
                 <span asp-validation-for="FotoProdotto" class="text-danger"></span>
