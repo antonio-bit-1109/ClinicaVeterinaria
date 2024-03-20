@@ -18,6 +18,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Utenti/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "ad";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -38,6 +43,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Utenti/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "ad";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -127,6 +137,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Utenti/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "ad";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();

@@ -50,6 +50,11 @@ body {
     color: black;
 }
 
+.ad {
+    background-color: #0438ba; /*blu*/
+    color: white;
+}
+
 .wh, .wh:hover{
     color: white;
 }
@@ -109,7 +114,7 @@ body { /* classe per un'immagine di sfondo */
     background-color: #74C1FE;
 }
 
-nav .nav-link{
+nav .navlink, nav .navlink:hover {
     display: inline-block;
     margin: 0;
     padding: 0.5rem 1rem;
