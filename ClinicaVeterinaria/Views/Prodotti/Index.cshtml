@@ -36,3 +36,24 @@
         </div>
     }
 </div>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Prezzo)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsMedicinale)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PossibiliUsi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdDittaFornitriceNavigation.NomeDitta)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdProdotto">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.IdProdotto">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdProdotto">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
