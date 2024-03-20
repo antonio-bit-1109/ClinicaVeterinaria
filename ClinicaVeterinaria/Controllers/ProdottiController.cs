@@ -48,18 +48,19 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Prodotti/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
             }
 
-
-
             var prodotti = await _context.Prodottis
                 .Include(p => p.IdDittaFornitriceNavigation)
                 .FirstOrDefaultAsync(m => m.IdProdotto == id);
-
-
 
             if (prodotti == null)
 
@@ -74,6 +75,11 @@ namespace ClinicaVeterinaria.Controllers
 
         public IActionResult Create()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             ViewData["IdDittaFornitrice"] = new SelectList(_context.Dittafornitrices, "IdDittaFornitrice", "IdDittaFornitrice");
             return View();
         }
@@ -124,6 +130,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Prodotti/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -177,6 +188,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Prodotti/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();

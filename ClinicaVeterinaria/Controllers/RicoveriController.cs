@@ -17,6 +17,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricoveri
         public async Task<IActionResult> Index()
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             var socityPetContext = _context.Ricoveris.Include(r => r.IdanimaleNavigation);
             return View(await socityPetContext.ToListAsync());
         }
@@ -24,6 +29,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricoveri/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -43,6 +53,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricoveri/Create
         public IActionResult Create()
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "NomeAnimale");
             return View();
         }
@@ -70,6 +85,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricoveri/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -123,6 +143,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricoveri/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();

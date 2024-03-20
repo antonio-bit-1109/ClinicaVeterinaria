@@ -18,13 +18,14 @@ namespace ClinicaVeterinaria.Controllers
             _context = context;
         }
 
-     
-
-
-
         // GET: ProdottiInCassettoes
         public async Task<IActionResult> Index(string prodotto)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
             if (prodotto != null)
             {
@@ -61,14 +62,14 @@ namespace ClinicaVeterinaria.Controllers
             //return View(await socityPetContext.ToListAsync());
         }
 
-
-
-
-
-
         // GET: ProdottiInCassettoes/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -92,6 +93,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: ProdottiInCassettoes/Create
         public IActionResult Create()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             ViewData["IdCassetto"] = new SelectList(_context.Cassettis, "IdCassetto", "Descrizione");
             ViewData["IdProdotto"] = new SelectList(_context.Prodottis, "IdProdotto", "Nomeprodotto");
             return View();
@@ -131,6 +137,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: ProdottiInCassettoes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -193,6 +204,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: ProdottiInCassettoes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
