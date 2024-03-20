@@ -141,9 +141,10 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdProdotto,Nomeprodotto,IdDittaFornitrice,IsMedicinale,PossibiliUsi")] Prodotti prodotti, IFormFile uploadedImage)
+        public async Task<IActionResult> Edit(int id, [Bind("IdProdotto,Nomeprodotto,Prezzo,IdDittaFornitrice,IsMedicinale,PossibiliUsi")] Prodotti prodotti, IFormFile uploadedImage)
         {
             ModelState.Remove("IdDittaFornitriceNavigation");
+            ModelState.Remove("uploadedImage");
 
             if (id != prodotti.IdProdotto)
             {
