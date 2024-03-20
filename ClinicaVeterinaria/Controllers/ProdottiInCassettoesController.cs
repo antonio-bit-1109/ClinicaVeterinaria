@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ClinicaVeterinaria.Models;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace ClinicaVeterinaria.Controllers
 {
@@ -34,8 +35,11 @@ namespace ClinicaVeterinaria.Controllers
             }
             else
             {
+                //var far = _context.Cassettis.Include(p => p.IdArmadiettoNavigation).OrderBy(p => p.IdArmadiettoNavigation.Descrizione);
+                //ViewData["Cassetti"] = far;
                 var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation).OrderBy(p => p.IdCassettoNavigation.Descrizione); 
                 return View(await socityPetContext.ToListAsync());
+
             }
 
 
@@ -61,6 +65,10 @@ namespace ClinicaVeterinaria.Controllers
 
             //return View(await socityPetContext.ToListAsync());
         }
+
+        
+
+
 
         // GET: ProdottiInCassettoes/Details/5
         public async Task<IActionResult> Details(int? id)

@@ -23,16 +23,17 @@ namespace ClinicaVeterinaria.Controllers
 
             System.Diagnostics.Debug.WriteLine("prodotto: " + prodotto);
             if (prodotto != null)
-            {
+            {          
                 var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation).Where(p => p.Nomeprodotto == prodotto);
                 return View(socityPetContext);
             }
             else
-            {
+            {        
                 var socityPetContext = _context.Prodottis.Include(p => p.IdDittaFornitriceNavigation).OrderBy(p => p.Nomeprodotto);
-                System.Diagnostics.Debug.WriteLine(socityPetContext);
                 return View(await socityPetContext.ToListAsync());
             }
+
+            
 
         }
 
