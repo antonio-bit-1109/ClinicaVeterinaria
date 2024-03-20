@@ -4,39 +4,45 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Dettagli</h1>
 
-<div>
-    <h4>Prodotti</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nomeprodotto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nomeprodotto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IsMedicinale)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IsMedicinale)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PossibiliUsi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PossibiliUsi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdDittaFornitriceNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdDittaFornitriceNavigation.IdDittaFornitrice)
-        </dd>
-    </dl>
+
+<div class="card">
+    <div class="card-body">
+        <h4 class="card-title">@Html.DisplayFor(model => model.Nomeprodotto)</h4>
+        <hr />
+        <div class=" container justify-content-between row">
+            <div class="col-sm-5 ">
+                <img src="URL_immagine_di_default" alt="Alternate Text"  />
+            </div>
+            <div class="col-sm-5">
+                <div class="row">
+                    <div class="col-sm-5"><strong>@Html.DisplayNameFor(model => model.Nomeprodotto)</strong></div>
+                    <div class="col-sm-5">@Html.DisplayFor(model => model.Nomeprodotto)</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5"><strong>@Html.DisplayNameFor(model => model.Prezzo)</strong></div>
+                    <div class="col-sm-5">@Html.DisplayFor(model => model.Prezzo)</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5"><strong>@Html.DisplayNameFor(model => model.IsMedicinale)</strong></div>
+                    <div class="col-sm-5">@Html.DisplayFor(model => model.IsMedicinale)</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5"><strong>@Html.DisplayNameFor(model => model.PossibiliUsi)</strong></div>
+                    <div class="col-sm-5">@Html.DisplayFor(model => model.PossibiliUsi)</div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-5"><strong>@Html.DisplayNameFor(model => model.IdDittaFornitriceNavigation)</strong></div>
+                    <div class="col-sm-5">@Html.DisplayFor(model => model.IdDittaFornitriceNavigation.NomeDitta)</div>
+                </div>
+              </div>
+        </div>
+        
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdProdotto">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="mt-3">
+    <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@Model?.IdProdotto">Modifica</a>
+    <a class="btn btn-outline-success" asp-action="Index">Lista Prodotti</a>
 </div>

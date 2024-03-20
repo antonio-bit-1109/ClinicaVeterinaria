@@ -4,56 +4,35 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nomeprodotto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prezzo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsMedicinale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PossibiliUsi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDittaFornitriceNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nomeprodotto)
-            </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Prezzo)
-                </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsMedicinale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PossibiliUsi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDittaFornitriceNavigation.NomeDitta)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProdotto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProdotto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProdotto">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Prodotti</h1>
+    <p class="mb-0">
+        <a class="btn btn-success" asp-action="Create">Aggiungi Prodotto</a>
+    </p>
+</div>
+<form asp-controller="Prodotti" asp-action="Index" method="get">
+    <div class="form-group">
+        <input type="text" name="prodotto" class="form-control" placeholder="Cerca per Nome Prodotto">
+        <button type="submit" class="btn btn-primary">Cerca</button>
+    </div>
+</form>
+<div class="row mb-3">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Nomeprodotto</h5>
+                    <p class="card-text">Prezzo: @item.Prezzo</p>
+                    <p class="card-text">Medicinale: @item.IsMedicinale</p>
+                  @*   <p class="card-text">Possibili Usi: @item.PossibiliUsi</p>
+                    <p class="card-text">Fornitore: @item.IdDittaFornitriceNavigation.NomeDitta</p> *@
+                    <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@item.IdProdotto">Modifica</a>
+                    <a class="btn btn-outline-success me-2" asp-action="Details" asp-route-id="@item.IdProdotto">Dettagli</a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdProdotto">Elimina</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
