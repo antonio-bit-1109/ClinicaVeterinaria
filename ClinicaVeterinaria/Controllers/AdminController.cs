@@ -16,6 +16,11 @@ public class AdminController : Controller
 
     public async Task<IActionResult> BackOffice()
     {
+        string navfoot = "ad";
+        ViewBag.NavFoot = navfoot;
+        string text = "wh";
+        ViewBag.Text = text;
+
         var currentUserId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
         //var utenti = await _db.Utentis.Include(u => u.IdRuoloNavigation).ToListAsync();
@@ -48,6 +53,11 @@ public class AdminController : Controller
     [HttpPost]
     public async Task<IActionResult> ChangeUserRole(int idUtente, int nuovoIdRuolo)
     {
+        string navfoot = "ad";
+        ViewBag.NavFoot = navfoot;
+        string text = "wh";
+        ViewBag.Text = text;
+
         if (!ModelState.IsValid)
         {
             // Se il modello non è valido, potresti voler ritornare alla stessa view con un messaggio di errore
