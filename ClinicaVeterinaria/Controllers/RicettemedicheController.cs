@@ -17,14 +17,21 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Ricettemediche
         public async Task<IActionResult> Index()
         {
-            string navfoot = "farm";
+            string navfoot = "vet";
             ViewBag.NavFoot = navfoot;
-            string text = "wh";
+            string text = "bl";
             ViewBag.Text = text;
 
-            var socityPetContext = _context.Ricettemediches.Include(r => r.IdUtenteNavigation).Include(r => r.IdVisitaNavigation);
-            return View(await socityPetContext.ToListAsync());
+            var ricetteMediche = await _context.Ricettemediches
+                            .Include(r => r.IdUtenteNavigation)
+                            .Include(r => r.IdVisitaNavigation)
+                            .ToListAsync();
+
+            return View(ricetteMediche);
         }
+
+
+
 
         // GET: Ricettemediche/Details/5
         public async Task<IActionResult> Details(int? id)

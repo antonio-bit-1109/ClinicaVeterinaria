@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace ClinicaVeterinaria.Models;
 
@@ -20,7 +19,6 @@ public partial class Prodotti
 
     public string? FotoProdotto { get; set; }
 
-    [Display(Name = "Ditta")]
     public virtual Dittafornitrice IdDittaFornitriceNavigation { get; set; } = null!;
 
     public virtual ICollection<ProdottiInCassetto> ProdottiInCassettos { get; set; } = new List<ProdottiInCassetto>();

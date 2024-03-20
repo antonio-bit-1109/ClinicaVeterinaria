@@ -4,50 +4,46 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Dettagli Visita</h1>
+<h1 class="mb-3">Dettagli Visita</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-4">Data Visita:</dt>
+            <dd class="col-sm-8">@Model.DataVisita.ToShortDateString()</dd>
+
+            <dt class="col-sm-4">Anamnesi:</dt>
+            <dd class="col-sm-8">@Model.Anamnesi</dd>
+
+            <dt class="col-sm-4">Descrizione Cura:</dt>
+            <dd class="col-sm-8">@Model.DescrizioneCura</dd>
+
+            <dt class="col-sm-4">Animale:</dt>
+            <dd class="col-sm-8">@Model.IdAnimaleNavigation.NomeAnimale</dd> <!-- Assicurati che la proprietà si chiami 'NomeAnimale' -->
+
+            <dt class="col-sm-4">Prezzo Visita:</dt>
+            <dd class="col-sm-8">@Model.PrezzoVisita</dd>
+
+            @if (Model.IdRicettaNavigation.IdricettaMedica != null)
+            {
+                <dt class="col-sm-4">Ricetta Medica:</dt>
+                <dd class="col-sm-8">@Model.IdRicettaNavigation.Descrizione</dd>
+
+                <dt class="col-sm-4">Prodotti Prescritti:</dt>
+                <dd class="col-sm-8">
+                    <ul>
+                        @foreach (var prodotto in Model.IdRicettaNavigation.IdProdottos)
+                        {
+                            <li>@prodotto.Nomeprodotto (Quantità: @prodotto.Prezzo)</li> <!-- Sostituisci 'NomeProdotto' e 'Quantità' con i nomi reali delle proprietà -->
+                        }
+                    </ul>
+                </dd>
+            }
+        </dl>
+    </div>
+</div>
 
 <div>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DataVisita)
-        </dt>
-        <dd class="col-sm-10 mb-3">
-            @Html.DisplayFor(model => model.DataVisita)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Anamnesi)
-        </dt>
-        <dd class="col-sm-10 mb-3">
-            @Html.DisplayFor(model => model.Anamnesi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DescrizioneCura)
-        </dt>
-        <dd class="col-sm-10 mb-3">
-            @Html.DisplayFor(model => model.DescrizioneCura)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdAnimaleNavigation)
-        </dt>
-        <dd class="col-sm-10 mb-3">
-            @Html.DisplayFor(model => model.IdAnimaleNavigation.Idanimale)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdRicettaNavigation)
-        </dt>
-        <dd class="col-sm-10 mb-3">
-            @Html.DisplayFor(model => model.IdRicettaNavigation.IdricettaMedica)
-        </dd>
-        <dt class = "col-sm-2">
-          @Html.DisplayNameFor(model => model.PrezzoVisita)
-        </dt>
-        <dd class="col-sm-10 mb-3">
-          @Html.DisplayFor(model => model.PrezzoVisita)
-       </dd>
-    </dl>
-</div>
-<div>
-    <a class="btn btn-info me-2" asp-action="Edit" asp-route-id="@Model?.IdVisita">Modifica</a>
-    <a class="btn btn-outline-info" asp-action="Index">Lista Visite</a>
+    <a class="btn btn-primary me-2" asp-action="Edit" asp-route-id="@Model.IdVisita">Modifica</a>
+    <a class="btn btn-secondary" asp-action="Index">Lista Visite</a>
 </div>

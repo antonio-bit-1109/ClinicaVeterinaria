@@ -34,6 +34,12 @@
                 <label asp-for="IdRicetta" class="control-label"></label>
                 <select asp-for="IdRicetta" class ="form-control" asp-items="ViewBag.IdRicetta"></select>
             </div> *@
+
+            <div class="form-group mb-3">
+                <label asp-for="PrezzoVisita" class="control-label"></label>
+                <input asp-for="PrezzoVisita" class="form-control" type="number" step="0.01"/>
+                <span asp-validation-for="PrezzoVisita" class="text-danger"></span>
+            </div>
             <div class="form-group mb-3">
                 <div class="checkbox">
                     <label>
@@ -56,15 +62,14 @@
                 <div class="form-group mb-3">
                     <label for="prodottiId">Seleziona Prodotti:</label>
                     <select id="prodottiId" name="prodottiId[]" class="form-control" multiple asp-items="ViewBag.ProdottoId"></select>
+                    <input type="hidden" id="campoProdottiSelezionati" name="campoProdottiSelezionati" value="">
                 </div>
-            </div>
+                <!-- Pulsante per aggiungere prodotti -->
+                <button type="button" id="aggiungiProdotto" class="btn btn-primary mb-3">Aggiungi Prodotto</button>
 
-            <div class="form-group mb-3">
-                <label asp-for="PrezzoVisita" class="control-label"></label>
-                <input asp-for="PrezzoVisita" class="form-control" type="number" step="0.01"/>
-                <span asp-validation-for="PrezzoVisita" class="text-danger"></span>
+                <!-- Lista dei prodotti aggiunti -->
+                <ul id="listaProdotti"></ul>
             </div>
-
             <div class="form-group">
                 <input type="submit" value="Aggiungi" class="btn btn-info me-2" />
                 <a class="btn btn-outline-info me-2" asp-action="Index">Lista Visite</a>
@@ -77,13 +82,48 @@
             }
 
             <script>
+                let prodottiSelezionati = [];
+
                 $(document).ready(function () {
                     $('#aggiungiRicetta').change(function () {
                         if ($(this).is(':checked')) {
                             $('#ricettaMedica').show();
                         } else {
                             $('#ricettaMedica').hide();
+                            prodottiSelezionati = []; // Resetta la selezione se la ricetta non è richiesta
+                            aggiornaListaProdotti();
                         }
+                    });
+
+                    // Gestore per il pulsante "Aggiungi Prodotto"
+                    $('#aggiungiProdotto').on('click', function () {
+                        const selezionati = $('#prodottiId').val(); // Ottiene gli ID selezionati dal select
+                        selezionati.forEach(function (id) {
+                            if (!prodottiSelezionati.includes(id)) {
+                                prodottiSelezionati.push(id); // Aggiungi alla lista se non è già presente
+                            }
+                        });
+                        aggiornaListaProdotti();
+                    });
+
+                    // Aggiorna la lista dei prodotti selezionati visualizzata
+                    function aggiornaListaProdotti() {
+                        $('#listaProdotti').empty(); // Svuota la lista corrente
+                        prodottiSelezionati.forEach(id => {
+                            $('#listaProdotti').append('<li>' + id + ' <button type="button" class="rimuoviProdotto" data-id="' + id + '">Rimuovi</button></li>');
+                        });
+                    }
+
+                    // Rimuovi prodotto dalla lista
+                    $('#listaProdotti').on('click', '.rimuoviProdotto', function () {
+                        const prodottoId = $(this).data('id');
+                        prodottiSelezionati = prodottiSelezionati.filter(id => id !== prodottoId.toString());
+                        aggiornaListaProdotti();
+                    });
+
+                    // Prima del submit, trasferisci gli ID dei prodotti nel campo nascosto
+                    $('form').on('submit', function () {
+                        $('#campoProdottiSelezionati').val(prodottiSelezionati.join(',')); // Combina gli ID con una virgola
                     });
                 });
             </script>
