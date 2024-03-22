@@ -130,10 +130,10 @@
                             if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value == null)
                             {
                             <li class="nav-item ms-auto">
-                                <a class="navlink @ViewBag.Text" asp-action="Index" asp-controller="Home">Accedi</a>
+                                <a class="navlink @ViewBag.Text" asp-action="Index" asp-controller="Login">Accedi</a>
                             </li>
                             <li class="nav-item">
-                                <a class="navlink @ViewBag.Text" asp-action="Registrazione" asp-controller="Login">Registrati</a>
+                                    <a class="navlink @ViewBag.Text" asp-action="Registrazione" asp-controller="Login">Registrati</a>
                             </li>
                             }
                         }
