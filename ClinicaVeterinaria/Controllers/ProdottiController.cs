@@ -43,6 +43,10 @@ namespace ClinicaVeterinaria.Controllers
 
         public async Task<IActionResult> GetArmadiettiWithCassetti(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
 
             if (ModelState.IsValid) { 
                 // Recupera i prodotti associati al cassetto con l'ID specificato
