@@ -42,7 +42,7 @@ namespace ClinicaVeterinaria.Controllers
 
             }
 
-
+          
 
             //var socityPetContext = _context.ProdottiInCassettos.Include(p => p.IdCassettoNavigation).Include(p => p.IdProdottoNavigation);
 

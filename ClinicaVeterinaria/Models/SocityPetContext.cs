@@ -252,10 +252,6 @@ public partial class SocityPetContext : DbContext
             entity.HasOne(d => d.IdAnimaleNavigation).WithMany(p => p.Visites)
                 .HasForeignKey(d => d.IdAnimale)
                 .HasConstraintName("FK__VISITE__IdAnimal__3F466844");
-
-            entity.HasOne(d => d.IdRicettaNavigation).WithMany(p => p.Visites)
-                .HasForeignKey(d => d.IdRicetta)
-                .HasConstraintName("FK__VISITE__IdRicett__440B1D61");
         });
 
         OnModelCreatingPartial(modelBuilder);
