@@ -10,7 +10,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12">
-			<h1 class="text-primary"> Riepilogo carrello</h1>
+			<h1 class="text-black"> Riepilogo carrello</h1>
 		</div>
 	</div>
 </div>
@@ -51,12 +51,12 @@
 			@{
 				if (Model.Count == 0)
 				{
-					<div class="display-2 text-primary"> Il tuo carrello è vuoto. </div>
+					<div class="display-2 text-black"> Il tuo carrello è vuoto. </div>
 
 				}
 				else
 				{
-					<a asp-controller="Carrello" asp-action="CreaOrdine" class="btn btn-primary my-4"> Procedi all'ordine </a>
+					<a asp-controller="Carrello" asp-action="CreaOrdine" class="btn btn-success my-4"> Procedi all'ordine </a>
 
 				}
 			}

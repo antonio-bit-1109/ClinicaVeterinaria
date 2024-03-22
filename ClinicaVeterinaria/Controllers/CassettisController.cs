@@ -21,6 +21,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Cassettis
         public async Task<IActionResult> Index(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 // Se l'ID non è stato fornito, restituisci tutti i cassetti
@@ -55,6 +60,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Cassettis/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -74,6 +84,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Cassettis/Create
         public IActionResult Create()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             ViewData["IdArmadietto"] = new SelectList(_context.Armadiettis, "IdArmadietto", "IdArmadietto");
             return View();
         }
@@ -98,6 +113,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Cassettis/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -151,6 +171,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Cassettis/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
