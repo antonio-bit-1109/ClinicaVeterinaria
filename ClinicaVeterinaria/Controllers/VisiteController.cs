@@ -61,13 +61,13 @@ namespace ClinicaVeterinaria.Controllers
                 return NotFound();
             }
 
-            var viewModel = new VisitaDettagliViewModel
+            var viewModel = new VisitaViewModel
             {
                 Visita = visita,
                 Ricette = visita.Ricettemediches.ToList()
             };
 
-            // Assumi di avere la connessione al database dal contesto
+
             var connection = _context.Database.GetDbConnection();
 
             try
@@ -77,10 +77,10 @@ namespace ClinicaVeterinaria.Controllers
                 {
                     var command = connection.CreateCommand();
                     command.CommandText = @"
-                SELECT p.IdProdotto, p.Nomeprodotto
-                FROM Prodotti p
-                INNER JOIN ProdottiRicette pr ON p.IdProdotto = pr.IdProdotto
-                WHERE pr.IdRicettaMedica = @IdRicettaMedica";
+                    SELECT p.IdProdotto, p.Nomeprodotto, p.Prezzo, p.FotoProdotto
+                    FROM Prodotti p
+                    INNER JOIN ProdottiRicette pr ON p.IdProdotto = pr.IdProdotto
+                    WHERE pr.IdRicettaMedica = @IdRicettaMedica";
 
                     var parameter = command.CreateParameter();
                     parameter.ParameterName = "@IdRicettaMedica";
@@ -92,13 +92,23 @@ namespace ClinicaVeterinaria.Controllers
                     {
                         while (await reader.ReadAsync())
                         {
-                            prodotti.Add(new Prodotti
+                            var prodotto = new Prodotti
                             {
                                 IdProdotto = reader.GetInt32(reader.GetOrdinal("IdProdotto")),
                                 Nomeprodotto = reader.GetString(reader.GetOrdinal("Nomeprodotto")),
-                                Prezzo = reader.GetDecimal(reader.GetOrdinal("Prezzo")),
-                                FotoProdotto = reader.GetString(reader.GetOrdinal("FotoProdotto"))
-                            });
+                            };
+
+                            if (!reader.IsDBNull(reader.GetOrdinal("Prezzo")))
+                            {
+                                prodotto.Prezzo = reader.GetDecimal(reader.GetOrdinal("Prezzo"));
+                            }
+
+                            if (!reader.IsDBNull(reader.GetOrdinal("FotoProdotto")))
+                            {
+                                prodotto.FotoProdotto = reader.GetString(reader.GetOrdinal("FotoProdotto"));
+                            }
+
+                            prodotti.Add(prodotto);
                         }
                     }
 
@@ -125,17 +135,17 @@ namespace ClinicaVeterinaria.Controllers
 
             var nuovaVisita = new Visite
             {
-
+                DataVisita = DateTime.Now,
                 Ricettemediches = new List<Ricettemediche>()
             };
 
-            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "NomeAnimale");
-            //ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica");
-            ViewBag.ProdottoId = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+            ViewBag.IdAnimale = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale");
+            ViewBag.IdProdotto = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
             ViewBag.Ricetta = new Ricettemediche();
-            return View(new Visite { Ricettemediches = new List<Ricettemediche>() });
-        }
 
+            // Passa l'oggetto nuovaVisita alla view, non un nuovo oggetto Visite
+            return View(nuovaVisita);
+        }
         // POST: Visite/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -152,18 +162,17 @@ namespace ClinicaVeterinaria.Controllers
                 {
                     try
                     {
-                        Ricettemediche ricetta = null;
+                        // Crea prima la visita per ottenere un ID della visita
+                        _context.Visites.Add(visita);
+                        await _context.SaveChangesAsync();
+
                         if (aggiungiRicetta)
                         {
                             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
                             var userId = userIdClaim != null ? int.Parse(userIdClaim.Value) : 0;
 
-                            // Crea prima la visita per ottenere un ID della visita
-                            _context.Visites.Add(visita);
-                            await _context.SaveChangesAsync();
-
-                            // Poi crea la ricetta con l'ID della visita appena creata
-                            ricetta = new Ricettemediche
+                            // Crea la ricetta con l'ID della visita appena creata
+                            var ricetta = new Ricettemediche
                             {
                                 Descrizione = descrizioneRicetta,
                                 IdUtente = userId,
@@ -177,7 +186,7 @@ namespace ClinicaVeterinaria.Controllers
                             _context.Visites.Update(visita);
                             await _context.SaveChangesAsync();
 
-                            if (prodottiId != null)
+                            if (prodottiId.Length > 0)
                             {
                                 foreach (var prodottoId in prodottiId)
                                 {
@@ -185,11 +194,11 @@ namespace ClinicaVeterinaria.Controllers
                                     await _context.Database.ExecuteSqlRawAsync(insertSql, prodottoId, ricetta.IdricettaMedica);
                                 }
                             }
-
-                            await transaction.CommitAsync();
-                            TempData["Successo"] = "La visita è stata creata con successo.";
-                            return RedirectToAction("Index");
                         }
+
+                        await transaction.CommitAsync();
+                        TempData["Successo"] = "La visita è stata creata con successo.";
+                        return RedirectToAction("Index");
                     }
                     catch (Exception ex)
                     {
@@ -200,13 +209,12 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             // Ricarica le ViewData e ViewBag in caso di errore o ModelState non valido
-            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
-            ViewBag.ProdottoId = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
+            ViewBag.IdAnimale = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale", visita.IdAnimale);
+            ViewBag.IdProdotto = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
             ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "Descrizione");
 
             return View(visita);
         }
-
         // GET: Visite/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -227,7 +235,7 @@ namespace ClinicaVeterinaria.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", visite.IdAnimale);
+            ViewBag.IdAnimale = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale", visite.IdAnimale);
             var ricettaId = visite.Ricettemediches.FirstOrDefault()?.IdricettaMedica; // Ottiego l'ID della prima ricetta se esiste
             ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "Descrizione", ricettaId);
             return View(visite);
