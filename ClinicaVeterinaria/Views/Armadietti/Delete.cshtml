@@ -21,7 +21,14 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="IdArmadietto" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirmDelete()" /> |
         <a asp-action="Index">Back to List</a>
     </form>
 </div>
+@section Scripts {
+    <script>
+        function confirmDelete() {
+            return confirm("Sei sicuro di voler eliminare questo armadietto?");
+        }
+    </script>
+}

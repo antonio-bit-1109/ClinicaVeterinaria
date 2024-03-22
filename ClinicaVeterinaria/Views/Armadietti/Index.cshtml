@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Armadietti</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -21,12 +21,27 @@
                     <p class="card-text">
                         <!-- Aggiungi altre informazioni qui se necessario -->
                     </p>
+
+
+                    @if (User.IsInRole("Farmacista") || User.IsInRole("Admin"))
+                    {
+                    @Html.ActionLink("Cassetto", "Index", "Cassettis", new { id = item.IdArmadietto, @class = "btn btn-info" }, null)
+
+                
                     <a href="@Url.Action("Edit", new { id = item.IdArmadietto })" class="btn btn-primary">Edit</a>
                     <a href="@Url.Action("Details", new { id = item.IdArmadietto })" class="btn btn-secondary">Details</a>
-                    <a href="@Url.Action("Delete", new { id = item.IdArmadietto })" class="btn btn-danger">Delete</a>
-                    @Html.ActionLink("Cassetto", "Index", "Cassettis", new { id = item.IdArmadietto }, null)
+                    <a href="@Url.Action("Delete", new { id = item.IdArmadietto })" class="btn btn-danger" onclick="return confirmDelete();">Delete</a>
+
+                    }
+                    @if (User.IsInRole("Veterinario"))
+                    {
 
 
+                        @Html.ActionLink("Cassetto", "Index", "Cassettis", new { id = item.IdArmadietto, @class = "btn btn-info" }, null)
+                        <a href="@Url.Action("Details", new { id = item.IdArmadietto })" class="btn btn-secondary">Details</a>
+                        <a href="@Url.Action("Delete", new { id = item.IdArmadietto })" class="btn btn-danger" onclick="return confirmDelete();">Delete</a>
+
+                    }
                 </div>
             </div>
         </div>

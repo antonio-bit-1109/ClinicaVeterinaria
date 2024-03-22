@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Cassetti</h1>
 @* https://via.placeholder.com/150 *@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New</a>
@@ -23,7 +23,7 @@
                     <a href="@Url.Action("Details", new { id = item.IdCassetto })" class="btn btn-secondary">Details</a>
                     <a href="@Url.Action("Delete", new { id = item.IdCassetto })" class="btn btn-danger">Delete</a>
           @*           @Html.ActionLink("Prodotti", "Prodotti", "Index", new { id = item.IdCassetto }, null) *@
-                    <a class="btn btn-danger" asp-action="GetArmadiettiWithCassetti" asp-controller="ProdottiInCassettoes" asp-route-id="@item.IdCassetto">Prodotti</a>
+                    <a class="btn btn-danger" asp-action="GetArmadiettiWithCassetti" asp-controller="Prodotti" asp-route-id="@item.IdCassetto">Prodotti</a>
 
                 </div>
             </div>

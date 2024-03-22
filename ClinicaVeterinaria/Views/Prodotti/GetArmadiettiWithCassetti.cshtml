@@ -4,62 +4,73 @@
     ViewData["Title"] = "GetArmadiettiWithCassetti";
 }
 
-<h1>GetArmadiettiWithCassetti</h1>
+<h1>Prodotti nel Cassetto</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nomeprodotto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IsMedicinale)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PossibiliUsi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Prezzo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FotoProdotto)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdDittaFornitriceNavigation)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nomeprodotto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsMedicinale)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PossibiliUsi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Prezzo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FotoProdotto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdDittaFornitriceNavigation.IdDittaFornitrice)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdProdotto">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdProdotto">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdProdotto">Delete</a>
-            </td>
-        </tr>
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Message
+    </div>
 }
-    </tbody>
-</table>
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Nomeprodotto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsMedicinale)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PossibiliUsi)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Prezzo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FotoProdotto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IdDittaFornitriceNavigation)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nomeprodotto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IsMedicinale)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PossibiliUsi)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Prezzo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FotoProdotto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdDittaFornitriceNavigation.IdDittaFornitrice)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.IdProdotto">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.IdProdotto">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.IdProdotto">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

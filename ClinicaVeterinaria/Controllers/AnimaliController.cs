@@ -124,15 +124,15 @@ namespace ClinicaVeterinaria.Controllers
 
         // POST: Animali/Edit/5
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Idanimale,Dataregistrazione,NomeAnimale,Tipologia," +
-            "ColoreMantello,Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animale, IFormFile? FotoAnimale)
-        {
-            if (id != animale.IdAnimale)
-            {
-                return NotFound();
-            }
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit(int id, [Bind("Idanimale,Dataregistrazione,NomeAnimale,Tipologia," +
+			"ColoreMantello,Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animale, IFormFile? FotoAnimale)
+		{
+			if (id != animale.Idanimale)
+			{
+				return NotFound();
+			}
 
             ModelState.Remove("IdUtenteNavigation");
             ModelState.Remove("Ricoveris");
@@ -152,34 +152,34 @@ namespace ClinicaVeterinaria.Controllers
                             await FotoAnimale.CopyToAsync(fileStream);
                         }
 
-                        animale.FotoAnimale = fileName;
-                    }
-                    else
-                    {
-                        // Se FotoAnimale è null, manteniamo l'immagine esistente.
-                        var animaliEsistente = await _context.Animalis.AsNoTracking().FirstOrDefaultAsync(a => a.IdAnimale == id);
-                        animale.FotoAnimale = animaliEsistente?.FotoAnimale;
-                    }
+						animale.FotoAnimale = fileName;
+					}
+					else
+					{
+						// Se FotoAnimale è null, manteniamo l'immagine esistente.
+						var animaliEsistente = await _context.Animalis.AsNoTracking().FirstOrDefaultAsync(a => a.Idanimale == id);
+						animale.FotoAnimale = animaliEsistente?.FotoAnimale;
+					}
 
-                    _context.Update(animale);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!AnimaliExists(animale.IdAnimale))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente", animale.IdUtente);
-            return View(animale);
-        }
+					_context.Update(animale);
+					await _context.SaveChangesAsync();
+				}
+				catch (DbUpdateConcurrencyException)
+				{
+					if (!AnimaliExists(animale.Idanimale))
+					{
+						return NotFound();
+					}
+					else
+					{
+						throw;
+					}
+				}
+				return RedirectToAction(nameof(Index));
+			}
+			ViewData["IdUtente"] = new SelectList(_context.Utentis, "IdUtente", "IdUtente", animale.IdUtente);
+			return View(animale);
+		}
 
         // GET: Animali/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -194,13 +194,13 @@ namespace ClinicaVeterinaria.Controllers
                 return NotFound();
             }
 
-            var animali = await _context.Animalis
-                .Include(a => a.IdUtenteNavigation)
-                .FirstOrDefaultAsync(m => m.IdAnimale == id);
-            if (animali == null)
-            {
-                return NotFound();
-            }
+			var animali = await _context.Animalis
+				.Include(a => a.IdUtenteNavigation)
+				.FirstOrDefaultAsync(m => m.Idanimale == id);
+			if (animali == null)
+			{
+				return NotFound();
+			}
 
             return View(animali);
         }
@@ -220,10 +220,10 @@ namespace ClinicaVeterinaria.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AnimaliExists(int id)
-        {
-            return _context.Animalis.Any(e => e.IdAnimale == id);
-        }
+		private bool AnimaliExists(int id)
+		{
+			return _context.Animalis.Any(e => e.Idanimale == id);
+		}
 
 
         public IActionResult getAnimalByMicrochip(string stringMicro)
