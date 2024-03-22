@@ -262,7 +262,7 @@ namespace ClinicaVeterinaria.Controllers
                 .OrderByDescending(v => v.DataVisita)
                 .ToList();
 
-            return View(visiteAnimale);
+            return Json(visiteAnimale);
         }
     }
 }
