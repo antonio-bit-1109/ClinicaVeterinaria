@@ -28,4 +28,12 @@
     <Folder Include="wwwroot\images\utenti\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\js\cercaAnimalePerMicrochip.js" />
+    <None Include="wwwroot\js\createAnimale_show_hide.js" />
+    <None Include="wwwroot\js\cronistoriaVisite.js" />
+    <None Include="wwwroot\js\logicaEdit.js" />
+    <None Include="wwwroot\js\site.js" />
+  </ItemGroup>
+
 </Project>

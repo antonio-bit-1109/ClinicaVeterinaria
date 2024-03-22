@@ -1,121 +1,102 @@
 ﻿@model IEnumerable<ClinicaVeterinaria.Models.Animali>
 
 @{
-	ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-3">
-	<h1 class="mb-0">Lista Animali</h1>
-	<p class="mb-0">
-		<a asp-action="Create">Aggiungi Animale</a>
-	</p>
+    <h1 class="mb-0">Lista Animali</h1>
+    <p class="mb-0">
+        <a asp-action="Create">Aggiungi Animale</a>
+    </p>
 </div>
 
 <div class="container">
-	<div class="row">
-		@foreach (var item in Model) {		
-			<div class="col-4">	
-				<div class="card">
-					<img src="../images/animali/@item.FotoAnimale" class="img-thumbnail imgDimensions" alt="...">
-					<div class="card-body">
-						<h5 class="card-title">@item.NomeAnimale</h5>
-						<p class="card-text">@item.Dataregistrazione</p>
-						<p class="card-text">@item.Tipologia</p>
-						<p class="card-text">@item.ColoreMantello</p>
-						<p class="card-text">@item.Datanascita</p>
-						<p class="card-text">@item.HasMicrochip</p>
-						<p class="card-text">@item.NumMicrochip</p>
-						<p class="card-text">@item.HasProprietario</p>
-						<p class="card-text">@item.IdUtente</p>
-					</div>
-					<div>
-						<a class="btn btn-info me-2" asp-action="Edit" asp-route-id="@item.Idanimale">Modifica</a>
-						<a class="btn btn-outline-info me-2" asp-action="Details" asp-route-id="@item.Idanimale">Dettagli</a>
-						<a class="btn btn-danger me-2" asp-action="Delete" asp-route-id="@item.Idanimale">Elimina</a>
-						<a class="btn btn-info" asp-action="CronistoriaVisite" asp-controller="Visite" asp-route-id="@item.Idanimale">Cronologia delle Visite</a>
-					</div>
-				</div>
-			</div>
-			}
-	</div>
+    <div class="row">
+        @foreach (var animale in Model)
+        {
+            <div class="col-4">
+                <div class="card">
+                    <img src="../images/animali/@animale.FotoAnimale" class="img-thumbnail imgDimensions" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@animale.NomeAnimale</h5>
+                        <p class="card-text">@animale.Dataregistrazione</p>
+                        <p class="card-text">@animale.Tipologia</p>
+                        <p class="card-text">@animale.ColoreMantello</p>
+                        <p class="card-text">@animale.Datanascita</p>
+                        <p class="card-text">@animale.HasMicrochip</p>
+                        <p class="card-text">@animale.NumMicrochip</p>
+                        <p class="card-text">@animale.HasProprietario</p>
+                        <p class="card-text">@animale.IdUtente</p>
+                    </div>
+                    <div>
+                        <a class="btn btn-info me-2" asp-action="Edit" asp-route-id="@animale.Idanimale">Modifica</a>
+                        <a class="btn btn-outline-info me-2" asp-action="Details" asp-route-id="@animale.Idanimale">Dettagli</a>
+                        <a class="btn btn-danger me-2" asp-action="Delete" asp-route-id="@animale.Idanimale">Elimina</a>
+                        <button class="btn btn-info cronologia-visite-btn" data-animale-id="@animale.Idanimale">Cronologia delle Visite</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
-@* <table class="table">
-	<thead>
-		<tr>
-			<th>
-				@Html.DisplayNameFor(model => model.Dataregistrazione)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.NomeAnimale)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Tipologia)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.ColoreMantello)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.Datanascita)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.HasMicrochip)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.NumMicrochip)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.FotoAnimale)
-			</th>
-			<th>
-				@Html.DisplayNameFor(model => model.HasProprietario)
-			</th>
-			@*  <th>
-			@Html.DisplayNameFor(model => model.IdUtenteNavigation)
-			</th> *@
-@* 			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in Model)
-		{
-			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.Dataregistrazione)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.NomeAnimale)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Tipologia)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.ColoreMantello)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Datanascita)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.HasMicrochip)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.NumMicrochip)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.FotoAnimale)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.HasProprietario)
-				</td>
-				@*  <td>
-			@Html.DisplayFor(modelItem => item.IdUtenteNavigation.IdUtente)
-			</td> *@
-			@* 	<td>
-					<a asp-action="Edit" asp-route-id="@item.Idanimale">Edit</a> |
-					<a asp-action="Details" asp-route-id="@item.Idanimale">Details</a> |
-					<a asp-action="Delete" asp-route-id="@item.Idanimale">Delete</a>
-				</td>
-			</tr>
-		}
-	</tbody>
-</table> *@
+<div id="cronologia-visite-modal" class="modal fade" tabindex="-1" aria-labelledby="cronologia-visite-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cronologia-visite-modal-label">Cronologia delle Visite</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="cronologia-visite" class="row">
+                    <!-- Qui verranno aggiunte dinamicamente le visite -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="./js/cronistoriaVisite.js"></script>
+
+   <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var cronologiaVisiteModal = new bootstrap.Modal(document.getElementById("cronologia-visite-modal"));
+
+            document.querySelectorAll(".cronologia-visite-btn").forEach(btn => {
+                btn.addEventListener("click", function () {
+                    var animaleId = this.getAttribute("data-animale-id");
+
+                    fetch(`/Visite/CronistoriaVisite?id=${animaleId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            var container = document.getElementById("cronologia-visite");
+                            container.innerHTML = "";
+
+                            data.forEach(visita => {
+                                var visitaElement = document.createElement("div");
+                                visitaElement.classList.add("col-12", "mb-3");
+
+                                var visitaCard = `
+                                                    <div class="card">
+                                                        <div class="card-body">
+                                                            <h5 class="card-title">Visita del ${new Date(visita.dataVisita).toLocaleDateString()}</h5>
+                                                            <p class="card-text">Anamnesi: ${visita.anamnesi}</p>
+                                                            <p class="card-text">Descrizione Cura: ${visita.descrizioneCura}</p>
+                                                        </div>
+                                                    </div>
+                                                `;
+
+                                visitaElement.innerHTML = visitaCard;
+                                container.appendChild(visitaElement);
+                            });
+
+                            cronologiaVisiteModal.show();
+                        })
+                        .catch(error => console.error("Errore durante il recupero della cronologia delle visite:", error));
+                });
+            });
+        });
+    </script> 
+}
