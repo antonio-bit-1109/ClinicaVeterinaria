@@ -41,7 +41,7 @@ public partial class SocityPetContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=LAPTOP-0AIEBQTF\\SQLEXPRESS;Database=SocityPet;TrustServerCertificate=true;Trusted_Connection=True;");
+        => optionsBuilder.UseSqlServer("Server=FRELSERPC\\SQLEXPRESS;Database=SocityPet;TrustServerCertificate=true;Trusted_Connection=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -252,10 +252,6 @@ public partial class SocityPetContext : DbContext
             entity.HasOne(d => d.IdAnimaleNavigation).WithMany(p => p.Visites)
                 .HasForeignKey(d => d.IdAnimale)
                 .HasConstraintName("FK__VISITE__IdAnimal__3F466844");
-
-            entity.HasOne(d => d.IdRicettaNavigation).WithMany(p => p.Visites)
-                .HasForeignKey(d => d.IdRicetta)
-                .HasConstraintName("FK__VISITE__IdRicett__440B1D61");
         });
 
         OnModelCreatingPartial(modelBuilder);

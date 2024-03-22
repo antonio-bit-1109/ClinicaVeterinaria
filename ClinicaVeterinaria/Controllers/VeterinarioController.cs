@@ -37,7 +37,7 @@ public class VeterinarioController : Controller
 
         Visite? visita = await _db.Visites
                               .Include(v => v.IdAnimaleNavigation)
-                              .Include(v => v.IdRicettaNavigation)
+                              .Include(v => v.Ricettemediches)
                               .FirstOrDefaultAsync(v => v.IdVisita == id);
 
         if (visita == null)
@@ -111,7 +111,7 @@ public class VeterinarioController : Controller
                         _db.Ricettemediches.Add(ricetta);
                         await _db.SaveChangesAsync();
 
-                        visita.IdRicetta = ricetta.IdricettaMedica;
+                        //visita.IdRicetta = ricetta.IdricettaMedica;
                     }
 
                     _db.Visites.Add(visita);
