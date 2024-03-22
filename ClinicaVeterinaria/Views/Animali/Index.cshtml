@@ -38,6 +38,33 @@
 			</div>
 			}
 	</div>
+    <div class="row">
+        @foreach (var animale in Model)
+        {
+            <div class="col-4">
+                <div class="card">
+                    <img src="../images/animali/@animale.FotoAnimale" class="img-thumbnail imgDimensions" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">@animale.NomeAnimale</h5>
+                        <p class="card-text">@animale.Dataregistrazione</p>
+                        <p class="card-text">@animale.Tipologia</p>
+                        <p class="card-text">@animale.ColoreMantello</p>
+                        <p class="card-text">@animale.Datanascita</p>
+                        <p class="card-text">@animale.HasMicrochip</p>
+                        <p class="card-text">@animale.NumMicrochip</p>
+                        <p class="card-text">@animale.HasProprietario</p>
+                        <p class="card-text">@animale.IdUtente</p>
+                    </div>
+                    <div>
+                        <a class="btn btn-info me-2" asp-action="Edit" asp-route-id="@animale.Idanimale">Modifica</a>
+                        <a class="btn btn-outline-info me-2" asp-action="Details" asp-route-id="@animale.Idanimale">Dettagli</a>
+                        <a class="btn btn-danger me-2" asp-action="Delete" asp-route-id="@animale.Idanimale">Elimina</a>
+                        <button class="btn btn-info cronologia-visite-btn" data-animale-id="@animale.Idanimale">Cronologia delle Visite</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 <div id="cronologia-visite-modal" class="modal fade" tabindex="-1" aria-labelledby="cronologia-visite-modal-label" aria-hidden="true">
