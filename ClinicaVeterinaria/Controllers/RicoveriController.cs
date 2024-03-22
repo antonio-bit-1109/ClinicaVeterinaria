@@ -1,10 +1,12 @@
 ﻿using ClinicaVeterinaria.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace ClinicaVeterinaria.Controllers
 {
+    [Authorize(Roles = "Veterinario,Admin")]
     public class RicoveriController : Controller
     {
         private readonly SocityPetContext _context;
@@ -22,7 +24,7 @@ namespace ClinicaVeterinaria.Controllers
             string text = "bl";
             ViewBag.Text = text;
 
-            var socityPetContext = _context.Ricoveris.Include(r => r.IdanimaleNavigation);
+            var socityPetContext = _context.Ricoveris.Include(r => r.IdAnimaleNavigation);
             return View(await socityPetContext.ToListAsync());
         }
 
@@ -40,7 +42,7 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             var ricoveri = await _context.Ricoveris
-                .Include(r => r.IdanimaleNavigation)
+                .Include(r => r.IdAnimaleNavigation)
                 .FirstOrDefaultAsync(m => m.IdRicovero == id);
             if (ricoveri == null)
             {
@@ -58,29 +60,43 @@ namespace ClinicaVeterinaria.Controllers
             string text = "bl";
             ViewBag.Text = text;
 
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "NomeAnimale");
+            ViewBag.Idanimale = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale");
             return View();
         }
 
-        // POST: Ricoveri/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // POST: Ricoveri/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Dataregistrazionericovero,Idanimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,PrezzoTotaleRicovero")] Ricoveri ricoveri)
+        public async Task<IActionResult> Create([Bind("IdAnimale,PrezzoGiornalieroRicovero")] Ricoveri ricoveri)
         {
             ModelState.Remove("IdanimaleNavigation");
+            // Verifica se l'animale è già ricoverato
+            bool isAlreadyAdmitted = _context.Ricoveris.Any(r => r.IdAnimale == ricoveri.IdAnimale && r.IsRicoveroAttivo);
 
-            if (ModelState.IsValid)
+            if (isAlreadyAdmitted)
             {
+                TempData["Errore"] = "L'animale selezionato è già ricoverato.";
+            }
+            else if (ModelState.IsValid)
+            {
+                ricoveri.Dataregistrazionericovero = DateTime.Now;
+                ricoveri.DataInizioRicovero = DateTime.Now;
                 ricoveri.IsRicoveroAttivo = true;
+
                 _context.Add(ricoveri);
                 await _context.SaveChangesAsync();
+                TempData["Message"] = "Ricovero creato con successo.";
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", ricoveri.Idanimale);
+
+            ViewBag.Idanimale = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale", ricoveri.IdAnimale);
             return View(ricoveri);
         }
+
+
+
 
         // GET: Ricoveri/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -100,7 +116,7 @@ namespace ClinicaVeterinaria.Controllers
             {
                 return NotFound();
             }
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", ricoveri.Idanimale);
+            ViewData["Idanimale"] = new SelectList(_context.Animalis, "IdAnimale", "IdAnimale", ricoveri.IdAnimale);
             return View(ricoveri);
         }
 
@@ -109,7 +125,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdRicovero,Dataregistrazionericovero,Idanimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,IsRicoveroAttivo,PrezzoTotaleRicovero")] Ricoveri ricoveri)
+        public async Task<IActionResult> Edit(int id, [Bind("IdRicovero,Dataregistrazionericovero,IdAnimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,IsRicoveroAttivo,PrezzoTotaleRicovero")] Ricoveri ricoveri)
         {
             if (id != ricoveri.IdRicovero)
             {
@@ -136,7 +152,7 @@ namespace ClinicaVeterinaria.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", ricoveri.Idanimale);
+            ViewData["Idanimale"] = new SelectList(_context.Animalis, "IdAnimale", "IdAnimale", ricoveri.IdAnimale);
             return View(ricoveri);
         }
 
@@ -154,7 +170,7 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             var ricoveri = await _context.Ricoveris
-                .Include(r => r.IdanimaleNavigation)
+                .Include(r => r.IdAnimaleNavigation)
                 .FirstOrDefaultAsync(m => m.IdRicovero == id);
             if (ricoveri == null)
             {
@@ -176,6 +192,33 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Ricoveri/Dismetti/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Dismetti(int id)
+        {
+            var ricovero = await _context.Ricoveris.FindAsync(id);
+            if (ricovero == null)
+            {
+                TempData["Errore"] = "Ricovero non trovato.";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (ricovero.IsRicoveroAttivo)
+            {
+                ricovero.IsRicoveroAttivo = false;
+                ricovero.DataFinericovero = DateTime.Now;
+                await _context.SaveChangesAsync();
+                TempData["Message"] = "L'animale è stato dismesso con successo.";
+            }
+            else
+            {
+                TempData["Errore"] = "L'animale non è attualmente ricoverato.";
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

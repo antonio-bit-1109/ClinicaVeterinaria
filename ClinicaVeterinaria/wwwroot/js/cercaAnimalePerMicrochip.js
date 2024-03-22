@@ -3,11 +3,19 @@ const valoreMicrochip = document.getElementById("inputInserisciNumMicro");
 let Animalecercato = {};
 
 const FetchanimaleRicoverato = (id) => {
-    fetch(`/animali/IsAnimaleRicoverato/?idAnimale=${id}`)
-        .then(response => response.json())
+    fetch(`/animali/IsAnimaleRicoverato/?IdAnimale=${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        })
         .then(data => {
             console.log(data);
         })
+        .catch(error => {
+            console.error('Errore nel fetch:', error);
+        });
 }
 
 const myFetch = (valore) => {
@@ -36,7 +44,7 @@ const myFetch = (valore) => {
                     <img style="height:100px; object-fit:cover" src="../images/animali/${Animalecercato.fotoAnimale}" class="card-img-top" alt="...">
                   <div class="card-body">
                     <h5 class="card-title">${Animalecercato.nomeAnimale}</h5>
-                    <p class="card-text">${Animalecercato.idanimale}</p>
+                    <p class="card-text">${Animalecercato.IdAnimale}</p>
                    <p class="card-text">${Animalecercato.coloreMantello}</p>
                    <p class="card-text">${Animalecercato.dataregistrazione}</p>
                    <p class="card-text">${Animalecercato.hasMicrochip}</p>              /*possibile eliminare*/
@@ -50,7 +58,7 @@ const myFetch = (valore) => {
 
             let ricoveroButton = document.getElementById("ricoveroButton");
             ricoveroButton.addEventListener("click", () => {
-                FetchanimaleRicoverato(Animalecercato.idanimale)
+                FetchanimaleRicoverato(Animalecercato.IdAnimale)
             })
         })
 

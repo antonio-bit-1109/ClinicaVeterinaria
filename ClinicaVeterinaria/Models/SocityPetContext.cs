@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ClinicaVeterinaria.Models;
 
@@ -183,8 +185,8 @@ public partial class SocityPetContext : DbContext
                 .HasComputedColumnSql("(datediff(day,[DataInizioRicovero],isnull([DataFinericovero],getdate()))*[PrezzoGiornalieroRicovero])", false)
                 .HasColumnType("money");
 
-            entity.HasOne(d => d.IdanimaleNavigation).WithMany(p => p.Ricoveris)
-                .HasForeignKey(d => d.Idanimale)
+            entity.HasOne(d => d.IdAnimaleNavigation).WithMany(p => p.Ricoveris)
+                .HasForeignKey(d => d.IdAnimale)
                 .HasConstraintName("FK__RICOVERI__Idanim__5AEE82B9");
         });
 
