@@ -55,6 +55,15 @@ body {
     color: white;
 }
 
+    .ad:hover, .btn-outline-primary:hover {
+        background-color: #2f56ba;
+        color: white;
+    }
+
+.btn-outline-primary {
+    border: 2px solid #0438ba;
+}
+
 .wh, .wh:hover{
     color: white;
 }

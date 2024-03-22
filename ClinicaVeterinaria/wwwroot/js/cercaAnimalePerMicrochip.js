@@ -37,8 +37,8 @@ const myFetch = (valore) => {
                     <p class="card-text">${Animalecercato.idanimale}</p>
                    <p class="card-text">${Animalecercato.coloreMantello}</p>
                    <p class="card-text">${Animalecercato.dataregistrazione}</p>
-                   <p class="card-text">${Animalecercato.hasMicrochip}</p>
-                   <p class="card-text">${Animalecercato.hasProprietario}</p>
+                   <p class="card-text">${Animalecercato.hasMicrochip}</p>              /*possibile eliminare*/
+                   <p class="card-text">${Animalecercato.hasProprietario}</p>           /*possibile eliminare*/
                    <p class="card-text">${Animalecercato.numMicrochip}</p>
                    <p class="card-text">${Animalecercato.tipologia}</p>
                     <button id="ricoveroButton" class="btn btn-primary"> Il tuo animale è ricoverato da noi ? </button>
