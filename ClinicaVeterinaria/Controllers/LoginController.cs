@@ -20,9 +20,9 @@ namespace ClinicaVeterinaria.Controllers
 
         public IActionResult Index()
         {
-            string navfoot = "vet";
+            string navfoot = "grad";
             ViewBag.NavFoot = navfoot;
-            string text = "bl";
+            string text = "wh";
             ViewBag.Text = text;
 
             return View();
@@ -57,7 +57,7 @@ namespace ClinicaVeterinaria.Controllers
                        authProperties);
 
                     TempData["Message"] = "Login effettuato con successo";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Home");
                 }
                 TempData["Errore"] = "Nome utente o password non corretti.";
                 return RedirectToAction("Index", "Home");
@@ -76,7 +76,7 @@ namespace ClinicaVeterinaria.Controllers
             MiStoRegistrando = true;
             TempData["MiStoRegistrando"] = MiStoRegistrando;
             TempData["infoRegistrazione"] = "Inserisci qui sotto i tuoi dati di registrazione.";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Login");
         }
 
 

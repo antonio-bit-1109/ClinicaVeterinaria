@@ -16,10 +16,10 @@ namespace ClinicaVeterinaria.Controllers
 
         public IActionResult Index()
         {
-            if (User.Claims.Any(c => c.Type == ClaimTypes.NameIdentifier))
-            {
-                return RedirectToAction("Index", "Prodotti");
-            }
+            //if (User.Claims.Any(c => c.Type == ClaimTypes.NameIdentifier))
+            //{
+            //    return RedirectToAction("Index", "Prodotti");
+            //}
 
             string navfoot = "grad";
             ViewBag.NavFoot = navfoot;
