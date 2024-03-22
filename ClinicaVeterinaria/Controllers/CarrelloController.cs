@@ -89,7 +89,7 @@ namespace ClinicaVeterinaria.Controllers
 							{
 								Name = item.Prodotto.Nomeprodotto,
 								Description = item.Prodotto.PossibiliUsi,
-								Images = new List<string> { domain + "/imgs/" + item.Prodotto.FotoProdotto }
+								//Images = new List<string> { domain + "images/prodotti/" + item.Prodotto.FotoProdotto }
 							}
 						},
 						Quantity = item.Quantita
