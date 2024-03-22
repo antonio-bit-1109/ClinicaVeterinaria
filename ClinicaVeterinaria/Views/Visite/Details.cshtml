@@ -1,49 +1,66 @@
-﻿@model ClinicaVeterinaria.Models.Visite
+﻿@model ClinicaVeterinaria.Models.ViewModel.VisitaDettagliViewModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Dettagli Visita";
 }
 
-<h1 class="mb-3">Dettagli Visita</h1>
+<h1 class="mb-3">@ViewData["Title"]</h1>
 
 <div class="card mb-4">
     <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-4">Data Visita:</dt>
-            <dd class="col-sm-8">@Model.DataVisita.ToShortDateString()</dd>
+        <div class="row mb-3">
+            <div class="col-sm-4"><strong>Data Visita:</strong></div>
+            <div class="col-sm-8">@Model.Visita.DataVisita.ToShortDateString()</div>
+        </div>
 
-            <dt class="col-sm-4">Anamnesi:</dt>
-            <dd class="col-sm-8">@Model.Anamnesi</dd>
+        <div class="row mb-3">
+            <div class="col-sm-4"><strong>Anamnesi:</strong></div>
+            <div class="col-sm-8">@Model.Visita.Anamnesi</div>
+        </div>
 
-            <dt class="col-sm-4">Descrizione Cura:</dt>
-            <dd class="col-sm-8">@Model.DescrizioneCura</dd>
+        <div class="row mb-3">
+            <div class="col-sm-4"><strong>Descrizione Cura:</strong></div>
+            <div class="col-sm-8">@Model.Visita.DescrizioneCura</div>
+        </div>
 
-            <dt class="col-sm-4">Animale:</dt>
-            <dd class="col-sm-8">@Model.IdAnimaleNavigation.NomeAnimale</dd> <!-- Assicurati che la proprietà si chiami 'NomeAnimale' -->
+        <div class="row mb-3">
+            <div class="col-sm-4"><strong>Animale:</strong></div>
+            <div class="col-sm-8">@Model.Visita.IdAnimaleNavigation.NomeAnimale</div>
+        </div>
 
-            <dt class="col-sm-4">Prezzo Visita:</dt>
-            <dd class="col-sm-8">@Model.PrezzoVisita</dd>
+        <div class="row mb-3">
+            <div class="col-sm-4"><strong>Prezzo Visita:</strong></div>
+            <div class="col-sm-8">@Model.Visita.PrezzoVisita?.ToString("C")</div>
+        </div>
 
-            @if (Model.IdRicettaNavigation.IdricettaMedica != null)
-            {
-                <dt class="col-sm-4">Ricetta Medica:</dt>
-                <dd class="col-sm-8">@Model.IdRicettaNavigation.Descrizione</dd>
-
-                <dt class="col-sm-4">Prodotti Prescritti:</dt>
-                <dd class="col-sm-8">
-                    <ul>
-                        @foreach (var prodotto in Model.IdRicettaNavigation.IdProdottos)
-                        {
-                            <li>@prodotto.Nomeprodotto (Quantità: @prodotto.Prezzo)</li> <!-- Sostituisci 'NomeProdotto' e 'Quantità' con i nomi reali delle proprietà -->
-                        }
-                    </ul>
-                </dd>
-            }
-        </dl>
+        @foreach (var ricetta in Model.Ricette)
+        {
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h3 class="mb-0">Ricetta Medica: @ricetta.Descrizione</h3>
+                </div>
+                <div class="card-body">
+                    @if (Model.ProdottiPerRicetta.ContainsKey(ricetta.IdricettaMedica))
+                    {
+                        <div class="row">
+                            <div class="col-sm-4"><strong>Prodotti Prescritti:</strong></div>
+                            <div class="col-sm-8">
+                                <ul>
+                                    @foreach (var prodotto in Model.ProdottiPerRicetta[ricetta.IdricettaMedica])
+                                    {
+                                        <li>@prodotto.Nomeprodotto - Prezzo: @prodotto.Prezzo?.ToString("C")</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
     </div>
 </div>
 
-<div>
-    <a class="btn btn-primary me-2" asp-action="Edit" asp-route-id="@Model.IdVisita">Modifica</a>
-    <a class="btn btn-secondary" asp-action="Index">Lista Visite</a>
+<div class="d-flex justify-content-start">
+    <a class="btn btn-primary me-2" asp-action="Edit" asp-route-id="@Model.Visita.IdVisita">Modifica</a>
+    <a class="btn btn-outline-secondary" asp-action="Index">Torna alla lista</a>
 </div>

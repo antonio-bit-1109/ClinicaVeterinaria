@@ -11,6 +11,7 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group mb-3">
                 <label asp-for="DataVisita" class="control-label"></label>
                 <input asp-for="DataVisita" class="form-control" />
@@ -47,32 +48,35 @@
                     </label>
                 </div>
             </div>
-
-            <!-- Sezione Ricetta Medica -->
-            <div id="ricettaMedica" style="display: none;">
-                <h3>Ricetta Medica:</h3>
-
-                <!-- Descrizione Ricetta -->
-                <div class="form-group mb-3">
-                    <label for="descrizioneRicetta">Descrizione Ricetta</label>
+            <div id="ricettaMedica" style="display:none;">
+                <div class="form-group">
+                    <label for="descrizioneRicetta">Descrizione Ricetta:</label>
                     <textarea id="descrizioneRicetta" name="descrizioneRicetta" class="form-control"></textarea>
                 </div>
 
-                <!-- Seleziona Prodotti -->
-                <div class="form-group mb-3">
-                    <label for="prodottiId">Seleziona Prodotti:</label>
-                    <select id="prodottiId" name="prodottiId[]" class="form-control" multiple asp-items="ViewBag.ProdottoId"></select>
-                    <input type="hidden" id="campoProdottiSelezionati" name="campoProdottiSelezionati" value="">
+                <div class="form-group">
+                    <label for="prodottiSelect">Prodotti Prescritti:</label>
+                    <select id="prodottiSelect" class="form-control" multiple>
+                        @foreach (var prodotto in ViewBag.ProdottoId as SelectList)
+                        {
+                            <option value="@prodotto.Value">@prodotto.Text</option>
+                        }
+                    </select>
                 </div>
-                <!-- Pulsante per aggiungere prodotti -->
-                <button type="button" id="aggiungiProdotto" class="btn btn-primary mb-3">Aggiungi Prodotto</button>
 
-                <!-- Lista dei prodotti aggiunti -->
+                <div class="form-group">
+                    <button type="button" id="aggiungiProdotto" class="btn btn-default">Aggiungi Prodotto</button>
+                </div>
+
                 <ul id="listaProdotti"></ul>
+
+                <!-- Questo input nascosto conterrà gli ID dei prodotti selezionati separati da virgola -->
+                <input type="hidden" id="campoProdottiSelezionati" name="prodottiId" value="">
             </div>
-            <div class="form-group">
-                <input type="submit" value="Aggiungi" class="btn btn-info me-2" />
-                <a class="btn btn-outline-info me-2" asp-action="Index">Lista Visite</a>
+
+            <div>
+                <button type="submit" class="btn btn-primary me-2">Crea Visita</button>
+                <a class="btn btn-secondary" asp-action="Index">Lista Visite</a>
             </div>
         </form>
 
@@ -97,32 +101,34 @@
 
                     // Gestore per il pulsante "Aggiungi Prodotto"
                     $('#aggiungiProdotto').on('click', function () {
-                        const selezionati = $('#prodottiId').val(); // Ottiene gli ID selezionati dal select
+                        const selezionati = $('#prodottiSelect').val(); // Ottiene gli ID selezionati dal select
                         selezionati.forEach(function (id) {
                             if (!prodottiSelezionati.includes(id)) {
                                 prodottiSelezionati.push(id); // Aggiungi alla lista se non è già presente
+                                aggiornaListaProdotti();
                             }
                         });
-                        aggiornaListaProdotti();
                     });
 
                     // Aggiorna la lista dei prodotti selezionati visualizzata
                     function aggiornaListaProdotti() {
                         $('#listaProdotti').empty(); // Svuota la lista corrente
                         prodottiSelezionati.forEach(id => {
-                            $('#listaProdotti').append('<li>' + id + ' <button type="button" class="rimuoviProdotto" data-id="' + id + '">Rimuovi</button></li>');
+                            $('#listaProdotti').append('<li>' + id + ' <button type="button" class="btn btn-outline-danger rimuoviProdotto" data-id="' + id + '">Rimuovi</button></li>');
                         });
+                        $('#campoProdottiSelezionati').val(prodottiSelezionati.join(','));
                     }
 
                     // Rimuovi prodotto dalla lista
                     $('#listaProdotti').on('click', '.rimuoviProdotto', function () {
                         const prodottoId = $(this).data('id');
-                        prodottiSelezionati = prodottiSelezionati.filter(id => id !== prodottoId.toString());
+                        prodottiSelezionati = prodottiSelezionati.filter(id => id !== prodottoId);
                         aggiornaListaProdotti();
                     });
 
                     // Prima del submit, trasferisci gli ID dei prodotti nel campo nascosto
                     $('form').on('submit', function () {
+                        // Assicurati che l'ID del campo nascosto corrisponda a quello definito nel tuo modello
                         $('#campoProdottiSelezionati').val(prodottiSelezionati.join(',')); // Combina gli ID con una virgola
                     });
                 });

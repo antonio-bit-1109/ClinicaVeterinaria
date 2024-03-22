@@ -1,4 +1,5 @@
 ﻿using ClinicaVeterinaria.Models;
+using ClinicaVeterinaria.Models.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ namespace ClinicaVeterinaria.Controllers
 
             var visite = await _context.Visites
                 .Include(v => v.IdAnimaleNavigation)
-                .Include(v => v.IdRicettaNavigation) // Assicurati che questa sia la proprietà di navigazione corretta
+                .Include(v => v.Ricettemediches) // Assicurati che questa sia la proprietà di navigazione corretta
                 .ToListAsync();
 
             return View(visite);
@@ -45,27 +46,74 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Visite/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            string navfoot = "vet";
-            ViewBag.NavFoot = navfoot;
-            string text = "bl";
-            ViewBag.Text = text;
-
             if (id == null)
             {
                 return NotFound();
             }
 
-            var visite = await _context.Visites
+            var visita = await _context.Visites
                 .Include(v => v.IdAnimaleNavigation)
-                .Include(v => v.IdRicettaNavigation)
+                .Include(v => v.Ricettemediches)
                 .FirstOrDefaultAsync(m => m.IdVisita == id);
-            if (visite == null)
+
+            if (visita == null)
             {
                 return NotFound();
             }
 
-            return View(visite);
+            var viewModel = new VisitaDettagliViewModel
+            {
+                Visita = visita,
+                Ricette = visita.Ricettemediches.ToList()
+            };
+
+            // Assumi di avere la connessione al database dal contesto
+            var connection = _context.Database.GetDbConnection();
+
+            try
+            {
+                await connection.OpenAsync();
+                foreach (var ricetta in viewModel.Ricette)
+                {
+                    var command = connection.CreateCommand();
+                    command.CommandText = @"
+                SELECT p.IdProdotto, p.Nomeprodotto
+                FROM Prodotti p
+                INNER JOIN ProdottiRicette pr ON p.IdProdotto = pr.IdProdotto
+                WHERE pr.IdRicettaMedica = @IdRicettaMedica";
+
+                    var parameter = command.CreateParameter();
+                    parameter.ParameterName = "@IdRicettaMedica";
+                    parameter.Value = ricetta.IdricettaMedica;
+                    command.Parameters.Add(parameter);
+
+                    var prodotti = new List<Prodotti>();
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            prodotti.Add(new Prodotti
+                            {
+                                IdProdotto = reader.GetInt32(reader.GetOrdinal("IdProdotto")),
+                                Nomeprodotto = reader.GetString(reader.GetOrdinal("Nomeprodotto")),
+                                Prezzo = reader.GetDecimal(reader.GetOrdinal("Prezzo")),
+                                FotoProdotto = reader.GetString(reader.GetOrdinal("FotoProdotto"))
+                            });
+                        }
+                    }
+
+                    viewModel.ProdottiPerRicetta.Add(ricetta.IdricettaMedica, prodotti);
+                }
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+
+            return View(viewModel);
         }
+
+
 
         // GET: Visite/Create
         public IActionResult Create()
@@ -75,11 +123,17 @@ namespace ClinicaVeterinaria.Controllers
             string text = "bl";
             ViewBag.Text = text;
 
-            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale");
+            var nuovaVisita = new Visite
+            {
+
+                Ricettemediches = new List<Ricettemediche>()
+            };
+
+            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "NomeAnimale");
             //ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica");
             ViewBag.ProdottoId = new SelectList(_context.Prodottis.Where(p => p.IsMedicinale), "IdProdotto", "Nomeprodotto");
             ViewBag.Ricetta = new Ricettemediche();
-            return View();
+            return View(new Visite { Ricettemediches = new List<Ricettemediche>() });
         }
 
         // POST: Visite/Create
@@ -90,6 +144,7 @@ namespace ClinicaVeterinaria.Controllers
         public async Task<IActionResult> Create([Bind("DataVisita,Anamnesi,DescrizioneCura,IdAnimale,PrezzoVisita")] Visite visita, int[] prodottiId, bool aggiungiRicetta, string descrizioneRicetta)
         {
             ModelState.Remove("descrizioneRicetta");
+            ModelState.Remove("IdAnimaleNavigation");
 
             if (ModelState.IsValid)
             {
@@ -119,7 +174,6 @@ namespace ClinicaVeterinaria.Controllers
                             await _context.SaveChangesAsync();
 
                             // Aggiorna la visita con l'ID della ricetta
-                            visita.IdRicetta = ricetta.IdricettaMedica;
                             _context.Visites.Update(visita);
                             await _context.SaveChangesAsync();
 
@@ -166,13 +220,16 @@ namespace ClinicaVeterinaria.Controllers
                 return NotFound();
             }
 
-            var visite = await _context.Visites.FindAsync(id);
+            var visite = await _context.Visites
+            .Include(v => v.Ricettemediches)
+            .FirstOrDefaultAsync(v => v.IdVisita == id);
             if (visite == null)
             {
                 return NotFound();
             }
             ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", visite.IdAnimale);
-            ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica", visite.IdRicetta);
+            var ricettaId = visite.Ricettemediches.FirstOrDefault()?.IdricettaMedica; // Ottiego l'ID della prima ricetta se esiste
+            ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "Descrizione", ricettaId);
             return View(visite);
         }
 
@@ -181,7 +238,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdVisita,DataVisita,Anamnesi,DescrizioneCura,IdAnimale,IdRicetta,PrezzoVisita")] Visite visite)
+        public async Task<IActionResult> Edit(int id, [Bind("IdVisita,DataVisita,Anamnesi,DescrizioneCura,IdAnimale,PrezzoVisita")] Visite visite)
         {
             if (id != visite.IdVisita)
             {
@@ -194,6 +251,7 @@ namespace ClinicaVeterinaria.Controllers
                 {
                     _context.Update(visite);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -206,10 +264,10 @@ namespace ClinicaVeterinaria.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
-            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", visite.IdAnimale);
-            ViewData["IdRicetta"] = new SelectList(_context.Ricettemediches, "IdricettaMedica", "IdricettaMedica", visite.IdRicetta);
+            // Ricarica le selezioni per gli elenchi a discesa
+            ViewData["IdAnimale"] = new SelectList(_context.Animalis, "Idanimale", "NomeAnimale", visite.IdAnimale);
+            // Non è necessario includere la ViewData per "IdRicetta" se non viene modificata
             return View(visite);
         }
 
@@ -228,7 +286,7 @@ namespace ClinicaVeterinaria.Controllers
 
             var visite = await _context.Visites
                 .Include(v => v.IdAnimaleNavigation)
-                .Include(v => v.IdRicettaNavigation)
+                .Include(v => v.Ricettemediches)
                 .FirstOrDefaultAsync(m => m.IdVisita == id);
             if (visite == null)
             {
@@ -239,13 +297,12 @@ namespace ClinicaVeterinaria.Controllers
         }
 
         // POST: Visite/Delete/5
-        // POST: Visite/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var visita = await _context.Visites
-                .Include(v => v.IdRicettaNavigation)
+                .Include(v => v.Ricettemediches)
                 .SingleOrDefaultAsync(v => v.IdVisita == id);
 
             if (visita == null)
@@ -253,9 +310,13 @@ namespace ClinicaVeterinaria.Controllers
                 return NotFound();
             }
 
-            if (visita.IdRicettaNavigation != null)
+            if (visita.Ricettemediches != null)
             {
-                _context.Ricettemediches.Remove(visita.IdRicettaNavigation);
+                // Qui rimuovi ogni ricetta singolarmente
+                foreach (var ricetta in visita.Ricettemediches.ToList())
+                {
+                    _context.Ricettemediches.Remove(ricetta);
+                }
             }
 
             _context.Visites.Remove(visita);
