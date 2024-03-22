@@ -235,9 +235,10 @@ namespace ClinicaVeterinaria.Controllers
 
         public IActionResult IsAnimaleRicoverato(int idAnimale)
         {
-            var isAnimaleRicoverato = _context.Ricoveris.Where(r => r.IdAnimale == idAnimale && r.IsRicoveroAttivo == true).FirstOrDefault();
+            //var isAnimaleRicoverato = _context.Ricoveris.Where(r => r.IdAnimale == idAnimale && r.IsRicoveroAttivo == true).FirstOrDefault();
+            var animaleRicoverato = _context.Ricoveris.Where(r => r.IdAnimale == idAnimale).Where(r => r.IsRicoveroAttivo == Convert.ToBoolean(1)).FirstOrDefault();
 
-            return Json(isAnimaleRicoverato);
+            return Json(animaleRicoverato);
         }
     }
 }

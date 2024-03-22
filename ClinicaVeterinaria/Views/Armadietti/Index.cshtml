@@ -4,19 +4,20 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Armadietti</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Armadietti</h1>
+    <p class="mb-0">
+        <a class="btn btn-success" asp-action="Create">Aggiungi Armadietto</a>
+    </p>
+</div>
 
 <div class="row">
     @foreach (var item in Model)
     {
         <div class="col-md-3 mb-4">
-            <div class="card bg-secondary ">
+            <div class="card farm">
                 <div class="card-body">
-                    <img src="/images/extra/Screenshot 2024-03-20 170552.png" class="card-img-top" alt="...">
+                    <img src="/images/extra/Screenshot 2024-03-20 170552.png" class="card-img-top" alt="armadietto">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Descrizione)</h5>
                     <p class="card-text">
                         <!-- Aggiungi altre informazioni qui se necessario -->
@@ -25,22 +26,16 @@
 
                     @if (User.IsInRole("Farmacista") || User.IsInRole("Admin"))
                     {
-                    @Html.ActionLink("Cassetto", "Index", "Cassettis", new { id = item.IdArmadietto, @class = "btn btn-info" }, null)
-
-                
-                    <a href="@Url.Action("Edit", new { id = item.IdArmadietto })" class="btn btn-primary">Edit</a>
-                    <a href="@Url.Action("Details", new { id = item.IdArmadietto })" class="btn btn-secondary">Details</a>
-                    <a href="@Url.Action("Delete", new { id = item.IdArmadietto })" class="btn btn-danger" onclick="return confirmDelete();">Delete</a>
-
+                        <a href="@Url.Action("Edit", new { id = item.IdArmadietto })" class="btn btn-success me-2">Modifica</a>
+                        <a href="@Url.Action("Details", new { id = item.IdArmadietto })" class="btn btn-outline-success me-2">Dettagli</a>
+                        <a href="@Url.Action("Delete", new { id = item.IdArmadietto })" class="btn btn-danger me-2" onclick="return confirmDelete();">Elimina</a>
+                        @Html.ActionLink("Cassetto", "Index", "Cassettis", new { id = item.IdArmadietto, @class = "btn btn-outline-success" }, null)
                     }
                     @if (User.IsInRole("Veterinario"))
                     {
-
-
                         @Html.ActionLink("Cassetto", "Index", "Cassettis", new { id = item.IdArmadietto, @class = "btn btn-info" }, null)
-                        <a href="@Url.Action("Details", new { id = item.IdArmadietto })" class="btn btn-secondary">Details</a>
-                        <a href="@Url.Action("Delete", new { id = item.IdArmadietto })" class="btn btn-danger" onclick="return confirmDelete();">Delete</a>
-
+                        <a href="@Url.Action("Details", new { id = item.IdArmadietto })" class="btn btn-outline-success">Dettagli</a>
+                        <a href="@Url.Action("Delete", new { id = item.IdArmadietto })" class="btn btn-danger" onclick="return confirmDelete();">Elimina</a>
                     }
                 </div>
             </div>

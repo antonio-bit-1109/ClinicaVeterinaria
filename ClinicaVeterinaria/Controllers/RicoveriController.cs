@@ -6,59 +6,59 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ClinicaVeterinaria.Controllers
 {
-    [Authorize(Roles = "Veterinario,Admin")]
-    public class RicoveriController : Controller
-    {
-        private readonly SocityPetContext _context;
+	[Authorize(Roles = "Veterinario , Admin")]
+	public class RicoveriController : Controller
+	{
+		private readonly SocityPetContext _context;
 
-        public RicoveriController(SocityPetContext context)
-        {
-            _context = context;
-        }
+		public RicoveriController(SocityPetContext context)
+		{
+			_context = context;
+		}
 
-        // GET: Ricoveri
-        public async Task<IActionResult> Index()
-        {
-            string navfoot = "vet";
-            ViewBag.NavFoot = navfoot;
-            string text = "bl";
-            ViewBag.Text = text;
+		// GET: Ricoveri
+		public async Task<IActionResult> Index()
+		{
+			string navfoot = "vet";
+			ViewBag.NavFoot = navfoot;
+			string text = "bl";
+			ViewBag.Text = text;
 
-            var socityPetContext = _context.Ricoveris.Include(r => r.IdAnimaleNavigation);
-            return View(await socityPetContext.ToListAsync());
-        }
+			var socityPetContext = _context.Ricoveris.Include(r => r.IdAnimaleNavigation);
+			return View(await socityPetContext.ToListAsync());
+		}
 
-        // GET: Ricoveri/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            string navfoot = "vet";
-            ViewBag.NavFoot = navfoot;
-            string text = "bl";
-            ViewBag.Text = text;
+		// GET: Ricoveri/Details/5
+		public async Task<IActionResult> Details(int? id)
+		{
+			string navfoot = "vet";
+			ViewBag.NavFoot = navfoot;
+			string text = "bl";
+			ViewBag.Text = text;
 
-            if (id == null)
-            {
-                return NotFound();
-            }
+			if (id == null)
+			{
+				return NotFound();
+			}
 
-            var ricoveri = await _context.Ricoveris
-                .Include(r => r.IdAnimaleNavigation)
-                .FirstOrDefaultAsync(m => m.IdRicovero == id);
-            if (ricoveri == null)
-            {
-                return NotFound();
-            }
+			var ricoveri = await _context.Ricoveris
+				.Include(r => r.IdAnimaleNavigation)
+				.FirstOrDefaultAsync(m => m.IdRicovero == id);
+			if (ricoveri == null)
+			{
+				return NotFound();
+			}
 
-            return View(ricoveri);
-        }
+			return View(ricoveri);
+		}
 
-        // GET: Ricoveri/Create
-        public IActionResult Create()
-        {
-            string navfoot = "vet";
-            ViewBag.NavFoot = navfoot;
-            string text = "bl";
-            ViewBag.Text = text;
+		// GET: Ricoveri/Create
+		public IActionResult Create()
+		{
+			string navfoot = "vet";
+			ViewBag.NavFoot = navfoot;
+			string text = "bl";
+			ViewBag.Text = text;
 
             ViewBag.Idanimale = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale");
             return View();
@@ -106,10 +106,10 @@ namespace ClinicaVeterinaria.Controllers
             string text = "bl";
             ViewBag.Text = text;
 
-            if (id == null)
-            {
-                return NotFound();
-            }
+			if (id == null)
+			{
+				return NotFound();
+			}
 
             var ricoveri = await _context.Ricoveris.FindAsync(id);
             if (ricoveri == null)
@@ -156,18 +156,18 @@ namespace ClinicaVeterinaria.Controllers
             return View(ricoveri);
         }
 
-        // GET: Ricoveri/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            string navfoot = "vet";
-            ViewBag.NavFoot = navfoot;
-            string text = "bl";
-            ViewBag.Text = text;
+		// GET: Ricoveri/Delete/5
+		public async Task<IActionResult> Delete(int? id)
+		{
+			string navfoot = "vet";
+			ViewBag.NavFoot = navfoot;
+			string text = "bl";
+			ViewBag.Text = text;
 
-            if (id == null)
-            {
-                return NotFound();
-            }
+			if (id == null)
+			{
+				return NotFound();
+			}
 
             var ricoveri = await _context.Ricoveris
                 .Include(r => r.IdAnimaleNavigation)
@@ -177,19 +177,19 @@ namespace ClinicaVeterinaria.Controllers
                 return NotFound();
             }
 
-            return View(ricoveri);
-        }
+			return View(ricoveri);
+		}
 
-        // POST: Ricoveri/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var ricoveri = await _context.Ricoveris.FindAsync(id);
-            if (ricoveri != null)
-            {
-                _context.Ricoveris.Remove(ricoveri);
-            }
+		// POST: Ricoveri/Delete/5
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			var ricoveri = await _context.Ricoveris.FindAsync(id);
+			if (ricoveri != null)
+			{
+				_context.Ricoveris.Remove(ricoveri);
+			}
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -222,9 +222,9 @@ namespace ClinicaVeterinaria.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool RicoveriExists(int id)
-        {
-            return _context.Ricoveris.Any(e => e.IdRicovero == id);
-        }
-    }
+		private bool RicoveriExists(int id)
+		{
+			return _context.Ricoveris.Any(e => e.IdRicovero == id);
+		}
+	}
 }

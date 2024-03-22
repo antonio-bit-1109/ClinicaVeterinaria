@@ -4,27 +4,26 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1>Dettagli Cassetto</h1>
 
 <div>
-    <h4>Cassetti</h4>
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Descrizione)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-10 mb-3">
             @Html.DisplayFor(model => model.Descrizione)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IdArmadiettoNavigation)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class = "col-sm-10 mb-3">
             @Html.DisplayFor(model => model.IdArmadiettoNavigation.IdArmadietto)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdCassetto">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-success me-2" asp-action="Edit" asp-route-id="@Model?.IdCassetto">Modifica</a> |
+    <a class="btn btn-outline-success" asp-action="Index">Lista Cassetti</a>
 </div>
