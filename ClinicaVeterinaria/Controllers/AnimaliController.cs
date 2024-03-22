@@ -129,7 +129,7 @@ namespace ClinicaVeterinaria.Controllers
 		public async Task<IActionResult> Edit(int id, [Bind("Idanimale,Dataregistrazione,NomeAnimale,Tipologia," +
 			"ColoreMantello,Datanascita,HasMicrochip,NumMicrochip,HasProprietario,IdUtente")] Animali animale, IFormFile? FotoAnimale)
 		{
-			if (id != animale.Idanimale)
+			if (id != animale.IdAnimale)
 			{
 				return NotFound();
 			}
@@ -157,7 +157,7 @@ namespace ClinicaVeterinaria.Controllers
 					else
 					{
 						// Se FotoAnimale è null, manteniamo l'immagine esistente.
-						var animaliEsistente = await _context.Animalis.AsNoTracking().FirstOrDefaultAsync(a => a.Idanimale == id);
+						var animaliEsistente = await _context.Animalis.AsNoTracking().FirstOrDefaultAsync(a => a.IdAnimale == id);
 						animale.FotoAnimale = animaliEsistente?.FotoAnimale;
 					}
 
@@ -166,7 +166,7 @@ namespace ClinicaVeterinaria.Controllers
 				}
 				catch (DbUpdateConcurrencyException)
 				{
-					if (!AnimaliExists(animale.Idanimale))
+					if (!AnimaliExists(animale.IdAnimale))
 					{
 						return NotFound();
 					}
@@ -196,7 +196,7 @@ namespace ClinicaVeterinaria.Controllers
 
 			var animali = await _context.Animalis
 				.Include(a => a.IdUtenteNavigation)
-				.FirstOrDefaultAsync(m => m.Idanimale == id);
+				.FirstOrDefaultAsync(m => m.IdAnimale == id);
 			if (animali == null)
 			{
 				return NotFound();
@@ -222,7 +222,7 @@ namespace ClinicaVeterinaria.Controllers
 
 		private bool AnimaliExists(int id)
 		{
-			return _context.Animalis.Any(e => e.Idanimale == id);
+			return _context.Animalis.Any(e => e.IdAnimale == id);
 		}
 
 
