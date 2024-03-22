@@ -109,8 +109,8 @@
                                         </ul>
                                     </li>
                                 }
-                            <li class="nav-item ms-auto">
-                                <a class="navlink text-light" asp-action="Index" asp-controller="Carrello">Carrello</a>
+                            <li class="nav-item">
+                                <a class="navlink text-light ms-auto" asp-action="Index" asp-controller="Carrello">Carrello</a>
                             </li>
 
                             <!-- Link Benvenuto e Log-Out -->
@@ -133,7 +133,7 @@
                             if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value == null)
                             {
                             <li class="nav-item ms-auto">
-                                <a class="nav-link @ViewBag.Text" asp-action="Index" asp-controller="Home">Accedi</a>
+                                <a class="navlink @ViewBag.Text" asp-action="Index" asp-controller="Login">Accedi</a>
                             </li>
                             <li class="nav-item">
                                     <a class="navlink @ViewBag.Text" asp-action="Registrazione" asp-controller="Login">Registrati</a>

@@ -18,8 +18,13 @@ namespace ClinicaVeterinaria.Controllers
 		//
 		public ActionResult Index()
 		{
-			// Prendo il carrello dalla sessione
-			var carrelloSession = HttpContext.Session.GetString("carrello");
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
+            // Prendo il carrello dalla sessione
+            var carrelloSession = HttpContext.Session.GetString("carrello");
 
 			// Se il carrello esiste e non è vuoto
 			if (!string.IsNullOrEmpty(carrelloSession))
@@ -38,7 +43,12 @@ namespace ClinicaVeterinaria.Controllers
 
 		public IActionResult RimuoviItemDalCarrello(int id)
 		{
-			var carrelloSession = HttpContext.Session.GetString("carrello");
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
+            var carrelloSession = HttpContext.Session.GetString("carrello");
 			if (carrelloSession != null)
 			{
 				List<Carrello> cart = JsonConvert.DeserializeObject<List<Carrello>>(carrelloSession);
@@ -57,10 +67,15 @@ namespace ClinicaVeterinaria.Controllers
 
 		public IActionResult CreaOrdine()
 		{
-			//ViewData["IdUtente"] = new SelectList(_context.Utenti, "IdUtente", "Nome", ordine.IdUtente);
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
 
-			// sessione di pagamento con Stripe 
-			var altroNomeCarrello = HttpContext.Session.GetString("carrello");
+            //ViewData["IdUtente"] = new SelectList(_context.Utenti, "IdUtente", "Nome", ordine.IdUtente);
+
+            // sessione di pagamento con Stripe 
+            var altroNomeCarrello = HttpContext.Session.GetString("carrello");
 
 			if (altroNomeCarrello != null)
 			{

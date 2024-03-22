@@ -21,12 +21,22 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Armadietti
         public async Task<IActionResult> Index()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             return View(await _context.Armadiettis.ToListAsync());
         }
 
         // GET: Armadietti/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -45,6 +55,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Armadietti/Create
         public IActionResult Create()
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             return View();
         }
 
@@ -72,6 +87,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Armadietti/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
@@ -123,6 +143,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Armadietti/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            string navfoot = "farm";
+            ViewBag.NavFoot = navfoot;
+            string text = "wh";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();

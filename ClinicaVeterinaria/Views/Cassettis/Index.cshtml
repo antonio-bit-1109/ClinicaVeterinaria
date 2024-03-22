@@ -4,27 +4,28 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Cassetti</h1>
 @* https://via.placeholder.com/150 *@
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
-</p>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="mb-0">Cassetti</h1>
+    <p class="mb-0">
+        <a class="btn btn-success" asp-action="Create">Aggiungi Cassetto</a>
+    </p>
+</div>
 
 <div class="row container justify-content-center">
     @foreach (var item in Model)
     {
         <div class="col-md-4 mb-4">
-            <div class="card">
+            <div class="card farm">
                 <img src="/images/extra/Screenshot 2024-03-21 094010.png" class="card-img-top" alt="...">
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem => item.Descrizione)</h5>
                     <p class="card-text">Id Armadietto: @Html.DisplayFor(modelItem => item.IdArmadiettoNavigation.IdArmadietto)</p>
-                    <a href="@Url.Action("Edit", new { id = item.IdCassetto })" class="btn btn-primary">Edit</a>
-                    <a href="@Url.Action("Details", new { id = item.IdCassetto })" class="btn btn-secondary">Details</a>
-                    <a href="@Url.Action("Delete", new { id = item.IdCassetto })" class="btn btn-danger">Delete</a>
+                    <a href="@Url.Action("Edit", new { id = item.IdCassetto })" class="btn btn-success me-2">Modifica</a>
+                    <a href="@Url.Action("Details", new { id = item.IdCassetto })" class="btn btn-outline-success me-2">Dettagli</a>
+                    <a href="@Url.Action("Delete", new { id = item.IdCassetto })" class="btn btn-danger me-2">Elimina</a>
           @*           @Html.ActionLink("Prodotti", "Prodotti", "Index", new { id = item.IdCassetto }, null) *@
-                    <a class="btn btn-danger" asp-action="GetArmadiettiWithCassetti" asp-controller="Prodotti" asp-route-id="@item.IdCassetto">Prodotti</a>
-
+                    <a class="btn btn-outline-success" asp-action="GetArmadiettiWithCassetti" asp-controller="Prodotti" asp-route-id="@item.IdCassetto">Prodotti</a>
                 </div>
             </div>
         </div>
