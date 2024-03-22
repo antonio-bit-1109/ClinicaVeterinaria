@@ -22,7 +22,7 @@ namespace ClinicaVeterinaria.Controllers
             string text = "bl";
             ViewBag.Text = text;
 
-            var socityPetContext = _context.Ricoveris.Include(r => r.IdanimaleNavigation);
+            var socityPetContext = _context.Ricoveris.Include(r => r.IdAnimaleNavigation);
             return View(await socityPetContext.ToListAsync());
         }
 
@@ -40,7 +40,7 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             var ricoveri = await _context.Ricoveris
-                .Include(r => r.IdanimaleNavigation)
+                .Include(r => r.IdAnimaleNavigation)
                 .FirstOrDefaultAsync(m => m.IdRicovero == id);
             if (ricoveri == null)
             {
@@ -58,7 +58,7 @@ namespace ClinicaVeterinaria.Controllers
             string text = "bl";
             ViewBag.Text = text;
 
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "NomeAnimale");
+            ViewData["Idanimale"] = new SelectList(_context.Animalis, "IdAnimale", "NomeAnimale");
             return View();
         }
 
@@ -67,7 +67,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Dataregistrazionericovero,Idanimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,PrezzoTotaleRicovero")] Ricoveri ricoveri)
+        public async Task<IActionResult> Create([Bind("Dataregistrazionericovero,IdAnimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,PrezzoTotaleRicovero")] Ricoveri ricoveri)
         {
             ModelState.Remove("IdanimaleNavigation");
 
@@ -78,7 +78,7 @@ namespace ClinicaVeterinaria.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", ricoveri.Idanimale);
+            ViewData["Idanimale"] = new SelectList(_context.Animalis, "IdAnimale", "IdAnimale", ricoveri.IdAnimale);
             return View(ricoveri);
         }
 
@@ -100,7 +100,7 @@ namespace ClinicaVeterinaria.Controllers
             {
                 return NotFound();
             }
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", ricoveri.Idanimale);
+            ViewData["Idanimale"] = new SelectList(_context.Animalis, "IdAnimale", "IdAnimale", ricoveri.IdAnimale);
             return View(ricoveri);
         }
 
@@ -109,7 +109,7 @@ namespace ClinicaVeterinaria.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdRicovero,Dataregistrazionericovero,Idanimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,IsRicoveroAttivo,PrezzoTotaleRicovero")] Ricoveri ricoveri)
+        public async Task<IActionResult> Edit(int id, [Bind("IdRicovero,Dataregistrazionericovero,IdAnimale,DataInizioRicovero,DataFinericovero,PrezzoGiornalieroRicovero,IsRicoveroAttivo,PrezzoTotaleRicovero")] Ricoveri ricoveri)
         {
             if (id != ricoveri.IdRicovero)
             {
@@ -136,7 +136,7 @@ namespace ClinicaVeterinaria.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Idanimale"] = new SelectList(_context.Animalis, "Idanimale", "Idanimale", ricoveri.Idanimale);
+            ViewData["Idanimale"] = new SelectList(_context.Animalis, "IdAnimale", "IdAnimale", ricoveri.IdAnimale);
             return View(ricoveri);
         }
 
@@ -154,7 +154,7 @@ namespace ClinicaVeterinaria.Controllers
             }
 
             var ricoveri = await _context.Ricoveris
-                .Include(r => r.IdanimaleNavigation)
+                .Include(r => r.IdAnimaleNavigation)
                 .FirstOrDefaultAsync(m => m.IdRicovero == id);
             if (ricoveri == null)
             {
