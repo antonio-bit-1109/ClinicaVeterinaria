@@ -5,7 +5,7 @@ namespace ClinicaVeterinaria.Models;
 
 public partial class Animali
 {
-    public int Idanimale { get; set; }
+    public int IdAnimale { get; set; }
 
     public DateTime Dataregistrazione { get; set; }
 
