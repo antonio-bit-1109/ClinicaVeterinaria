@@ -37,8 +37,11 @@
                     <a class="btn btn-outline-success me-2" asp-action="Details" asp-route-id="@item.IdProdotto">Dettagli</a>
                     <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.IdProdotto">Elimina</a>
                 </div>
+                <a asp-controller="Prodotti" asp-action="AggiungiAlCarrello" asp-route-idProdotto="@item.IdProdotto" class="btn btn-primary"> aggiungi al carrello </a>
             </div>
         </div>
     }
+
+    
 </div>
                
