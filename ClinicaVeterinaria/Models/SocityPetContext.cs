@@ -47,7 +47,7 @@ public partial class SocityPetContext : DbContext
     {
         modelBuilder.Entity<Animali>(entity =>
         {
-            entity.HasKey(e => e.Idanimale).HasName("PK__ANIMALI__4C2D2C9D6CDDF7E4");
+            entity.HasKey(e => e.IdAnimale).HasName("PK__ANIMALI__4C2D2C9D6CDDF7E4");
 
             entity.ToTable("ANIMALI");
 
