@@ -7,37 +7,11 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
     <h1 class="mb-0">Lista Animali</h1>
     <p class="mb-0">
-        <a asp-action="Create">Aggiungi Animale</a>
+        <a class="btn btn-info" asp-action="Create">Aggiungi Animale</a>
     </p>
 </div>
 
 <div class="container">
-	<div class="row">
-		@foreach (var item in Model) {		
-			<div class="col-4">	
-				<div class="card">
-					<img src="../images/animali/@item.FotoAnimale" class="img-thumbnail imgDimensions" alt="...">
-					<div class="card-body">
-						<h5 class="card-title">@item.NomeAnimale</h5>
-						<p class="card-text">@item.Dataregistrazione</p>
-						<p class="card-text">@item.Tipologia</p>
-						<p class="card-text">@item.ColoreMantello</p>
-						<p class="card-text">@item.Datanascita</p>
-						<p class="card-text">@item.HasMicrochip</p>
-						<p class="card-text">@item.NumMicrochip</p>
-						<p class="card-text">@item.HasProprietario</p>
-						<p class="card-text">@item.IdUtente</p>
-					</div>
-					<div>
-						<a class="btn btn-info me-2" asp-action="Edit" asp-route-id="@item.IdAnimale">Modifica</a>
-						<a class="btn btn-outline-info me-2" asp-action="Details" asp-route-id="@item.IdAnimale">Dettagli</a>
-						<a class="btn btn-danger me-2" asp-action="Delete" asp-route-id="@item.IdAnimale">Elimina</a>
-						<a class="btn btn-info" asp-action="CronistoriaVisite" asp-controller="Visite" asp-route-id="@item.IdAnimale">Cronologia delle Visite</a>
-					</div>
-				</div>
-			</div>
-			}
-	</div>
     <div class="row">
         @foreach (var animale in Model)
         {
@@ -55,11 +29,11 @@
                         <p class="card-text">@animale.HasProprietario</p>
                         <p class="card-text">@animale.IdUtente</p>
                     </div>
-                    <div>
+                    <div class="text-center">
                         <a class="btn btn-info me-2" asp-action="Edit" asp-route-id="@animale.IdAnimale">Modifica</a>
                         <a class="btn btn-outline-info me-2" asp-action="Details" asp-route-id="@animale.IdAnimale">Dettagli</a>
                         <a class="btn btn-danger me-2" asp-action="Delete" asp-route-id="@animale.IdAnimale">Elimina</a>
-                        <button class="btn btn-info cronologia-visite-btn" data-animale-id="@animale.IdAnimale">Cronologia delle Visite</button>
+                        <button class="btn btn-info cronologia-visite-btn my-2" data-animale-id="@animale.IdAnimale">Cronologia delle Visite</button>
                     </div>
                 </div>
             </div>

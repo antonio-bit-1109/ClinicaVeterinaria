@@ -34,7 +34,7 @@ namespace ClinicaVeterinaria.Models
         public string? NumMicrochip { get; set; }
 
         [Display(Name = "Foto dell'Animale")]
-        public string? FotoAnimale { get; set; }
+        public string? FotoAnimale { get; set; } = null!;
 
         [Display(Name = "Proprietario presente?")]
         public bool HasProprietario { get; set; }

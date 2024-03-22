@@ -36,6 +36,14 @@
                         </li>
                         @if (User.Identity.IsAuthenticated)
                         {
+                            <li class="nav-item dropdown">
+                                <a class="navlink dropdown-toggle @ViewBag.Text" href="#" id="navbarDropdownVisite" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Animali
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdownVisite">
+                                    <li><a class="dropdown-item" asp-controller="Animali" asp-action="Index">Lista Animali</a></li>
+                                </ul>
+                            </li>
                             <!-- Dropdown Prodotti visibile a tutti gli utenti loggati -->
                             <li class="nav-item dropdown @ViewBag.Text">
                                 <a class="navlink dropdown-toggle @ViewBag.Text" href="#" id="navbarDropdownProdotti" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,8 +56,7 @@
                             </li>
 
                             @if (User.IsInRole("Admin"))
-                            {
-                                <!-- Dropdown Visite per Veterinario -->
+                            {                              
                                 <li class="nav-item dropdown">
                                     <a class="navlink dropdown-toggle @ViewBag.Text" href="#" id="navbarDropdownVisite" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Visite
@@ -59,6 +66,7 @@
                                         <li><a class="dropdown-item" asp-controller="Visite" asp-action="Index">Lista Visite</a></li>
                                     </ul>
                                 </li>
+                                
                                 <!-- Dropdown Farmacia per Farmacista -->
                                 <li class="nav-item dropdown">
                                     <a class="navlink dropdown-toggle @ViewBag.Text" href="#" id="navbarDropdownVisite" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -84,7 +92,25 @@
                             }
                             @if (User.IsInRole("Veterinario"))
                                 {
+                                <li class="nav-item dropdown">
+                                    <a class="navlink dropdown-toggle @ViewBag.Text" href="#" id="navbarDropdownVisite" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Animali
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownVisite">
+                                        <li><a class="dropdown-item" asp-controller="Animali" asp-action="Index">Lista Animali</a></li>
+                                    </ul>
+                                </li>
                                     <!-- Dropdown Visite per Veterinario -->
+                                <li class="nav-item dropdown">
+                                    <a class="navlink dropdown-toggle @ViewBag.Text" href="#" id="navbarDropdownVisite" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Visite
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownVisite">
+                                        <li><a class="dropdown-item" asp-controller="Visite" asp-action="Create">Crea Visita</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Visite" asp-action="Index">Lista Visite</a></li>
+                                    </ul>
+                                </li>
+                                
                                     <li class="nav-item dropdown">
                                         <a class="navlink dropdown-toggle @ViewBag.Text" href="#" id="navbarDropdownVisite" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                             Visite
