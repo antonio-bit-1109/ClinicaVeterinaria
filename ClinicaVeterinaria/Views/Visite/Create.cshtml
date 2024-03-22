@@ -14,7 +14,8 @@
 
             <div class="form-group mb-3">
                 <label asp-for="DataVisita" class="control-label"></label>
-                <input asp-for="DataVisita" class="form-control" />
+                <input asp-for="DataVisita" type="datetime-local" class="form-control"
+                       value="@Model.DataVisita.ToString("yyyy-MM-ddTHH:mm")" />
                 <span asp-validation-for="DataVisita" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
@@ -56,8 +57,8 @@
 
                 <div class="form-group">
                     <label for="prodottiSelect">Prodotti Prescritti:</label>
-                    <select id="prodottiSelect" class="form-control" multiple>
-                        @foreach (var prodotto in ViewBag.ProdottoId as SelectList)
+                    <select id="prodottiSelect" name="prodottiId[]" class="form-control" multiple>
+                        @foreach (var prodotto in ViewBag.IdProdotto as SelectList)
                         {
                             <option value="@prodotto.Value">@prodotto.Text</option>
                         }
@@ -73,7 +74,7 @@
                 <ul id="listaProdotti"></ul>
 
                 <!-- Questo input nascosto conterrà gli ID dei prodotti selezionati separati da virgola -->
-                <input type="hidden" id="campoProdottiSelezionati" name="prodottiId" value="">
+                @* <input type="hidden" id="campoProdottiSelezionati" name="prodottiId" value=""> *@
             </div>
 
             <div>
@@ -81,58 +82,45 @@
                 <a class="btn btn-secondary" asp-action="Index">Lista Visite</a>
             </div>
         </form>
+        </div>
+        </div>
 
-        @section Scripts {
-            @{
-                await Html.RenderPartialAsync("_ValidationScriptsPartial");
-            }
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
-            <script>
-                let prodottiSelezionati = [];
+    <script>
+        let prodottiSelezionati = [];
 
-                $(document).ready(function () {
-                    $('#aggiungiRicetta').change(function () {
-                        if ($(this).is(':checked')) {
-                            $('#ricettaMedica').show();
-                        } else {
-                            $('#ricettaMedica').hide();
-                            prodottiSelezionati = []; // Resetta la selezione se la ricetta non è richiesta
-                            aggiornaListaProdotti();
-                        }
-                    });
+        $(document).ready(function () {
+            $('#aggiungiRicetta').change(function () {
+                if ($(this).is(':checked')) {
+                    $('#ricettaMedica').show();
+                } else {
+                    $('#ricettaMedica').hide();
+                    prodottiSelezionati = []; // Resetta la selezione se la ricetta non è richiesta
+                }
+            });
 
-                    // Gestore per il pulsante "Aggiungi Prodotto"
-                    $('#aggiungiProdotto').on('click', function () {
-                        const selezionati = $('#prodottiSelect').val(); // Ottiene gli ID selezionati dal select
-                        selezionati.forEach(function (id) {
-                            if (!prodottiSelezionati.includes(id)) {
-                                prodottiSelezionati.push(id); // Aggiungi alla lista se non è già presente
-                                aggiornaListaProdotti();
-                            }
-                        });
-                    });
-
-                    // Aggiorna la lista dei prodotti selezionati visualizzata
-                    function aggiornaListaProdotti() {
-                        $('#listaProdotti').empty(); // Svuota la lista corrente
-                        prodottiSelezionati.forEach(id => {
-                            $('#listaProdotti').append('<li>' + id + ' <button type="button" class="btn btn-outline-danger rimuoviProdotto" data-id="' + id + '">Rimuovi</button></li>');
-                        });
-                        $('#campoProdottiSelezionati').val(prodottiSelezionati.join(','));
+            // Gestore per il pulsante "Aggiungi Prodotto"
+            $('#aggiungiProdotto').on('click', function () {
+                const selezionati = $('#prodottiSelect').val(); // Ottiene gli ID selezionati dal select
+                selezionati.forEach(function (id) {
+                    if (!prodottiSelezionati.includes(id)) {
+                        prodottiSelezionati.push(id); // Aggiungi alla lista se non è già presente
                     }
-
-                    // Rimuovi prodotto dalla lista
-                    $('#listaProdotti').on('click', '.rimuoviProdotto', function () {
-                        const prodottoId = $(this).data('id');
-                        prodottiSelezionati = prodottiSelezionati.filter(id => id !== prodottoId);
-                        aggiornaListaProdotti();
-                    });
-
-                    // Prima del submit, trasferisci gli ID dei prodotti nel campo nascosto
-                    $('form').on('submit', function () {
-                        // Assicurati che l'ID del campo nascosto corrisponda a quello definito nel tuo modello
-                        $('#campoProdottiSelezionati').val(prodottiSelezionati.join(',')); // Combina gli ID con una virgola
-                    });
                 });
-            </script>
-        }
+                $('#prodottiSelect').val(prodottiSelezionati); // Assicurati di sincronizzare il select con gli ID selezionati
+            });
+
+            // Rimuovi prodotto dalla lista
+            $('#listaProdotti').on('click', '.rimuoviProdotto', function () {
+                const prodottoId = $(this).data('id');
+                prodottiSelezionati = prodottiSelezionati.filter(id => id !== prodottoId);
+                $('#prodottiSelect').val(prodottiSelezionati); // Aggiorna il select per riflettere i prodotti rimasti selezionati
+            });
+
+        });
+    </script>
+}

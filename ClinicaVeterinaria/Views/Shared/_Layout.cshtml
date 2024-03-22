@@ -67,7 +67,7 @@
                                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownAccount">
                                         <li><a class="dropdown-item" asp-controller="Prodotti" asp-action="Create">Aggiungi Prodotto</a></li>
                                         <li><a class="dropdown-item" asp-controller="ProdottiInCassettoes" asp-action="Create">Smistamento</a></li>
-                                        <li><a class="dropdown-item" asp-controller="ProdottiInCassettoes" asp-action="Index">Archivio Farmaci</a></li>
+                                        <li><a class="dropdown-item" asp-controller="ProdottiInCassettoes" asp-action="Index">Archivio Farmaci</a></li>                                      
                                     </ul>
                                 </li>
                                 <!-- Dropdown Amministrazione per Admin -->
@@ -105,6 +105,7 @@
                                             <li><a class="dropdown-item" asp-controller="Prodotti" asp-action="Create">Aggiungi Prodotto</a></li>
                                             <li><a class="dropdown-item" asp-controller="ProdottiInCassettoes" asp-action="Create">Smistamento</a></li>
                                             <li><a class="dropdown-item" asp-controller="ProdottiInCassettoes" asp-action="Index">Archivio Farmaci</a></li>
+                                            <li><a class="dropdown-item" asp-controller="Armadietti" asp-action="Index">Armadietti</a></li>
                                         </ul>
                                     </li>
                                 }
@@ -132,7 +133,7 @@
                             if (User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value == null)
                             {
                             <li class="nav-item ms-auto">
-                                <a class="navlink @ViewBag.Text" asp-action="Index" asp-controller="Login">Accedi</a>
+                                <a class="nav-link @ViewBag.Text" asp-action="Index" asp-controller="Home">Accedi</a>
                             </li>
                             <li class="nav-item">
                                     <a class="navlink @ViewBag.Text" asp-action="Registrazione" asp-controller="Login">Registrati</a>

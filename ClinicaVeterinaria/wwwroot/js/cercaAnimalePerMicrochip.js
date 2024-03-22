@@ -20,6 +20,8 @@ const myFetch = (valore) => {
     }
 
 
+
+
     fetch(`/animali/getAnimalByMicrochip/?stringMicro=${valore}`, options)
         .then(response => response.json())
         .then(data => {
