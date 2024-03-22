@@ -41,6 +41,30 @@ namespace ClinicaVeterinaria.Controllers
 		}
 
 
+        public IActionResult GetArmadiettiWithCassetti(int cassettoId)
+        {
+            // Recupera il cassetto con l'ID specificato
+          
+
+            if (cassettoId == null)
+            {
+                // Restituisci un messaggio di errore o una view di errore se il cassetto non esiste
+                return NotFound();
+            }
+            var drawer = _context.ProdottiInCassettos.Include(c => c.IdProdottoNavigation).Where(c => c.IdCassetto == cassettoId);
+            // Ora puoi accedere ai prodotti all'interno del cassetto
+
+            // Esegui qualsiasi altra logica necessaria con i prodotti
+
+            // Ad esempio, potresti passare i prodotti a una view e visualizzarli
+            return View(drawer);
+        }
+
+
+
+
+        //                            < ========================================================
+
 
 		// GET: Prodotti/Details/5
 		public async Task<IActionResult> Details(int? id)
