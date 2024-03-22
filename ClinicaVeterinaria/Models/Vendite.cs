@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClinicaVeterinaria.Models;
 
@@ -11,6 +12,7 @@ public partial class Vendite
 
     public int? IdUtente { get; set; }
 
+    [Display(Name = "Codice Fiscale")]
     public string? Cf { get; set; }
 
     public int? IdricettaMedica { get; set; }

@@ -1,0 +1,72 @@
+﻿@model List<ClinicaVeterinaria.Models.Carrello>
+
+
+@{
+	ViewData["Title"] = "Index";
+
+}
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h1 class="text-primary"> Riepilogo carrello</h1>
+		</div>
+	</div>
+</div>
+
+
+<div class="container">
+
+	<div class="row">
+
+		<div class="d-flex">
+			<div class="col-6">
+				@foreach (var item in Model)
+				{
+					<div class="text-primary p-2 border border-3 my-2 position-relative">
+
+						<div class="position-absolute top-0 end-0 m-4"> <a asp-action="RimuoviItemDalCarrello" asp-controller="Carrello" asp-route-id="@item.Prodotto.IdProdotto" style="text-decoration:none;">❌</a>  </div>
+
+						<div>
+							<p class="fw-bold fs-4">@item.Prodotto.Nomeprodotto.ToUpper()</p>
+							<p>Quantità selezionata: @item.Quantita</p>
+							<p> Prezzo Unitario: @item.Prodotto.Prezzo</p>
+						
+							<p> Ingredienti: @item.Prodotto.PossibiliUsi</p>
+						</div>
+
+						<div>
+							<img class="card-img" style="object-fit:cover;" src="~/images/prodotti/@item.Prodotto.FotoProdotto" />
+						</div>
+					</div>
+
+
+				}
+
+
+			</div>
+		</div>
+		<div class="col-12">
+			@{
+				if (Model.Count == 0)
+				{
+					<div class="display-2 text-primary"> Il tuo carrello è vuoto. </div>
+
+				}
+				else
+				{
+					<a asp-controller="Carrello" asp-action="CreaOrdine" class="btn btn-primary my-4"> Procedi all'ordine </a>
+
+				}
+			}
+
+		</div>
+	</div>
+</div>
+
+
+
+
+
+

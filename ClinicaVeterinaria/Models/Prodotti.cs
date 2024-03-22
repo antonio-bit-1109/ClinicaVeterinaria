@@ -1,29 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace ClinicaVeterinaria.Models;
-
-public partial class Prodotti
+namespace ClinicaVeterinaria.Models
 {
-    public int IdProdotto { get; set; }
+    public partial class Prodotti
+    {
+        public int IdProdotto { get; set; }
 
-    public string Nomeprodotto { get; set; } = null!;
+        [Display(Name = "Nome Prodotto")]
+        [Required(ErrorMessage = "Il nome del prodotto è obbligatorio.")]
+        public string Nomeprodotto { get; set; } = null!;
 
-    public int IdDittaFornitrice { get; set; }
+        [Display(Name = "ID Ditta Fornitrice")]
+        [Required(ErrorMessage = "L'ID della ditta fornitrice è obbligatorio.")]
+        public int IdDittaFornitrice { get; set; }
 
-    public bool IsMedicinale { get; set; }
+        [Display(Name = "Medicinale")]
+        public bool IsMedicinale { get; set; }
 
-    public string PossibiliUsi { get; set; } = null!;
+        [Display(Name = "Possibili Usi")]
+        [Required(ErrorMessage = "I possibili usi del prodotto sono obbligatori.")]
+        public string PossibiliUsi { get; set; } = null!;
 
-    public decimal? Prezzo { get; set; }
+        [Display(Name = "Prezzo")]
+        [Range(0, double.MaxValue, ErrorMessage = "Il prezzo deve essere maggiore o uguale a zero.")]
+        public decimal? Prezzo { get; set; }
 
-    public string? FotoProdotto { get; set; }
+        [Display(Name = "Foto Prodotto")]
+        public string? FotoProdotto { get; set; }
 
-    public virtual Dittafornitrice IdDittaFornitriceNavigation { get; set; } = null!;
+        public virtual Dittafornitrice IdDittaFornitriceNavigation { get; set; } = null!;
 
-    public virtual ICollection<ProdottiInCassetto> ProdottiInCassettos { get; set; } = new List<ProdottiInCassetto>();
+        public virtual ICollection<ProdottiInCassetto> ProdottiInCassettos { get; set; } = new List<ProdottiInCassetto>();
 
-    public virtual ICollection<Vendite> Vendites { get; set; } = new List<Vendite>();
+        public virtual ICollection<Vendite> Vendites { get; set; } = new List<Vendite>();
 
-    public virtual ICollection<Ricettemediche> IdRicettaMedicas { get; set; } = new List<Ricettemediche>();
+        public virtual ICollection<Ricettemediche> IdRicettaMedicas { get; set; } = new List<Ricettemediche>();
+    }
 }

@@ -46,6 +46,11 @@ namespace ClinicaVeterinaria.Controllers
         // GET: Visite/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            string navfoot = "vet";
+            ViewBag.NavFoot = navfoot;
+            string text = "bl";
+            ViewBag.Text = text;
+
             if (id == null)
             {
                 return NotFound();
