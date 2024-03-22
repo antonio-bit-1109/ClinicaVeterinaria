@@ -40,24 +40,26 @@ namespace ClinicaVeterinaria.Controllers
         }
 
 
-        public IActionResult GetArmadiettiWithCassetti(int cassettoId)
+        public async Task<IActionResult> GetArmadiettiWithCassetti(int cassettoId)
         {
-            // Recupera il cassetto con l'ID specificato
-          
+            // Recupera i prodotti associati al cassetto con l'ID specificato
+            var ProdottiNelCassetto = _context.ProdottiInCassettos.Where(p => p.IdCassetto == cassettoId).Select(p => p.IdProdotto); // Seleziona solo gli ID dei prodotti
 
-            if (cassettoId == null)
+            if (!ProdottiNelCassetto.Any())
             {
-                // Restituisci un messaggio di errore o una view di errore se il cassetto non esiste
+                // Restituisci un messaggio di errore o una view di errore se non ci sono prodotti nel cassetto
                 return NotFound();
             }
-            var drawer = _context.ProdottiInCassettos.Include(c => c.IdProdottoNavigation).Where(c => c.IdCassetto == cassettoId);
-            // Ora puoi accedere ai prodotti all'interno del cassetto
+
+            // Ora puoi utilizzare l'elenco degli ID dei prodotti per recuperare i dettagli dei prodotti
+            var products = _context.Prodottis.Where(p => ProdottiNelCassetto.Contains(p.IdProdotto));
 
             // Esegui qualsiasi altra logica necessaria con i prodotti
 
             // Ad esempio, potresti passare i prodotti a una view e visualizzarli
-            return View(drawer);
+            return View(await products.ToListAsync());
         }
+
 
 
 
